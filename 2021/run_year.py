@@ -9,7 +9,7 @@ cwd = os.getcwd()
 print('Day |     Part 1     |      Part 2      |  Time  ')
 print('------------------------------------------------')
 for i, day in enumerate(days[:-1]):
-    os.chdir(cwd + '\\' + day)
+    os.chdir(cwd + '/' + day)
     start = time.time()
     solve = importlib.import_module(day + '.' + day)
     p1, p2 = solve.main()
