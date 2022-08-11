@@ -1,4 +1,5 @@
 from collections import Counter
+import itertools
 
 
 class ScanClass:
@@ -8,21 +9,23 @@ class ScanClass:
         beacons = tuple(tuple(int(i) for i in point.split(',')) for point in scanner[1:])
         self.comp = set()  # scanners this scanner has been compared to
         self.position = False  # scanner position, False if unknown
-        self.beacons = []
-        rotations = ((0, 0), (0, 1), (0, 1), (0, 1), (1, 0), (0, 1), (0, 1), (0, 1), (1, 0), (0, 1), (0, 1), (0, 1),
-                     (2, 1), (0, 1), (0, 1), (0, 1), (1, 2), (0, 1), (0, 1), (0, 1), (1, 2), (0, 1), (0, 1), (0, 1))
-        for r in rotations:
-            for i in range(r[0]):  # rotate about [0] axis r[0] times
-                beacons = tuple((b[0], -b[2], b[1]) for b in beacons)
-            for i in range(r[1]):  # rotate about [2] axis r[1] times
-                beacons = tuple((-b[1], b[0], b[2]) for b in beacons)
-            self.beacons.append(beacons)
+        self.beacons = beacons
+        self.set_triangles()
+    def set_triangles(self):
+        lines = {}
+        for ai,a in enumerate(beacons):
+            for bi,b in enumerate(beacons[ai+1:]):
+                lines[(a,b)]=sum([(ai-bi)**2 for ai,bi in zip(a,b)])**.5
+        triangles = {}
+        for ai,a in enumerate(beacons):
+            for bi,b in enumerate(beacons[ai+1:]):
+                for ci,c in enumerate(beacons[ai+bi+1:]):
+                    sides = tuple(sorted([lines[(a,b)],lines[(b,c)],lines[(a,c)]]))
+                    triangles[sides]=(a,b,c)
+        self.triangles = triangles
 
-    def rotate(self, r):
-        for i in range(r[0]):  # rotate about [0] axis r[0] times
-            self.beacons = set([(b[0], -b[2], b[1]) for b in self.beacons])
-        for i in range(r[1]):  # rotate about [2] axis r[1] times
-            self.beacons = set([(-b[1], b[0], b[2]) for b in self.beacons])
+
+
 
 
 def main(input_file='input.txt', verbose=False):
