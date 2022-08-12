@@ -1,6 +1,8 @@
-from collections import Counter
-import itertools
+import time
+start = time.time()
 
+
+import numpy as np
 
 class ScanClass:
     def __init__(self, scanner):
@@ -11,35 +13,69 @@ class ScanClass:
         self.position = False  # scanner position, False if unknown
         self.beacons = beacons
         self.set_triangles()
+
     def set_triangles(self):
         lines = {}
-        for ai,a in enumerate(beacons):
-            for bi,b in enumerate(beacons[ai+1:]):
-                lines[(a,b)]=sum([(ai-bi)**2 for ai,bi in zip(a,b)])**.5
-        triangles = {}
-        for ai,a in enumerate(beacons):
-            for bi,b in enumerate(beacons[ai+1:]):
-                for ci,c in enumerate(beacons[ai+bi+1:]):
-                    sides = tuple(sorted([lines[(a,b)],lines[(b,c)],lines[(a,c)]]))
-                    triangles[sides]=(a,b,c)
-        self.triangles = triangles
+        for ai in range(len(self.beacons)):
+            a = self.beacons[ai]
+            for bi in range(ai+1,len(self.beacons)):
+                b = self.beacons[bi]
+                lines[(ai, bi)] = sum([(ai - bi) ** 2 for ai, bi in zip(a,b)]) ** .5
+        self.triangles = {}
+        for ai in range(len(self.beacons)):
+            for bi in range(ai+1,len(self.beacons)):
+                for ci in range(bi+1, len(self.beacons)):
+                    sides = [lines[(ai, bi)], lines[(bi, ci)], lines[(ai, ci)]]
+                    corners = [ci,ai, bi]
+                    while not sides[0] == min(sides):
+                        sides = sides[1:] + [sides[0]]
+                        corners = corners[1:] + [corners[0]]
+                    if sides[1] > sides[2]:
+                        sides = [sides[0], sides[2], sides[1]]
+                        corners = [corners[0], corners[2], corners[1]]
+                    if len(sides)==len(set(sides)):
+                        self.triangles[tuple(sides)]=tuple(corners)
 
-
-
+    def match_beacon(self,other_beacon):
+        my_triangles = set(self.triangles.keys())
+        other_triangles = set(other_beacon.triangles.keys())
+        match_triangles = list(my_triangles.intersection(other_triangles))
+        if match_triangles:
+            match_triangle = match_triangles[0]
+            m = np.array([np.array(self.beacons[i]) for i in self.triangles[match_triangle]])
+            o = np.array([np.array(other_beacon.beacons[i]) for i in other_beacon.triangles[match_triangle]])
+            mavg = m[0]+(m[1]-m[0])/np.abs(m[1]-m[0]).astype(int)
+            oavg = o[0]+(o[1]-o[0])/np.abs(o[1]-o[0]).astype(int)
+            A = np.round(np.linalg.solve((m-mavg), (o-oavg)),0).astype(int)
+            self.beacons = [tuple((beacon-mavg)@A + oavg) for beacon in self.beacons]
+            self.position = mavg@A-oavg
+            return True
+        else:
+            return False
 
 
 def main(input_file='input.txt', verbose=False):
     scanraw = open(input_file).read().split('\n\n')
     scanners = [ScanClass(scanner) for scanner in scanraw]
-    scanners[0].position = (0, 0, 0)  # place first scanner (arbitrary)
-    scanners[0].beacons = scanners[0].beacons[0]
-    if verbose:
-        print('Placing scanners...\n' + ''.join([str(scanner.id).center(3) for scanner in scanners]))
-    while try_to_place(scanners):  # run the try function until it comes back False
-        if verbose:
-            print('\r' + ''.join([(' X ', '   ')[scanner.position is False] for scanner in scanners]), end='')
-    p1 = len(stitch_beacons(scanners))
-    p2 = max_dist(scanners)
+    scanners[0].position = (0,0,0)
+    matched = set([0])
+    while len(matched)<len(scanners):
+        for i in range(len(scanners)):
+            if i not in matched:
+                for j in matched:
+                    if scanners[i].match_beacon(scanners[j]):
+                        matched.add(i)
+                        break
+    beacons = set()
+    maxman=0
+    for scanner in scanners:
+        beacons = beacons.union(set(scanner.beacons))
+        for scanner2 in scanners:
+            man = sum(abs(ai-bi) for ai,bi in zip(scanner.position, scanner2.position))
+            maxman = max(maxman, man)
+    p1 = len(beacons)
+    p2 = maxman
+
     if verbose:
         print('\nAll scanners placed.')
         print('Part1: ', p1)
@@ -47,62 +83,6 @@ def main(input_file='input.txt', verbose=False):
     return p1, p2
 
 
-def try_to_place(scanners):
-    # Find first sanner that hasn't been placed yet
-    # try every rotation set of beacons for this scanner
-    # call find match scanner to find the matching scanner
-    # if none found, record scanners previously checked to avoid duplicate work
-    for unknown in scanners:  # this is the scanner we're trying to place
-        if unknown.position is False:  # make sure it hasn't been placed yet
-            for beacons in unknown.beacons:  # for each rotation set
-                if find_match(unknown, beacons, scanners):
-                    return True
-            for known in scanners:  # mark all known scanners as checked because we just visited them
-                if known.position:
-                    unknown.comp.add(known.id)
-    return False  # no new matches found - this means we're done.
-
-
-def find_match(unknown, beacons, scanners):
-    # try every known scanner not previously checked to the unknown scanner
-    # run check matcch to see if it's a good match
-    for known in scanners:  # this is the already placed scanner we're trying to match to
-        if known.id != unknown.id and (known.id not in unknown.comp) and known.position:
-            # check if we haven't already checked this scanner and it has been placed
-            if check_match(unknown, beacons, known):
-                return True
-    return False
-
-
-def check_match(unknown, beacons, known):
-    # calculate distances between all combinations of two points for known and unknown scanners
-    # if the same distance is recorded nmatch times, it's a match: record and return True
-    nmatch = 12  # 12 beacons must match
-    deltas = Counter([tuple(x2 - x1 for x1, x2 in zip(ubeacon, kbeacon))
-                      for ubeacon in beacons for kbeacon in known.beacons])
-    delta, count = deltas.most_common(1)[0]
-    if count >= nmatch:
-        newbeacons = set([tuple(b + p for b, p in zip(beacon, delta)) for beacon in beacons])
-        unknown.position = delta
-        unknown.beacons = newbeacons
-        return True
-    return False
-
-
-def stitch_beacons(scanners):
-    beacons = set()
-    for scanner in scanners:
-        beacons = beacons.union(scanner.beacons)
-    return beacons
-
-
-def max_dist(scanners):
-    ret = 0
-    for scanner1 in scanners:
-        for scanner2 in scanners:
-            ret = max(ret, sum([abs(s1 - s2) for s1, s2 in zip(scanner1.position, scanner2.position)]))
-    return ret
-
-
 if __name__ == "__main__":
     main(verbose=True)
+    print('elapsed time: ',time.time()-start)
