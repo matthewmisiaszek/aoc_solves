@@ -1,6 +1,7 @@
 import os
 import importlib
 import time
+import re
 
 days = sorted(os.listdir('.'))
 # print(days)
@@ -8,7 +9,7 @@ timeall = time.time()
 cwd = os.getcwd()
 print('Day |     Part 1     |      Part 2      |  Time  ')
 print('------------------------------------------------')
-for i, day in enumerate(days[:-1]):
+for i, day in enumerate([day for day in days[:-1] if bool(re.match('day[0-9]{1,2}',day))]):
     os.chdir(cwd + '/' + day)
     start = time.time()
     solve = importlib.import_module(day + '.' + day)
