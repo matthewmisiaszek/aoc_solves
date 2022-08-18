@@ -7,25 +7,16 @@ def merge_two_dicts(x, y):
     return z
 
 
-def dijkstras(start, end, cave):
-    q, closed = PriorityQueue(), [{}, {}]
-    q.put((0, start, 0))  # start from start
-    q.put((cave[end], end, 1))  # start from end
-    solves = []  # list of potential paths
-    mate = False  # have any paths been found yet?
-    while not q.empty():  # run the queue dry
-        dist, loc, side = q.get()
-        if loc in closed[1 - side]:  # if this location was visited from other side, this is a path
-            mate = True  # path found, stop adding to queue
-            solves.append(dist + closed[1 - side][loc] - cave[loc])  # add to list of potential paths
-        elif not mate:  # if not a path and no paths yet, add to queue
-            if loc not in closed[side]:  # don't check places you've already been
-                closed[side][loc] = dist  # record risk it takes to get to this point from this side
-                for n in neighbors(cave, loc):
-                    if n not in closed[side]:  # don't add places you've already been
-                        q.put((dist + cave[n], n, side))
-    # common.printgrid(merge_two_dicts(closed[0], closed[1]))
-    return min(solves)  # return the shortest of all found paths
+def shortest_path(start, end, cave):
+    q = PriorityQueue()
+    q.put((0, start))
+    while not q.empty():
+        dist, loc = q.get()
+        for n in neighbors(cave, loc):
+            if n == end:
+                return dist + cave[n]
+            q.put((dist + cave[n], n))
+            cave.pop(n)
 
 
 def makegrid(f):
@@ -48,7 +39,7 @@ def neighbors(grid, point):
 def bounds(grid):
     minbound = tuple([min(grid.keys(), key=lambda x: x[i])[i] for i in (0, 1)])
     maxbound = tuple([max(grid.keys(), key=lambda x: x[i])[i] for i in (0, 1)])
-    return (minbound, maxbound)
+    return minbound, maxbound
 
 
 def expand(cave):
@@ -69,10 +60,11 @@ def main(input_file='input.txt', verbose=False):
     f = open(input_file).read().split('\n')
     cave = makegrid(f)
     ubound = bounds(cave)[1]
-    p1 = dijkstras((0, 0), ubound, cave)
-    expand(cave)
-    ubound = bounds(cave)[1]
-    p2 = dijkstras((0, 0), ubound, cave)
+    cave2 = cave.copy()
+    p1 = shortest_path((0, 0), ubound, cave)
+    expand(cave2)
+    ubound = bounds(cave2)[1]
+    p2 = shortest_path((0, 0), ubound, cave2)
 
     if verbose:
         print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
