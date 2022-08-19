@@ -1,91 +1,70 @@
-def addto(x, n, i):
-    if isinstance(x[1 - i], int):
-        x[1 - i] += n
-    else:
-        recadd(x[1 - i], n, i)
-
-
-def recadd(x, n, i):
-    if isinstance(x[i], list):
-        recadd(x[i], n, i)
-    else:
-        x[i] += n
-
-
-def explode(x, depth):
-    for i in range(2):
-        if isinstance(x[i], list):
-            if depth >= 3 and isinstance(x[i][0], int) and isinstance(x[i][1], int):
-                addto(x, x[i][1 - i], i)
-                exp = [0, 0]
-                exp[i] = x[i][i]
-                x[i] = 0
-                return True, exp
-            else:
-                explosion, exp = explode(x[i], depth + 1)
-                if explosion is True:
-                    addto(x, exp[1 - i], i)
-                    exp[1 - i] = 0
-                    return True, exp
-    return False, [0, 0]
-
-
-def split(x):
-    for i in range(2):
-        if isinstance(x[i], int):
-            if x[i] > 9:
-                x[i] = [x[i] // 2, x[i] - x[i] // 2]
-                return True
-        elif isinstance(x[i], list):
-            if split(x[i]):
-                return True
+def explode(number):
+    for i, (depth, value) in enumerate(number):
+        if depth >= 4:
+            if i >= 1:
+                number[i - 1][1] += number[i][1]
+            if i + 2 < len(number):
+                number[i + 2][1] += number[i + 1][1]
+            number[i] = [depth - 1, 0]
+            number.pop(i + 1)
+            return True
     return False
 
 
-def sums(x):
-    if isinstance(x[0], list):
-        x[0] = sums(x[0])
-    if isinstance(x[1], list):
-        x[1] = sums(x[1])
-    return x[0] * 3 + x[1] * 2
+def split(number):
+    for i, (depth, value) in enumerate(number):
+        if value >= 10:
+            number[i] = [depth + 1, value // 2]
+            number.insert(i + 1, [depth + 1, value - value // 2])
+            return True
+    return False
 
 
-def reduce(x):
-    go = True
-    while go is True:
-        go = False
-        explosion, exp = explode(x, 0)
-        go = go or explosion
-        if go is False:
-            dosplit = split(x)
-            go = go or dosplit
+def magnitude(number):
+    while len(number) > 1:
+        maxdepth = max(number)[0]
+        for i, (depth, value) in enumerate(number):
+            if depth == maxdepth:
+                number[i] = [depth - 1, value * 3 + number[i + 1][1] * 2]
+                number.pop(i + 1)
+                break
+    return number[0][1]
 
 
-def part1(input_file):
+def parse(input_file):
     f = open(input_file).read().split('\n')
-    x = eval(f.pop(0))
-    for line in f:
-        line = eval(line)
-        x = [x, line]
-        reduce(x)
-    return sums(x)
+    depths = [[line[:i].count('[') - line[:i].count(']') - 1
+               for i in range(len(line))]
+              for line in f]
+    numbers = tuple(tuple((d, int(c))
+                          for d, c in zip(depth, line)
+                          if c in '0123456789')
+                    for depth, line in zip(depths, f))
+    return numbers
 
 
-def part2(input_file):
-    f = open(input_file).read().split('\n')
-    maxfish = 0
-    for line1 in f:
-        for line2 in f:
-            if line1 != line2:
-                x = [eval(line1), eval(line2)]
-                reduce(x)
-                maxfish = max(maxfish, sums(x))
-    return maxfish
+def part1(numbers):
+    result = numbers[0]
+    numbers = [[[n[0] + 1, n[1]] for n in number]
+               for number in numbers[1:]]
+    for number in numbers:
+        result = [[n[0] + 1, n[1]] for n in result] + number
+        while explode(result) or split(result):
+            pass
+    return magnitude(result)
+
+
+def part2(numbers):
+    return max([part1([numbers[a], numbers[b]])
+                for a in range(len(numbers))
+                for b in range(len(numbers))
+                if a != b])
 
 
 def main(input_file='input.txt', verbose=False):
-    p1 = part1(input_file)
-    p2 = part2(input_file)
+    numbers = parse(input_file)
+    p1 = part1(numbers)
+    p2 = part2(numbers)
     if verbose:
         print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
