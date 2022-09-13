@@ -21,4 +21,8 @@ cd to `<year>\<day>`
 
 function `main` will return tuple of (Part 1, Part 2)
 
-default input file is `input.txt`
+## Input files not included!
+Location of input files must be specified in `common/paths.cfg`.
+Specify location as `input: <path>`
+Default location is `~/.cache/aoc/`
+Input file convention is `'root/{:04d}/{:02d}_in'.format(year, day)`
