@@ -1,19 +1,13 @@
 from common2020 import aoc_input
 from common.timer import timer
 from common.elementwise import prod
+import itertools
 
 
 def prodifsum(entries, count, target_sum):
-    queue = {(tuple(), 0)}
-    while queue:
-        ents, idx = queue.pop()
-        if len(ents) == count:
-            if sum(ents) == target_sum:
-                return prod(ents)
-        else:
-            for i, entry in enumerate(entries[idx + 1:]):
-                if entry not in ents:
-                    queue.add((ents + (entry,), i + idx + 1))
+    for thing in itertools.combinations(entries, count):
+        if sum(thing) == target_sum:
+            return prod(thing)
     return False
 
 
@@ -28,4 +22,4 @@ def main(input_string, verbose=False):
 
 if __name__ == "__main__":
     main(aoc_input(2020, 1), verbose=True)
-    print('Time:  ',timer())
+    print('Time:  ', timer())
