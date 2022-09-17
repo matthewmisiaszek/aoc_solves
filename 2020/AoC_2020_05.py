@@ -4,10 +4,9 @@ from common.common import digits
 
 
 def main(input_string, verbose=False):
-    tickets = tuple((tuple(c == 'B' for c in ticket[:7]),
-                     tuple(c == 'R' for c in ticket[7:]))
-                    for ticket in input_string.split('\n'))
-    ids = {digits(a, 2) * 8 + digits(b, 2) for a, b in tickets}
+    ones = {'B', 'R'}
+    ids = {digits(tuple(c in ones for c in ticket), 2)
+           for ticket in input_string.split('\n')}
     p1 = max(ids)
     empty_seats = set(range(min(ids), max(ids))) - ids
     for p2 in empty_seats:
