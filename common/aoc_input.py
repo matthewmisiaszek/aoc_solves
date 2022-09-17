@@ -5,7 +5,7 @@ def aoc_input(year, day):
     else:
         module_path = os.path.dirname(__file__)+'/'
     cfg = 'paths.cfg'
-    paths = [path.split(': ') for path in open(module_path + cfg).read().split('\n')]
+    paths = [path.split(': ') for path in open(module_path + cfg).read().strip().split('\n')]
     paths = {name:path for name, path in paths}
     input_path = paths['input']
     input_path = os.path.expandvars(input_path)
