@@ -6,11 +6,12 @@ def combinations(items, length, duplicates=False):
     not_duplicates = not duplicates
     if duplicates is True:
         idxs = [0] * length
-        limits = (items_len,) * length
+        limits = (items_len-1,) * length
     else:
         idxs = list(range(length))
         limits = tuple(items_len - length + idx for idx in idxs)
     combo = [items[i] for i in idxs]
+    yield tuple(combo)
     while True:
         for i in reversed(range(length)):
             if idxs[i] < limits[i]:
@@ -84,15 +85,16 @@ def roughlog(x, b):
     return ret
 
 
-def digits(n, base=10):
+def digits(n, base=10, power=None):
     if isinstance(n, list) or isinstance(n, tuple):
         return sum([n[i] * base ** (len(n) - i - 1) for i in range(len(n))])
-    elif n == 0:
-        return [0]
     else:
-        power = roughlog(n, base)
+        if power is None:
+            power = roughlog(n, base)
+        else:
+            power -= 1
         ret = []
-        for i in range(power + 1):
+        for i in range(power+1):
             ret.append(n // base ** (power - i))
             n %= base ** (power - i)
         return tuple(ret)
