@@ -1,19 +1,33 @@
 import hashlib
 
 
-def combinations(inlist, maxl=None, minl=0):
-    if maxl is None:
-        maxl = len(inlist)
-    stop = 2 ** len(inlist)
-    masks = tuple(digits(i, 2) for i in range(stop))
-    masks = tuple(mask for mask in masks if minl <= sum(mask) <= maxl)
-    return sorted((tuple(li for li, mi in zip(inlist, mask) if mi) for mask in masks), key=len)
+def combinations(items, length, duplicates=False):
+    items_len = len(items)
+    not_duplicates = not duplicates
+    if duplicates is True:
+        idxs = [0] * length
+        limits = (items_len,) * length
+    else:
+        idxs = list(range(length))
+        limits = tuple(items_len - length + idx for idx in idxs)
+    combo = [items[i] for i in idxs]
+    while True:
+        for i in reversed(range(length)):
+            if idxs[i] < limits[i]:
+                break
+        else:
+            return
+        idxs[i] += 1
+        combo[i] = items[idxs[i]]
+        for j in range(i + 1, length):
+            idxs[j] = idxs[j - 1] + not_duplicates
+            combo[j] = items[idxs[j]]
+        yield tuple(combo)
 
 
-def permutations(plist, maxl=-1, minl=0):
-    combos = combinations(plist, maxl, minl)
+def permutations(plist):
     ret = []
-    for combo in combos:
+    for combo in plist:
         n = len(combo)
         c = []
         for i in range(n):
