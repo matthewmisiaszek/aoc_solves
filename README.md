@@ -29,3 +29,8 @@ Specify location as `input: <path>`
 Default location is `~/.cache/aoc/`
 
 Input file convention is `'root/{:04d}/{:02d}_in'.format(year, day)`
+
+## Choose your seasonal greeting
+Day 25 Part 2 will return a seasonal greeting stored in common/seasonal_greeting.txt
+
+The default greeting is Merry Christmas.  If you prefer another, please modify this file.
