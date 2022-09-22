@@ -1,5 +1,5 @@
 from common2021 import aoc_input
-
+from common.holiday_greeting import holiday_greeting
 
 def main(input_string, verbose=False):
     seafloor, motion, step = input_string.split('\n'), True, 0
@@ -12,7 +12,7 @@ def main(input_string, verbose=False):
             herd = {move[cuc] if move[cuc] not in herd and move[cuc] not in herds[1 - i] else cuc for cuc in herd}
             motion, herds[i] = motion or herd != herds[i], herd
     p1=step
-    p2='Merry Xmas!'
+    p2=holiday_greeting
     if verbose:
         print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1,p2]))
     return p1,p2
