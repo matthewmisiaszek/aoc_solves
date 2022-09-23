@@ -1,4 +1,6 @@
-from common2021 import aoc_input
+import sys
+sys.path.append('..')
+from common.aoc_input import aoc_input
 from collections import defaultdict
 from string import ascii_uppercase
 

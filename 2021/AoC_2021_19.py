@@ -1,9 +1,7 @@
-import time
-
-start = time.time()
-
 import numpy as np
-from common2021 import aoc_input
+import sys
+sys.path.append('..')
+from common.aoc_input import aoc_input
 
 
 class ScanClass:

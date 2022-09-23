@@ -1,4 +1,6 @@
-from common2020 import aoc_input
+import sys
+sys.path.append('..')
+from common.aoc_input import aoc_input
 from common.timer import timer
 import itertools
 from common import elementwise as ew
@@ -155,7 +157,7 @@ def main(input_string, verbose=False):
     p1 = ew.prod((tile.id for tile in tile_list if len(tile.neighbors) <= 2))
     place_tiles(tile_list)
     image = stitch_image(tile_list)
-    monster = get_monster('sea_monster.txt')
+    monster = get_monster('../2020/sea_monster.txt')
     image, monsters = find_monsters(image, monster)
     p2 = len(image) - len(monsters)
     if verbose:

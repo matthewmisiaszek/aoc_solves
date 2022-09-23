@@ -1,4 +1,6 @@
-from common2020 import aoc_input
+import sys
+sys.path.append('..')
+from common.aoc_input import aoc_input
 from common.timer import timer
 from common.constants import D2D8 as neighbors
 from common.elementwise import esum

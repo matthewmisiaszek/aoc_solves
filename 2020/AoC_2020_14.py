@@ -1,6 +1,8 @@
-from common2020 import aoc_input
+import sys
+sys.path.append('..')
+from common.aoc_input import aoc_input
 from common.timer import timer
-from common.common import digits
+from common.misc import digits
 
 
 def apply_mask1(dec_val, mask):

@@ -1,6 +1,6 @@
 import time
-start=time.time()
+start_time=time.time()
 
 
 def timer():
-    return time.time()-start
+    return time.time() - start_time
