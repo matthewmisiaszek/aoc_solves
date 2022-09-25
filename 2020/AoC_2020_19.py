@@ -1,7 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
-from common.timer import timer
+import core
 import re
 
 
@@ -31,11 +28,8 @@ def main(input_string, verbose=False):
     p2 = sum([bool(re.match(pattern424231, message))  # if there's at least 2 42s followed by at least one 31 and...
               and re.match(pattern42star, message).end() * 2 > len(message)  # more than half the message matches 42
               for message in messages])
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2020, 19), verbose=True)
-    print('Time:  ', timer())
+    core.run(main, year=2020, day=19, verbose=True)

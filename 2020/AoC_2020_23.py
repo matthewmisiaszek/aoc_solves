@@ -1,7 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
-from common.timer import timer
+import core
 
 
 def crab_cups(cups_in, moves, max_cup=None, n_return=None):
@@ -44,11 +41,8 @@ def main(input_string, verbose=False):
     p1 = ''.join((str(i) for i in p1cups[:-1]))
     p2cups = crab_cups(cups, 10 ** 7, 10 ** 6, 2)
     p2 = p2cups[0] * p2cups[1]
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2020, 23), verbose=True)
-    print('Time:  ', timer())
+    core.run(main, year=2020, day=23, verbose=True)

@@ -1,6 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
+import core
 
 
 def main(input_string, verbose=False):
@@ -34,4 +32,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    main(aoc_input(2021, 3), verbose=True)
+    core.run(main, year=2021, day=3, verbose=True)

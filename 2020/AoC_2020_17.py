@@ -1,7 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
-from common.timer import timer
+import core
 from common import cartnd
 from itertools import product
 
@@ -38,11 +35,8 @@ def main(input_string, verbose=False):
                      if c is active}
     p1 = startup(initial_state, 3)
     p2 = startup(initial_state, 4)
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2020, 17), verbose=True)
-    print('Time:  ', timer())
+    core.run(main, year=2020, day=17, verbose=True)

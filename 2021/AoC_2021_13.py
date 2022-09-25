@@ -1,6 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
+import core
 
 
 def fold(foldstr, grid):
@@ -47,11 +45,8 @@ def main(input_string, verbose=False):
         fold(foldi, grid)
     p2 = printgrid(grid)
 
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2:'.format([p1]))
-        print(p2)
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2021, 13), verbose=True)
+    core.run(main, year=2021, day=13, verbose=True)

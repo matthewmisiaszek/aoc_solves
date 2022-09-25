@@ -1,6 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
+import core
 
 
 def movepod(burrow, move):
@@ -115,19 +113,11 @@ def solve(start_state, verbose=True):
 
 def main(input_string, p2insert='../2021/day23_p2insert.txt', verbose=False):
     start_state = input_string.split('\n')
-    if verbose:
-        print('Part 1 Start ======================')
     p1 = solve(start_state, verbose)
-    if verbose:
-        print('Part 2 Start ======================')
     p2_start_insert = open(p2insert).read().split('\n')
     start_state = start_state[:3] + p2_start_insert + start_state[3:]
     p2 = solve(start_state, verbose)
-    if verbose:
-        print('Summary ===========================')
-        print('Part1: ', p1)
-        print('Part2: ', p2)
     return p1, p2
 
 if __name__ == "__main__":
-    main(aoc_input(2021, 23), verbose=True)
+    core.run(main, year=2021, day=23, verbose=True)

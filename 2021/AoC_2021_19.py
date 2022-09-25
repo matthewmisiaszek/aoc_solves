@@ -1,7 +1,5 @@
 import numpy as np
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
+import core
 
 
 class ScanClass:
@@ -81,13 +79,9 @@ def main(input_string, verbose=False):
     p1 = len(beacons)
     p2 = maxman
 
-    if verbose:
-        print('\nAll scanners placed.')
-        print('Part1: ', p1)
-        print('Part2: ', p2)
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2021, 19), verbose=True)
-    print('elapsed time: ', time.time() - start)
+    core.run(main, year=2021, day=19, verbose=True)
+

@@ -1,7 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
-from common.timer import timer
+import core
 import itertools
 from common import elementwise as ew
 from common import constants as con
@@ -163,10 +160,8 @@ def main(input_string, verbose=False):
     if verbose:
         print_dict = {point: 'O' if point in monsters else '~' for point in monsters | image}
         printer.printdict(print_dict, default=' ')
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2020, 20), verbose=True)
-    print('Time:  ', timer())
+    core.run(main, year=2020, day=20, verbose=True)

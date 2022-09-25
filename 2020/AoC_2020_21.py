@@ -1,7 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
-from common.timer import timer
+import core
 
 
 def get_possibilities(input_string):
@@ -41,11 +38,8 @@ def main(input_string, verbose=False):
     p1 = sum((input_string.count(ingredient) for ingredient in ingredients_wo_allergens))
     allergen_ingredients = reduce(allergen_possibilities)
     p2 = ','.join((allergen_ingredients[x] for x in sorted(allergen_ingredients.keys())))
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2020, 21), verbose=True)
-    print('Time:  ', timer())
+    core.run(main, year=2020, day=21, verbose=True)

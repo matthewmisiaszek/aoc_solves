@@ -1,6 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
+import core
 
 
 def explode(number):
@@ -70,10 +68,8 @@ def main(input_string, verbose=False):
     numbers = parse(input_string)
     p1 = part1(numbers)
     p2 = part2(numbers)
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2021, 18), verbose=True)
+    core.run(main, year=2021, day=18, verbose=True)

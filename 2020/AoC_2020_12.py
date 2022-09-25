@@ -1,7 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
-from common.timer import timer
+import core
 from common import constants as con
 from common.elementwise import emulsum, eabsdiff
 
@@ -42,11 +39,8 @@ def main(input_string, verbose=False):
     actions = tuple((action[0], int(action[1:])) for action in input_string.split('\n'))
     p1 = part1(actions, con.origin2, con.East)
     p2 = part2(actions, con.origin2, (10, 1))
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2020, 12), verbose=True)
-    print('Time:  ', timer())
+    core.run(main, year=2020, day=12, verbose=True)

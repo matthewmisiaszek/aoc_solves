@@ -1,7 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
-from common.timer import timer
+import core
 
 
 def game(starting_numbers, turns):
@@ -16,11 +13,8 @@ def main(input_string, verbose=False):
     starting_numbers = [int(i) for i in input_string.split(',')]
     p1 = game(starting_numbers, 2020)
     p2 = game(starting_numbers, 30000000)
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2020, 15), verbose=True)
-    print('Time:  ', timer())
+    core.run(main, year=2020, day=15, verbose=True)

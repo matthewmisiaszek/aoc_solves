@@ -1,6 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
+import core
 from collections import defaultdict
 from string import ascii_uppercase
 
@@ -56,10 +54,8 @@ def main(input_string, verbose=False):
     p1 = _all(10, template, ruledict)
     p2 = _all(40, template, ruledict)
 
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2021, 14), verbose=True)
+    core.run(main, year=2021, day=14, verbose=True)

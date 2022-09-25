@@ -1,6 +1,4 @@
-import sys
-sys.path.append('..')
-from common.aoc_input import aoc_input
+import core
 from queue import PriorityQueue
 
 
@@ -41,10 +39,8 @@ def main(input_string, verbose=False):
     expand(cave2)
     p2 = shortest_path((0, 0), max(cave2.keys()), cave2)
 
-    if verbose:
-        print('Part 1: {0[0]}\nPart 2: {0[1]}'.format([p1, p2]))
     return p1, p2
 
 
 if __name__ == "__main__":
-    main(aoc_input(2021, 15), verbose=True)
+    core.run(main, year=2021, day=15, verbose=True)
