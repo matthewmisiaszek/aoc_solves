@@ -1,5 +1,5 @@
 import core
-from common.holiday_greeting import holiday_greeting
+
 
 def main(input_string, verbose=False):
     seafloor, motion, step = input_string.split('\n'), True, 0
@@ -12,7 +12,7 @@ def main(input_string, verbose=False):
             herd = {move[cuc] if move[cuc] not in herd and move[cuc] not in herds[1 - i] else cuc for cuc in herd}
             motion, herds[i] = motion or herd != herds[i], herd
     p1=step
-    p2=holiday_greeting
+    p2=core.holiday_greeting
     return p1,p2
 
 if __name__ == "__main__":

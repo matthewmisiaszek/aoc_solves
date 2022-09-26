@@ -1,3 +1,6 @@
+import core
+
+
 class Graph:
     def __init__(self, default=set):
         self.graph = {}

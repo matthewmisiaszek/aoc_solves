@@ -1,4 +1,5 @@
 import core
+from common import printer
 
 
 def fold(foldstr, grid):
@@ -43,7 +44,7 @@ def main(input_string, verbose=False):
     p1 = len(grid)
     for foldi in folds:
         fold(foldi, grid)
-    p2 = printgrid(grid)
+    p2 = printer.strset(grid)#printgrid(grid)
 
     return p1, p2
 

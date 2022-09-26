@@ -5,11 +5,13 @@ def movepod(burrow, move):
     a, b = move
     burrow[b].append(burrow[a].pop())
 
+
 def movecost(burrow, move, weight, depth):
     a, b = move
     distance = abs(a - b) + depth[a] + depth[b] - len(burrow[a]) - len(burrow[b]) + 1
     cost = distance * weight[burrow[a][-1]]
     return cost
+
 
 def getmoves(burrow, target):
     moves = []
@@ -42,28 +44,30 @@ def getmoves(burrow, target):
                     break
     return moves
 
+
 def tostring(burrow, depth, verbose):
     if verbose:
-        stuff = ['' for _ in range(max(depth)+1)]
-        for room,roomd in zip(burrow, depth):
-            if roomd ==0:
+        stuff = ['' for _ in range(max(depth) + 1)]
+        for room, roomd in zip(burrow, depth):
+            if roomd == 0:
                 if room:
-                    stuff[0]+=room[0]
+                    stuff[0] += room[0]
                 else:
-                    stuff[0]+='.'
-                for i in range(1,len(stuff)):
-                    stuff[i]+=' '
+                    stuff[0] += '.'
+                for i in range(1, len(stuff)):
+                    stuff[i] += ' '
             else:
-                stuff[0]+='.'
-                for i in range(1,len(stuff)):
-                    j = roomd-i
-                    if j<len(room):
-                        stuff[i]+=room[j]
+                stuff[0] += '.'
+                for i in range(1, len(stuff)):
+                    j = roomd - i
+                    if j < len(room):
+                        stuff[i] += room[j]
                     else:
-                        stuff[i]+=' '
+                        stuff[i] += ' '
         return '\n'.join(stuff)
     else:
         return ','.join([''.join(room) for room in burrow])
+
 
 def organize(burrow, target, depth, weight, verbose, cost=0, mincost=None, memo={}):
     if mincost is not None and cost >= mincost:
@@ -71,18 +75,18 @@ def organize(burrow, target, depth, weight, verbose, cost=0, mincost=None, memo=
     elif sum([not (room.count(target[i]) == depth[i]) for i, room in enumerate(burrow)]) == 0:
         return cost, ''
     else:
-        bestpath=''
+        bestpath = ''
         moves = getmoves(burrow, target)
         for i, j in moves:
             ncost = cost + movecost(burrow, (i, j), weight, depth)
-            movepod(burrow, (i,j))
+            movepod(burrow, (i, j))
             burrow_string = tostring(burrow, depth, verbose)
             if burrow_string not in memo or memo[burrow_string] > ncost:
                 memo[burrow_string] = ncost
                 nmincost, path = organize(burrow, target, depth, weight, verbose, ncost, mincost)
-                if mincost is None or (nmincost is not None and nmincost<mincost):
+                if mincost is None or (nmincost is not None and nmincost < mincost):
                     mincost = nmincost
-                    bestpath = burrow_string+'\n\n'+path
+                    bestpath = burrow_string + '\n\n' + path
             movepod(burrow, (j, i))
         return mincost, bestpath
 
@@ -107,9 +111,10 @@ def solve(start_state, verbose=True):
             target.append('')
     cost, path = organize(burrow, target, depth, weight, verbose)
     if verbose is True:
-        print(tostring(burrow, depth, verbose)+'\n\n'+path)
-        print('Cost: ',cost)
+        print(tostring(burrow, depth, verbose) + '\n\n' + path)
+        print('Cost: ', cost)
     return cost
+
 
 def main(input_string, p2insert='../2021/day23_p2insert.txt', verbose=False):
     start_state = input_string.split('\n')
@@ -118,6 +123,7 @@ def main(input_string, p2insert='../2021/day23_p2insert.txt', verbose=False):
     start_state = start_state[:3] + p2_start_insert + start_state[3:]
     p2 = solve(start_state, verbose)
     return p1, p2
+
 
 if __name__ == "__main__":
     core.run(main, year=2021, day=23, verbose=True)

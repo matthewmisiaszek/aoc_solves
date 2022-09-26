@@ -1,4 +1,11 @@
+import core
+
+
 def printdict(grid, default=' ', width=False, gridtype='cart'):
+    print(strdict(grid, default, width, gridtype))
+
+
+def strdict(grid, default=' ', width=False, gridtype='cart'):
     if grid:
         mins = [min((si[i] for si in grid.keys())) for i in range(2)]
         maxs = [max((si[i] for si in grid.keys())) for i in range(2)]
@@ -20,10 +27,15 @@ def printdict(grid, default=' ', width=False, gridtype='cart'):
                 else:
                     printstr += default
             printstr += '\n'
-        print(printstr)
+        return printstr
 
 
-def printset(grid, default='.', mark='#', width=False, gridtype='cart'):
+def printset(grid, default=' ', mark='#', width=False, gridtype='cart'):
+    print(strset(grid, default, mark, width, gridtype))
+
+
+def strset(grid, default=' ', mark='#', width=False, gridtype='cart'):
+    global hexspace
     if width is False:
         width = max(len(default), len(mark))
     if gridtype == 'hexns' or gridtype == 'hexew':
@@ -43,14 +55,18 @@ def printset(grid, default='.', mark='#', width=False, gridtype='cart'):
             else:
                 printstr += default
         printstr += '\n'
-    print(printstr)
+    return printstr
 
 
 def printarray(grid, width):
+    print(strarray(grid,width))
+
+
+def strarray(grid, width):
     shape = grid.shape
     s = ''
     for i in range(shape[0]):
         for j in range(shape[1]):
             s += str(grid[i, j]).rjust(width)
         s += '\n'
-    print(s)
+    return s

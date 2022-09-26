@@ -1,8 +1,8 @@
+import core
 import importlib
 import time
 from configparser import ConfigParser
 import sys
-from aoc_input import aoc_input
 
 
 sys.path.append('..')
@@ -66,9 +66,9 @@ def main():
                 vars = [data[var] for var in file_variables]
                 start = time.time()
                 solve = importlib.import_module(file_format.format(*vars))
-                p1, p2 = solve.main(aoc_input(year, day))
-                elapsed_time = int(1000*(time.time()-start))
-                data = {'Day':day, 'Part 1':p1, 'Part 2':p2, 'Time (ms)':elapsed_time}
+                p1, p2 = solve.main(input_string=core.aoc_input(year, day), verbose=False)
+                elapsed_time = '{:.3f}'.format(time.time()-start)
+                data = {'Day':day, 'Part 1':p1, 'Part 2':p2, 'Time (s)':elapsed_time}
                 data_str = {key:str(val) for key,val in data.items()}
                 row = {key:val if len(val)<=widths[key] else '--' for key,val in data_str.items()}
                 extra = [key + ':\n' + data_str[key] for key in columns if len(data_str[key])>widths[key]]

@@ -1,3 +1,6 @@
+import core
+
+
 East = 'E'
 North = 'N'
 South = 'S'

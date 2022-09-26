@@ -1,5 +1,4 @@
 import core
-from common.holiday_greeting import holiday_greeting
 
 
 def main(input_string, verbose=False):
@@ -18,7 +17,7 @@ def main(input_string, verbose=False):
         ekey *= subject_number
         ekey %= modfact
     p1 = ekey
-    p2 = holiday_greeting
+    p2 = core.holiday_greeting
     return p1, p2
 
 
