@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 def addr(regs, a, b, c):
@@ -108,4 +108,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2018, day=16, verbose=True)
+    dancer.run(main, year=2018, day=16, verbose=True)

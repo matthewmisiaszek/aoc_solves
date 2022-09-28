@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 def main(input_string, verbose=False):
@@ -30,4 +30,4 @@ def recfun(f, i):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2018, day=8, verbose=True)
+    dancer.run(main, year=2018, day=8, verbose=True)

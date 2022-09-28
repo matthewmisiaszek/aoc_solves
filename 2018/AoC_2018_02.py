@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 import string
 
 def main(input_string, verbose=False):
@@ -34,4 +34,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2018, day=2, verbose=True)
+    dancer.run(main, year=2018, day=2, verbose=True)

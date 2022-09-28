@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 from common import constants as con
 from common.elementwise import emulsum, eabsdiff
 
@@ -43,4 +43,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2020, day=12, verbose=True)
+    dancer.run(main, year=2020, day=12, verbose=True)

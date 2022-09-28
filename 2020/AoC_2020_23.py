@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 def crab_cups(cups_in, moves, max_cup=None, n_return=None):
@@ -45,4 +45,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2020, day=23, verbose=True)
+    dancer.run(main, year=2020, day=23, verbose=True)

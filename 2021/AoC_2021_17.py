@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 from math import ceil
 
 
@@ -33,4 +33,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2021, day=17, verbose=True)
+    dancer.run(main, year=2021, day=17, verbose=True)

@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 def printdict(grid, default=' ', width=False, gridtype='cart'):

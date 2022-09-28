@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 import importlib
 import time
 
@@ -19,7 +19,7 @@ def getranges(s):
 
 
 def main():
-    config = DANCER.config
+    config = dancer.config
     columns = config['table']['columns'].split(',')
     column_widths = [int(i) for i in config['table']['column_widths'].split(',')]
     widths = {column: width for column, width in zip(columns, column_widths)}
@@ -57,8 +57,11 @@ def main():
                 data = {'year': year, 'day': day}
                 file_vars = [data[var] for var in file_variables]
                 start = time.time()
-                solve = importlib.import_module(file_format.format(*file_vars))
-                p1, p2 = solve.main(input_string=DANCER.aoc_input(year, day), verbose=False)
+                try:
+                    solve = importlib.import_module(file_format.format(*file_vars))
+                    p1, p2 = solve.main(input_string=dancer.aoc_input(year, day), verbose=False)
+                except:
+                    p1, p2 = 'error', 'error'
                 elapsed_time = '{:.3f}'.format(time.time() - start)
                 data = {'Day': day, 'Part 1': p1, 'Part 2': p2, 'Time (s)': elapsed_time}
                 data_str = {key: str(val) for key, val in data.items()}

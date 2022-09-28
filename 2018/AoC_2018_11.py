@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 import numpy as np
 from common import misc
 
@@ -53,4 +53,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2018, day=11, verbose=True)
+    dancer.run(main, year=2018, day=11, verbose=True)

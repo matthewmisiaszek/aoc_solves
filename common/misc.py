@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 import hashlib
 
 

@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 import itertools
 from common import elementwise as ew
 from common import constants as con
@@ -164,4 +164,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2020, day=20, verbose=True)
+    dancer.run(main, year=2020, day=20, verbose=True)

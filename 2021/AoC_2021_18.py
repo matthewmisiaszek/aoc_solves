@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 def explode(number):
@@ -72,4 +72,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2021, day=18, verbose=True)
+    dancer.run(main, year=2021, day=18, verbose=True)

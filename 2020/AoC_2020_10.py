@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 def part1(adapters, outlet, device):
@@ -40,4 +40,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2020, day=10, verbose=True)
+    dancer.run(main, year=2020, day=10, verbose=True)

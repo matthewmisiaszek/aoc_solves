@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 def movepod(burrow, move):
@@ -126,4 +126,4 @@ def main(input_string, p2insert='../2021/day23_p2insert.txt', verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2021, day=23, verbose=True)
+    dancer.run(main, year=2021, day=23, verbose=True)

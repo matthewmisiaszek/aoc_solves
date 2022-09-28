@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 from itertools import combinations
 
 
@@ -39,4 +39,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2020, day=9, verbose=True)
+    dancer.run(main, year=2020, day=9, verbose=True)

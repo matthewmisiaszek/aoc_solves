@@ -14,7 +14,7 @@
 # The (D,U) pair serves as a range along the relevant vector that is 'in-range' of the bot(s)
 # A cluster is a collection of bots that share one or more points 'in-range'
 
-import DANCER
+import dancer
 import re
 
 
@@ -196,4 +196,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2018, day=23, verbose=True)
+    dancer.run(main, year=2018, day=23, verbose=True)

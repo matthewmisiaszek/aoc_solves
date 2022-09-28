@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 class ventClass:
@@ -39,4 +39,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2021, day=5, verbose=True)
+    dancer.run(main, year=2021, day=5, verbose=True)

@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 def main(input_string, verbose=False):
@@ -12,8 +12,8 @@ def main(input_string, verbose=False):
             herd = {move[cuc] if move[cuc] not in herd and move[cuc] not in herds[1 - i] else cuc for cuc in herd}
             motion, herds[i] = motion or herd != herds[i], herd
     p1=step
-    p2=DANCER.holiday_greeting
+    p2=dancer.holiday_greeting
     return p1,p2
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2021, day=25, verbose=True)
+    dancer.run(main, year=2021, day=25, verbose=True)

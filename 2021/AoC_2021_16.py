@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 
 
 def process(s, n=1):
@@ -62,4 +62,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2021, day=16, verbose=True)
+    dancer.run(main, year=2021, day=16, verbose=True)

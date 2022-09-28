@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 from common import elementwise as ew
 from collections import Counter
 
@@ -52,4 +52,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2020, day=24, verbose=True)
+    dancer.run(main, year=2020, day=24, verbose=True)

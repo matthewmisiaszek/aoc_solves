@@ -1,4 +1,4 @@
-import DANCER
+import dancer
 import common.elementwise as ew
 
 
@@ -31,9 +31,9 @@ def main(input_string, verbose=False):
             if point in pointranges:
                 constellation.update(pointranges.pop(point))
     p1 = constellations
-    p2 = DANCER.holiday_greeting
+    p2 = dancer.holiday_greeting
     return p1, p2
 
 
 if __name__ == "__main__":
-    DANCER.run(main, year=2018, day=25, verbose=True)
+    dancer.run(main, year=2018, day=25, verbose=True)
