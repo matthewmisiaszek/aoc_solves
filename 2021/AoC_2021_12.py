@@ -1,4 +1,4 @@
-import core
+import DANCER
 from collections import defaultdict, deque
 
 
@@ -31,4 +31,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2021, day=12, verbose=True)
+    DANCER.run(main, year=2021, day=12, verbose=True)

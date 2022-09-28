@@ -1,4 +1,4 @@
-import core
+import DANCER
 from common import graph
 from common import constants
 
@@ -43,4 +43,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2018, day=20, verbose=True)
+    DANCER.run(main, year=2018, day=20, verbose=True)

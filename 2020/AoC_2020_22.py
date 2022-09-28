@@ -1,4 +1,4 @@
-import core
+import DANCER
 
 
 def combat(hands, recursive=False):
@@ -31,4 +31,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2020, day=22, verbose=True)
+    DANCER.run(main, year=2020, day=22, verbose=True)

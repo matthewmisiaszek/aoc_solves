@@ -1,4 +1,4 @@
-import core
+import DANCER
 
 
 def parse(input_string):
@@ -60,4 +60,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2018, day=12, verbose=True)
+    DANCER.run(main, year=2018, day=12, verbose=True)

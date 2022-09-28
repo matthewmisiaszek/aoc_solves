@@ -1,4 +1,4 @@
-import core
+import DANCER
 
 
 def esum(a, b):

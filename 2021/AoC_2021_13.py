@@ -1,4 +1,4 @@
-import core
+import DANCER
 from common import printer
 
 
@@ -50,4 +50,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2021, day=13, verbose=True)
+    DANCER.run(main, year=2021, day=13, verbose=True)

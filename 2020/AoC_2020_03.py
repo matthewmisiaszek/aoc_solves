@@ -1,4 +1,4 @@
-import core
+import DANCER
 from common.elementwise import prod
 
 
@@ -33,4 +33,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2020, day=3, verbose=True)
+    DANCER.run(main, year=2020, day=3, verbose=True)

@@ -1,5 +1,5 @@
 import numpy as np
-import core
+import DANCER
 
 
 class ScanClass:
@@ -83,5 +83,5 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2021, day=19, verbose=True)
+    DANCER.run(main, year=2021, day=19, verbose=True)
 

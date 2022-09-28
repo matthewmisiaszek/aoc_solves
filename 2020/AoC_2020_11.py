@@ -1,4 +1,4 @@
-import core
+import DANCER
 from common.constants import D2D8 as neighbors
 from common.elementwise import esum
 
@@ -51,4 +51,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2020, day=11, verbose=True)
+    DANCER.run(main, year=2020, day=11, verbose=True)

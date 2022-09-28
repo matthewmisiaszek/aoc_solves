@@ -1,4 +1,4 @@
-import core
+import DANCER
 import re
 from collections import Counter
 
@@ -21,4 +21,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2018, day=3, verbose=True)
+    DANCER.run(main, year=2018, day=3, verbose=True)

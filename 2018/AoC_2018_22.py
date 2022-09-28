@@ -1,4 +1,4 @@
-import core
+import DANCER
 from queue import PriorityQueue
 
 
@@ -122,4 +122,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2018, day=22, verbose=True)
+    DANCER.run(main, year=2018, day=22, verbose=True)

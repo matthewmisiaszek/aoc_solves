@@ -1,4 +1,4 @@
-import core
+import DANCER
 from collections import defaultdict
 from string import ascii_uppercase
 
@@ -58,4 +58,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    core.run(main, year=2021, day=14, verbose=True)
+    DANCER.run(main, year=2021, day=14, verbose=True)
