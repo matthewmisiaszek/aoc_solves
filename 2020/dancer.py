@@ -1,3 +1,4 @@
+"""Directory Augmentation and Normalized Code Execution Routine"""
 import sys
 import os
 root_path = os.path.abspath('..')
