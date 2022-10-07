@@ -27,7 +27,7 @@ def strdict(grid, default=' ', width=False, gridtype='cart'):
                 else:
                     printstr += default
             printstr += '\n'
-        return printstr
+        return printstr[:-1]
 
 
 def printset(grid, default=' ', mark='#', width=False, gridtype='cart'):
@@ -55,7 +55,7 @@ def strset(grid, default=' ', mark='#', width=False, gridtype='cart'):
             else:
                 printstr += default
         printstr += '\n'
-    return printstr
+    return printstr[:-1]
 
 
 def printarray(grid, width):
@@ -69,4 +69,4 @@ def strarray(grid, width):
         for j in range(shape[1]):
             s += str(grid[i, j]).rjust(width)
         s += '\n'
-    return s
+    return s[:-1]
