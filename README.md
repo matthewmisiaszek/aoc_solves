@@ -3,34 +3,31 @@ My solves for Advent of Code https://adventofcode.com/
 
 Solves in Python 3
 
-# Running
-## Run all in a year
-cd to `<year>`
+## Running
+Files are intended to be run with python path set to the directory that the file is in.  
 
-`python run_year.py`
+Run a single day by running its file.  
 
-Answers for each day will print along with elapsed time
+Run multiple days using common/run_multiple.py.
 
-## Run individual day
-cd to `<year>\<day>`
+## Configuration
+Several options may be set in common/config.ini including:
+* Input file directory
+* Input file naming convention
+* Holiday greeting displayed on day 25
+* Output formats
 
-`python day__.py`
+## DANCER
+### Directory Augmentation and Normalized Code Execution Routine
 
-## Run day from import
-`import day__`
+DANCER handles several functions common to every day's code:
+* Append repo root to sys.path
+* Retrieve input file
+* Execute main()
+* Print header
+* Print outputs
+* Print elapsed time
 
-function `main` will return tuple of (Part 1, Part 2)
+## Common
 
-## Input files not included!
-Location of input files must be specified in `common/paths.cfg`.
-
-Specify location as `input: <path>`
-
-Default location is `~/.cache/aoc/`
-
-Input file convention is `'root/{:04d}/{:02d}_in'.format(year, day)`
-
-## Choose your seasonal greeting
-Day 25 Part 2 will return a seasonal greeting stored in common/seasonal_greeting.txt
-
-The default greeting is Merry Christmas.  If you prefer another, please modify this file.
+Modules in common are used by solves from multiple days
