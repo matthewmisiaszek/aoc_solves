@@ -35,7 +35,7 @@ def main():
     print('You may enter ranges as min-max or individual values separated by commas.')
     print('Years and days are joined by colon :')
     print('Multiple year-day combinations may be separated by semicolon ;')
-    print('Example: 2020:1-15;2020-2021:1-4,6-8')
+    print('Example: AoC_2020:1-15;AoC_2020-AoC_2021:1-4,6-8')
     user_input = input('Input here: ')
     print(user_input)
 
