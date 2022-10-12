@@ -2,7 +2,7 @@ import dancer
 
 
 class Graph:
-    def __init__(self, default=set):
+    def __init__(self, default=dict):
         self.graph = {}
         self.default = default
 
@@ -23,17 +23,17 @@ class Graph:
     def add_edge_eq(self, a, b, weight=1):
         self.add_node(a)
         self.add_node(b)
-        self.graph[a].add((b, weight))
-        self.graph[b].add((a, weight))
+        self.graph[a].update({b:weight})
+        self.graph[b].update({a:weight})
 
     def add_edge_neq(self, a, b, weight=1):
         for node in (a, b):
             if node not in self.graph:
                 self.graph[node] = self.default()
-        self.graph[a].add((b, weight))
+        self.graph[a].update({b:weight})
 
     def make_edges(self, fun):
-        for node, edges in self.keys():
+        for node, edges in self.graph.items():
             edges.update(fun(self, node))
 
     def dijkstra(self, start, targets, all_paths=False, full_paths=False):
@@ -61,7 +61,7 @@ class Graph:
                     solutions[curr_loc] = curr_weight
                     last_weight = curr_weight
                 if all_paths or curr_loc not in targets:
-                    for new_loc, new_weight in self.graph[curr_loc]:
+                    for new_loc, new_weight in self.graph[curr_loc].items():
                         if new_loc not in closed:
                             new_weight = curr_weight + new_weight
                             queue.add((new_weight, new_loc))

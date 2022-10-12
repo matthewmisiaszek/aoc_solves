@@ -13,7 +13,11 @@ Forward = 'F'
 Left = 'L'
 Right = 'R'
 Backward = 'B'
+Up = 'U'
+Down = 'D'
 ENWS = (East, North, West, South)
+RULD = (Right, Up, Left, Down)
+UDLR_ordered = (Up, Down, Left, Right)
 D2D4 = ((1, 0), (0, 1), (-1, 0), (0, -1))
 D2D8 = ((1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1))
 D3D6 = {(1, 0, 0), (0, 1, 0), (0, 0, 1), (-1, 0, 0), (0, -1, 0), (0, 0, -1)}
@@ -23,6 +27,8 @@ NSEW_8 = {key: val for key, val in zip(Dnames, D2D8)}
 NSEW = {key: val for key, val in NSEW_8.items() if abs(sum(val)) == 1}
 NSEW_YINV = {key: (vx, -vy) for key, (vx, vy) in NSEW.items()}
 NSEW_8_YINV = {key: (vx, -vy) for key, (vx, vy) in NSEW_8.items()}
+UDLR = {key: val for key, val in zip(RULD, D2D4)}
+UDLR_YINV = {key: (vx, -vy) for key, (vx, vy) in UDLR.items()}
 
 HEX_N = {'N': (0, 1), 'S': (0, -1), 'NE': (1, 0), 'SE': (1, -1), 'NW': (-1, 1), 'SW': (-1, 0)}
 HEX_E = {'E': (1, 0), 'W': (-1, 0), 'NE': (0, 1), 'NW': (-1, 1), 'SE': (1, -1), 'SW': (0, -1)}
