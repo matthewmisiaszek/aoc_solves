@@ -3,9 +3,9 @@ from AoC_2016.assembunny import AsmBny
 
 
 def main(input_string, verbose=False):
-    assembunny = AsmBny(input_string, initial={'out': ''}, return_reg='out')
+    assembunny = AsmBny(input_string, return_reg='out')
     i = 0
-    while assembunny.run() != '01010101':
+    while not assembunny.run():
         assembunny.reset()
         i += 1
         assembunny.regs['a'] = i
