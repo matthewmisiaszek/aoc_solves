@@ -4,11 +4,11 @@ My solves for Advent of Code https://adventofcode.com/
 Solves in Python 3
 
 ## Running
-Files are intended to be run with python path set to the directory that the file is in.  
-
 Run a single day by running its file.  
 
 Run multiple days using common/run_multiple.py.
+
+cd to repo root or to directory containing file before running.
 
 ## Configuration
 Several options may be set in common/config.ini including:
