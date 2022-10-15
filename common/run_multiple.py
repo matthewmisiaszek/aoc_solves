@@ -46,7 +46,7 @@ def main():
             years = getranges(group)
             days = []
         if not years:
-            years = [2018, 2020, 2021]
+            years = [2016, 2017, 2018, 2020, 2021]
         if not days:
             days = list(range(1, 26))
         start_time_all = time.time()

@@ -5,7 +5,7 @@ import configparser
 import time
 
 
-root_path = os.path.abspath('..')
+root_path = os.path.dirname(os.path.dirname(__file__))
 if root_path not in sys.path:
     sys.path.append(root_path)
 
@@ -30,7 +30,7 @@ def run(solve, year, day, verbose=False):
     elapsed_time = time.time() - start_time
     print_dict = {'year': year, 'day': day, 'p1': p1, 'p2': p2, 'time': elapsed_time}
     config = configparser.ConfigParser()
-    config.read('../common/config.ini')
+    config.read(root_path + '/common/config.ini')
     printformat = config['dayprint']['format'].replace('\\n','\n')
     printvars = config['dayprint']['variables']
     printvars = [print_dict[var] for var in printvars.split(',')]
