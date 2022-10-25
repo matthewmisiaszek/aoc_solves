@@ -1,45 +1,35 @@
 import dancer
+import json
 
 
-def count(file, opn, cls, sep, ignore=None):
-    if ignore is None:
-        ignore = set()
-    istart = file.find(opn)
-    while istart >= 0:
-        depth = 0
-        for iend, c in enumerate(file[istart:]):
-            if c == cls:
-                depth -= 1
-            elif c == opn:
-                depth += 1
-            if depth == 0:
-                break
-        iend += istart
-        head = file[:istart]
-        mid = file[istart + 1:iend]
-        tail = file[iend + 1:]
-        mid = str(count(mid, opn, cls, sep, ignore))
-        file = head + mid + tail
-        istart = file.find(opn)
-    to_count = []
-    for obj in file.split(','):
-        if sep in obj:
-            key, val = obj.split(sep)
-            if val in ignore:
+def count(file, exclude=None):
+    if exclude is None:
+        exclude = set()
+    ret = 0
+    if isinstance(file, list):
+        for obj in file:
+            if isinstance(obj, list) or isinstance(obj, dict):
+                ret += count(obj, exclude)
+            elif isinstance(obj, int):
+                ret += obj
+    elif isinstance(file, dict):
+        for key, val in file.items():
+            if isinstance(val, list) or isinstance(val, dict):
+                ret += count(val, exclude)
+            elif val in exclude:
                 return 0
-            else:
-                to_count += [key, val]
-        else:
-            to_count.append(obj)
-    return sum(int(obj) for obj in to_count if obj.lstrip('-').isdigit())
+            elif isinstance(val, int):
+                ret += val
+            if isinstance(key, int):
+                ret += key
+    return ret
 
 
 def main(input_string, verbose=False):
-    file = input_string
-    table = file.maketrans('[{]}', '[[]]')
-    file = file.translate(table)
-    p1 = count(file, '[', ']', ':')
-    p2 = count(file, '[', ']', ':', {'"red"'})
+    file = json.loads(input_string)
+
+    p1 = count(file)
+    p2 = count(file, {"red"})
     return p1, p2
 
 
