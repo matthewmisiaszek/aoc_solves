@@ -3,6 +3,9 @@ My solves for Advent of Code https://adventofcode.com/
 
 Solves in Python 3
 
+Run times for each day are listed in each year's README.
+Times measured using M1 MBP.
+
 ## Running
 Run a single day by running its file.  
 

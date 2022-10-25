@@ -65,7 +65,8 @@ def main():
                 elapsed_time = '{:.3f}'.format(time.time() - start)
                 data = {'Day': day, 'Part 1': p1, 'Part 2': p2, 'Time (s)': elapsed_time}
                 data_str = {key: str(val) for key, val in data.items()}
-                row = {key: val if len(val) <= widths[key] else '--' for key, val in data_str.items()}
+                row = {key: val if len(val) <= widths[key] else '--'
+                       for key, val in data_str.items() if key in widths}
                 extra = [key + ':\n' + data_str[key] for key in columns if len(data_str[key]) > widths[key]]
                 printstr = separator.join((row[key].rjust(widths[key]) for key in columns))
                 print(printstr)
