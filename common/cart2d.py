@@ -17,11 +17,11 @@ class Direction:
         self.back = back
         self.forward = forward
 
-    def move(self, point):
+    def move(self, point, distance=1):
         if self.axis == 0:
-            return point[0] + self.sign, point[1]
+            return point[0] + self.sign * distance, point[1]
         else:
-            return point[0], point[1] + self.sign
+            return point[0], point[1] + self.sign * distance
 
     def __str__(self):
         return self.name
@@ -43,3 +43,4 @@ class Cart:
         self.south.assign(self.east, self.west, self.north, self.south)
         self.east.assign(self.north, self.south, self.west, self.east)
         self.west.assign(self.south, self.north, self.east, self.west)
+        self.origin = (0, 0)

@@ -9,6 +9,7 @@ def strdict(grid, default=' ', width=False, gridtype='cart'):
     if grid:
         mins = [min((si[i] for si in grid.keys())) for i in range(2)]
         maxs = [max((si[i] for si in grid.keys())) for i in range(2)]
+
         if width is False:
             width = max([len(str(grid[si])) for si in grid.keys()])
         if width > 1:

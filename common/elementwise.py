@@ -67,3 +67,10 @@ def prod(a):
     for ai in a:
         ret *= ai
     return ret
+
+
+def manhattan(a, b=None):
+    if b is None:
+        return sum(eabs(a))
+    else:
+        return sum(eabsdiff(a, b))

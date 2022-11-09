@@ -51,6 +51,7 @@ class Graph:
         last_weight = None
         parents = {}
         solutions = {}
+
         while queue:
             curr_item = min(queue)
             queue.remove(curr_item)
@@ -75,7 +76,7 @@ class Graph:
                     loc = parents[loc]
                     path.append(loc)
                 paths.append(tuple(reversed(path)))
-            return last_weight, tuple(paths)
+            return tuple(paths)
         else:
-            return last_weight, solutions
+            return solutions
 
