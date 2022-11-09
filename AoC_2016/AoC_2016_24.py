@@ -25,7 +25,7 @@ def main(input_string, verbose=False):
     for a, b in combinations(wire_graph.graph.keys(), 2):
         aloc = wires[a]
         bloc = wires[b]
-        weight, _ = duct_graph.dijkstra(aloc, (bloc,))
+        weight = min(duct_graph.dijkstra(aloc, (bloc,)).values())
         wire_graph.add_edge_eq(a, b, weight)
     home = '0'
     to_visit = set(wire_graph.graph.keys()) - {home}
