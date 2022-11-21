@@ -25,6 +25,8 @@ class Direction:
 
     def __str__(self):
         return self.name
+    def __hash__(self):
+        return hash(tuple(self.axis, self.sign))
 
 
 class Cart:

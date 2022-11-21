@@ -1,11 +1,10 @@
-"""Directory Augmentation and Normalized Code Execution Routine"""
 import sys
 import os
 import configparser
 import time
 
 
-root_path = os.path.dirname(os.path.dirname(__file__))
+root_path = os.path.abspath('..')
 if root_path not in sys.path:
     sys.path.append(root_path)
 
@@ -19,9 +18,9 @@ config = configparser.ConfigParser()
 config.read(module_path+cfg)
 
 
-def run(solve, year, day, verbose=False):
+def run(solve, year, day, verbose=False, strip=True):
     start_time = time.time()
-    input_string = aoc_input(year, day)
+    input_string = aoc_input(year, day, strip)
     p1, p2 = solve(input_string=input_string, verbose=verbose)
     if isinstance(p1, str) and '\n' in p1:
         p1 = '\n' + p1
@@ -30,14 +29,14 @@ def run(solve, year, day, verbose=False):
     elapsed_time = time.time() - start_time
     print_dict = {'year': year, 'day': day, 'p1': p1, 'p2': p2, 'time': elapsed_time}
     config = configparser.ConfigParser()
-    config.read(root_path + '/common/config.ini')
+    config.read('../common/config.ini')
     printformat = config['dayprint']['format'].replace('\\n','\n')
     printvars = config['dayprint']['variables']
     printvars = [print_dict[var] for var in printvars.split(',')]
     print(printformat.format(*printvars))
 
 
-def aoc_input(year, day):
+def aoc_input(year, day, strip=True):
     input_path = config['files']['input_directory']
     file_format = config['files']['input_format']
     file_variables = config['files']['input_variables']
@@ -46,6 +45,9 @@ def aoc_input(year, day):
     input_path = os.path.expandvars(input_path)
     input_path = os.path.expanduser(input_path)
     full_path = input_path + file_format.format(*vars)
-    return open(full_path).read().strip()
+    input_string = open(full_path).read()
+    if strip is True:
+        input_string = input_string.strip()
+    return input_string
 
 holiday_greeting = config['customization']['holiday_greeting']
