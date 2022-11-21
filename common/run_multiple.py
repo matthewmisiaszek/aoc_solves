@@ -6,22 +6,21 @@ import time
 from configparser import ConfigParser
 import sys
 
-
 sys.path.append('..')
 
 
 def getranges(s):
-    if s=='':
+    if s == '':
         return []
     ret = []
     for item in s.split(','):
         item = [int(i) for i in item.split('-')]
-        if len(item)==1:
-            ret+=item
+        if len(item) == 1:
+            ret += item
         else:
             n = item[0]
             x = item[-1]
-            ret+=list(range(n,x+1))
+            ret += list(range(n, x + 1))
     return ret
 
 
@@ -30,10 +29,10 @@ def main():
     config.read('config.ini')
     columns = config['table']['columns'].split(',')
     column_widths = [int(i) for i in config['table']['column_widths'].split(',')]
-    widths = {column:width for column,width in zip(columns, column_widths)}
+    widths = {column: width for column, width in zip(columns, column_widths)}
     separator = ' | '
     column_header = separator.join((column.center(widths[column]) for column in columns))
-    line = '-'*len(column_header)
+    line = '-' * len(column_header)
     file_format = config['files']['solution_format']
     file_variables = config['files']['solution_variables'].split(',')
 
@@ -52,10 +51,10 @@ def main():
         else:
             years = getranges(group)
             days = []
-        if years == []:
-            years = list(range(2020,2022))
-        if days==[]:
-            days = list(range(1,26))
+        if not years:
+            years = list(range(2015, 2022))
+        if not days:
+            days = list(range(1, 26))
         start_time_all = time.time()
         for year in years:
             sys.path.append('../{:04d}'.format(year))
@@ -74,16 +73,16 @@ def main():
                 except:
                     strip = True
                 p1, p2 = solve.main(input_string=dancer.aoc_input(year, day, strip=strip), verbose=False)
-                elapsed_time = '{:.3f}'.format(time.time()-start)
-                data = {'Day':day, 'Part 1':p1, 'Part 2':p2, 'Time (s)':elapsed_time}
-                data_str = {key:str(val) for key,val in data.items()}
-                row = {key:val if len(val)<=widths[key] else '--' for key,val in data_str.items()}
-                extra = [key + ':\n' + data_str[key] for key in columns if len(data_str[key])>widths[key]]
+                elapsed_time = '{:.3f}'.format(time.time() - start)
+                data = {'Day': day, 'Part 1': p1, 'Part 2': p2, 'Time (s)': elapsed_time}
+                data_str = {key: str(val) for key, val in data.items()}
+                row = {key: val if len(val) <= widths[key] else '--' for key, val in data_str.items()}
+                extra = [key + ':\n' + data_str[key] for key in columns if len(data_str[key]) > widths[key]]
                 printstr = separator.join((row[key].rjust(widths[key]) for key in columns))
                 print(printstr)
                 if extra:
                     print('\n'.join(extra))
-        print('Total Time: ', time.time()-start_time_all)
+        print('Total Time: ', time.time() - start_time_all)
 
 
 main()
