@@ -2,31 +2,16 @@ import dancer
 from common import graph, constants as con, elementwise as ew
 from itertools import combinations, permutations
 
-
-def neighbors(duct_graph, node):
-    adjacent = {ew.sum2d(node, direction) for direction in con.D2D4} & duct_graph.graph.keys()
-    return {node: 1 for node in adjacent}
+WALL = '#'
+DUCT = '.'
 
 
 def main(input_string, verbose=False):
-    duct_graph = graph.Graph()
-    wire_graph = graph.Graph()
-    wires = {}
-    for y, line in enumerate(input_string.split('\n')):
-        for x, c in enumerate(line):
-            point = (x, y)
-            if c == '.':
-                duct_graph.add_node(point)
-            elif c.isdigit():
-                duct_graph.add_node(point)
-                wires[c] = point
-                wire_graph.add_node(c)
-    duct_graph.make_edges(neighbors)
-    for a, b in combinations(wire_graph.graph.keys(), 2):
-        aloc = wires[a]
-        bloc = wires[b]
-        weight = min(duct_graph.dijkstra(aloc, (bloc,)).values())
-        wire_graph.add_edge_eq(a, b, weight)
+    duct_dict = graph.text_to_dict(input_string, exclude=WALL)
+    duct_graph = graph.set_to_graph(duct_dict.keys())
+    wires = {val: key for key, val in duct_dict.items()}
+    wires.pop(DUCT)
+    wire_graph = graph.poi_graph(duct_graph, wires)
     home = '0'
     to_visit = set(wire_graph.graph.keys()) - {home}
     p1, p2 = None, None
