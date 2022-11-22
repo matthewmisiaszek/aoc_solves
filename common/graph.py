@@ -1,4 +1,5 @@
 import dancer
+from common import elementwise as ew, constants as con
 
 
 class Graph:
@@ -23,14 +24,14 @@ class Graph:
     def add_edge_eq(self, a, b, weight=1):
         self.add_node(a)
         self.add_node(b)
-        self.graph[a].update({b:weight})
-        self.graph[b].update({a:weight})
+        self.graph[a].update({b: weight})
+        self.graph[b].update({a: weight})
 
     def add_edge_neq(self, a, b, weight=1):
         for node in (a, b):
             if node not in self.graph:
                 self.graph[node] = self.default()
-        self.graph[a].update({b:weight})
+        self.graph[a].update({b: weight})
 
     def make_edges(self, fun):
         for node, edges in self.graph.items():
@@ -67,16 +68,60 @@ class Graph:
                             new_weight = curr_weight + new_weight
                             queue.add((new_weight, new_loc))
                             parents[new_loc] = curr_loc
-
         if full_paths:
-            paths = []
-            for loc in solutions.keys():
+            paths = {}
+            for loc, dist in solutions.items():
                 path = [loc]
                 while loc in parents:
                     loc = parents[loc]
                     path.append(loc)
-                paths.append(tuple(reversed(path)))
-            return tuple(paths)
+                paths[tuple(reversed(path))] = dist
+            return paths
         else:
             return solutions
 
+    def simple_dijkstra(self, start, end):
+        return self.dijkstra(start, {end})[end]
+
+
+def text_to_dict(text, exclude=None, include=None, transpose=False, yinv=False):
+    if exclude is None:
+        exclude = set()
+    else:
+        exclude = {i for i in exclude}
+    ret = {(x, y): c for y, line in enumerate(text.split('\n')) for x, c in enumerate(line) if c not in exclude}
+    if include is not None:
+        include = {i for i in include}
+        ret = {key: val for key, val in ret.items() if val in include}
+    if yinv is True:
+        ret = {(x, -y): c for (x, y), c in ret.items()}
+    if transpose is True:
+        ret = {(y, x): c for (x, y), c in ret.items()}
+    return ret
+
+
+def set_to_graph(map_set, diagonals=False):
+    ret = Graph()
+    if diagonals is True:
+        directions = con.D2D8
+    else:
+        directions = con.D2D4
+    map_set = set(map_set)
+    for point in map_set:
+        for d in directions:
+            neighbor = ew.sum2d(point, d)
+            if neighbor in map_set:
+                ret.add_edge_eq(point, neighbor)
+    return ret
+
+
+def poi_graph(base_graph, poi):
+    ret = Graph()
+    poi_inv = {val: key for key, val in poi.items()}
+    for key, val in poi.items():
+        targets = set(poi.values()) - {val}
+        paths = base_graph.dijkstra(val, targets, all_paths=True)
+        for loc, dist in paths.items():
+            key2 = poi_inv[loc]
+            ret.add_edge_eq(key, key2, dist)
+    return ret
