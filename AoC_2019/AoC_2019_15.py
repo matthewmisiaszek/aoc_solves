@@ -9,7 +9,7 @@ def main(input_string, verbose=False):
     program = [int(i) for i in input_string.split(',')]
     droid = Intcode(program)
     loc, heading = con.origin2, 0
-    ship = graph.Graph()
+    ship_set = set()
     start = loc
 
     while True:
@@ -22,9 +22,8 @@ def main(input_string, verbose=False):
             heading += 1
         else:
             heading -= 1
-            nloc = ew.sum2d(loc, con.D2D4[heading])
-            ship.add_edge_eq(loc, nloc)
-            loc = nloc
+            loc = ew.sum2d(loc, con.D2D4[heading])
+            ship_set.add(loc)
             if status == 2:
                 o2sys = loc
             if loc == start:
@@ -32,13 +31,14 @@ def main(input_string, verbose=False):
         heading %= 4
 
     if verbose is True:
-        pdict = {key: '+' for key in ship.graph.keys()}
+        pdict = {key: '+' for key in ship_set}
         pdict[start] = 'D'
         pdict[o2sys] = 'O'
         printer.printdict(pdict)
 
     # length of shortest path to every point in ship relative to o2sys
-    dijkstra = ship.dijkstra(o2sys, ship.graph.keys(), all_paths=True)
+    ship_graph = graph.set_to_graph(ship_set)
+    dijkstra = ship_graph.dijkstra(o2sys, ship_set, all_paths=True)
 
     p1 = dijkstra[start]
     p2 = max(dijkstra.values())

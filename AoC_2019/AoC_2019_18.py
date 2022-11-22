@@ -1,16 +1,17 @@
 import dancer
 from common import graph, elementwise as ew, constants as con
-from string import ascii_lowercase as alph
 
 WALL = '#'
 START = '@'
+TUNNEL = '.'
 
 
-def parse(input_string):
-    tunnel_map = {(x, y): c
-                  for y, line in enumerate(input_string.split('\n'))
-                  for x, c in enumerate(line) if c != WALL}
-    return tunnel_map
+def find_poi(tunnel_map):
+    inv_map = {val: key for key, val in tunnel_map.items()}
+    inv_map.pop(TUNNEL)
+    doors = {val: key for key, val in inv_map.items() if key.isupper()}
+    keys = {val: key for key, val in inv_map.items() if not key.isupper()}
+    return keys, doors
 
 
 def four_vaults(tunnel_map, starts):
@@ -30,36 +31,19 @@ def four_vaults(tunnel_map, starts):
     return new_starts
 
 
-def make_tunnel_graph(tunnel_map, starts):
-    tunnel_graph = graph.Graph()
-    for node in tunnel_map.keys():
-        for direction in con.D2D4:
-            neighbor = ew.sum2d(node, direction)
-            if neighbor in tunnel_map:
-                tunnel_graph.add_edge_eq(node, neighbor)
-    doors_keys = {val: key for key, val in tunnel_map.items()}
-    doors_keys.pop('.')
-    keys = {val: key for key, val in doors_keys.items() if key in alph}
-    starts = {val: key for key, val in doors_keys.items() if key in starts}
-    keys.update(starts)
-    doors = {val: key for key, val in doors_keys.items() if val not in keys}
-    return tunnel_graph, keys, doors
-
-
 def make_key_graph(tunnel_graph, keys, doors):
     key_graph = {}
     for loc, key in keys.items():
-        key_graph[key]={}
+        key_graph[key] = {}
         other_keys = keys.keys() - {loc}
         paths = tunnel_graph.dijkstra(loc, other_keys, all_paths=True, full_paths=True)
-        for path in paths:
+        for path, dist in paths.items():
             dest = keys[path[-1]]
             if dest not in key_graph[key]:
                 keys_on_path = {keys[loc] for loc in path if loc in keys}
                 keys_on_path.discard(dest)
-                doors_on_path = {doors[loc] for loc in path if loc in doors}
-                path_len = len(path) - 1
-                key_graph[key][dest] = (path_len, doors_on_path, keys_on_path)
+                doors_on_path = {doors[loc].lower() for loc in path if loc in doors}
+                key_graph[key][dest] = (dist, doors_on_path | keys_on_path)
     return key_graph
 
 
@@ -81,30 +65,27 @@ def get_the_keys(key_graph, start):
                 current_keys.discard(current_key)
                 current_keys = tuple(current_keys)
                 for next_key in to_visit & key_graph[current_key].keys():
-                    path_len, doors_on_path, keys_on_path = key_graph[current_key][next_key]
-                    for door in doors_on_path:
-                        if door.lower() in to_visit:
-                            break
+                    path_len, on_path = key_graph[current_key][next_key]
+                    if on_path & to_visit:
+                        pass
                     else:
-                        for key in keys_on_path:
-                            if key in to_visit:
-                                break
-                        else:
-                            new_visited = tuple(sorted(visited + (next_key,)))
-                            new_current = tuple(sorted(current_keys + (next_key,)))
-                            if (new_visited, new_current) not in closed:
-                                q.add((dist + path_len, new_visited, new_current))
+                        new_visited = tuple(sorted(visited + (next_key,)))
+                        new_current = tuple(sorted(current_keys + (next_key,)))
+                        if (new_visited, new_current) not in closed:
+                            q.add((dist + path_len, new_visited, new_current))
     return dist
 
 
 def main(input_string, verbose=False):
-    tunnel_map = parse(input_string)
+    tunnel_map = graph.text_to_dict(input_string, exclude=WALL)
+    tunnel_graph = graph.set_to_graph(tunnel_map.keys())
     start = (START,)
-    tunnel_graph, keys, doors = make_tunnel_graph(tunnel_map, start)
+    keys, doors = find_poi(tunnel_map)
     key_graph = make_key_graph(tunnel_graph, keys, doors)
     p1 = get_the_keys(key_graph, start)
     start = four_vaults(tunnel_map, start)
-    tunnel_graph, keys, doors = make_tunnel_graph(tunnel_map, start)
+    tunnel_graph = graph.set_to_graph(tunnel_map.keys())
+    keys, doors = find_poi(tunnel_map)
     key_graph = make_key_graph(tunnel_graph, keys, doors)
     p2 = get_the_keys(key_graph, start)
     return p1, p2
