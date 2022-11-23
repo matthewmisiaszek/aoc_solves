@@ -85,4 +85,5 @@ def main():
         print('Total Time: ', time.time() - start_time_all)
 
 
-main()
+if __name__ == '__main__':
+    main()
