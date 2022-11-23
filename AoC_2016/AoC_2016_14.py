@@ -1,58 +1,11 @@
-# import hashlib
-# chars='abcdefghijklmnopqrstuvwxyz1234567890'
-#
-# salt='qzyelonm'
-# #salt='abc'
-# potentialkeys={}
-# keys=[]
-# keys1=[]
-# i=0
-#
-# def hashfun(seed):
-#     ret=seed
-#     for i in range(2017):
-#         ret = hashlib.md5((ret).encode('utf-8')).hexdigest()
-#     return ret
-#
-# while len(keys)<64 or len(potentialkeys)>0:
-#     hash=hashfun(salt+str(i))
-#     first = len(hash)
-#     for ch in chars:
-#         hf = hash.find(ch + ch + ch)
-#         if hf!=-1 and len(keys)<=64 and hf<=first:
-#             potentialkeys[i]=ch
-#             first=hf
-#         if hash.find(ch+ch+ch+ch+ch)!=-1:
-#             for key in potentialkeys.keys():
-#                 if potentialkeys[key]==ch and i>key and key+1000>=i and not key in keys:
-#                     keys1.append([key,i,ch])
-#                     keys.append(key)
-#                     print(key)
-#     todelete=[]
-#     for key in potentialkeys.keys():
-#         if key<i-1000:
-#             todelete.append(key)
-#     for key in todelete:
-#         del potentialkeys[key]
-#     i+=1
-# keys.sort()#key=lambda x: x[0])
-# keys1.sort(key=lambda x: x[0])
-# print(keys)
-#
-# for key in keys1:
-#     hash1=hashlib.md5((salt+str(key[0])).encode('utf-8')).hexdigest()
-#     hash2 = hashlib.md5((salt+str(key[1])).encode('utf-8')).hexdigest()
-#     print(key[2],key[0],hash1,key[1],hash2)
-# print(len(keys))
-# print(keys[63])
-#
-# #Part 1:
-# #15629 high
-# #15218 high
-# #14937 low
 import dancer
-# from string import hexdigits
 from common.misc import md5hash
+from common import multiproc
+import re
+
+NPROC = 4
+THOUSAND = 1000
+CONV_CRITERIA = 1.1
 
 
 def stretch(seed):
@@ -62,34 +15,40 @@ def stretch(seed):
     return ret
 
 
-def generate(salt, hashfun, want):
-    potential_keys = set()
-    idx = -1
-    nkeys, keys = 0, []
-    hexdigits = '0123456789abcdef'
-    while potential_keys or nkeys < want:
-        idx += 1
-        hash_i = hashfun(salt + str(idx))
-        triples = []
-        for c in hexdigits:
-            if c * 5 in hash_i:
-                limit = idx - 1000
-                for jdx, c2 in tuple(potential_keys):
-                    if jdx >= limit:
-                        if c2 == c:
-                            keys.append(jdx)
-                            nkeys += 1
-                            potential_keys.discard((jdx, c2))
-                    else:
-                        potential_keys.discard((jdx, c2))
-                triples.append((hash_i.find(c*3), c))
-            elif nkeys < want and c * 3 in hash_i:
-                triples.append((hash_i.find(c*3), c))
-        if triples and nkeys < want:
-            _, c = min(triples)
-            potential_keys.add((idx, c))
+def re_hash(h):
+    cm = re.search(r'((.)\2\2)', h)
+    if cm is not None:
+        c3 = cm.group(2)
+        c5 = tuple(i for _, i in re.findall(r'((.)\2\2\2\2)', h))
+        return c3, c5
+    else:
+        return False, tuple()
 
-    keys.sort()
+
+def hash_and_check(start, batch_size, hashfun, salt):
+    hashes = [(i, hashfun(salt + str(i))) for i in range(start, start + batch_size)]
+    c35 = [(i, re_hash(h)) for i, h in hashes]
+    c35 = [(i, c3, c5) for i, (c3, c5) in c35 if c3]
+    return c35
+
+
+def find_keys(mpc, result, keys, triples, want):
+    for j, c3, c5 in result:
+        if c3:
+            for c in c5:
+                keys.update([key for key in triples[c] if key >= j - THOUSAND])
+                triples[c].clear()
+                if mpc.app_limit is None and len(keys) >= want:
+                    mpc.app_limit = max(max(x) for x in triples.values() if x) + THOUSAND
+            triples[c3].add(j)
+
+
+def generate(salt, hashfun, want):
+    keys = set()
+    triples = {c: set() for c in '0123456789abcdef'}
+    multiproc.pool(proc_fun=hash_and_check, proc_args=(hashfun, salt),
+                   post_fun=find_keys, post_args=(keys, triples, want))
+    keys = tuple(sorted(keys))
     return keys[want - 1]
 
 
