@@ -3,9 +3,7 @@ from common.misc import md5hash
 from common import multiproc
 import re
 
-NPROC = 4
 THOUSAND = 1000
-CONV_CRITERIA = 1.1
 
 
 def stretch(seed):
