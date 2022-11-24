@@ -1,5 +1,4 @@
 import dancer
-from itertools import combinations
 
 
 def part1(numbers):

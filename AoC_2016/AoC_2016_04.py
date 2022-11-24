@@ -1,19 +1,3 @@
-# import string
-# f=open('AoC_2016-4.in').readlines()
-# sum=0
-# for l in f:
-#     a=l.rfind('-')
-#     sectorID,checksum=l[a+1:].strip().strip(']').split('[')
-#     ename=l[:a].replace('-','')
-#     lfreq=[]
-#     for letter in string.ascii_lowercase:
-#         lfreq.append([letter,ename.count(letter)])
-#     lfreq.sort(key=lambda x: x[1],reverse=True)
-#     checksum1=''.join(list(x[0] for x in lfreq[:5]))
-#     if checksum1==checksum:
-#         sum+=int(sectorID)
-# print(sum)
-#
 import dancer
 import re
 from collections import Counter

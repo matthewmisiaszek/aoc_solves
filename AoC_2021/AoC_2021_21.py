@@ -1,27 +1,5 @@
 import dancer
-# from collections import defaultdict
 
-
-# lanternfish solution:
-# def part2(positions):
-#     dice = {3: 1, 4: 3, 5: 6, 6: 7, 7: 6, 8: 3, 9: 1}
-#     scores, positions, wins, player = (0, 0), tuple(positions), [0, 0], 0
-#     current_games = defaultdict(int, {(positions, scores): 1})
-#     while current_games:
-#         # print(len(current_games))
-#         new_games = defaultdict(int)
-#         for game in current_games:
-#             positions, scores = game
-#             if max(scores) >= 21:
-#                 wins[1 - player] += current_games[game]
-#             else:
-#                 for d in dice: # Players 1 and 2 change places each round so index 0 is always current player!
-#                     new_positions = (positions[1], (positions[0] + d) % 10)
-#                     new_scores = (scores[1], scores[0] + new_positions[1] + 1)
-#                     new_games[(new_positions, new_scores)] += current_games[game] * dice[d]
-#         current_games = new_games
-#         player = 1 - player
-#     return wins
 
 def part2(positions, scores=(0, 0), cache=None):
     if cache is None:
