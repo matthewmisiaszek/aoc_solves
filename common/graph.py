@@ -1,5 +1,6 @@
 import dancer
 from common import elementwise as ew, constants as con
+from common.bfsqueue import BFSQ
 
 
 class Graph:
@@ -47,27 +48,19 @@ class Graph:
             targets = set(targets)
         assert start in self.graph, 'Start not in graph'
         assert len(targets & self.graph.keys()) > 0, 'Target(s) not in graph'
-        queue = {(0, start)}
-        closed = set()
-        last_weight = None
+        q = BFSQ({start: 0})
         parents = {}
-        solutions = {}
-
-        while queue:
-            curr_item = min(queue)
-            queue.remove(curr_item)
-            curr_weight, curr_loc = curr_item
-            if curr_loc not in closed and all_paths or (last_weight is None or curr_weight <= last_weight):
-                closed.add(curr_loc)
-                if curr_loc in targets:
-                    solutions[curr_loc] = curr_weight
-                    last_weight = curr_weight
-                if all_paths or curr_loc not in targets:
-                    for new_loc, new_weight in self.graph[curr_loc].items():
-                        if new_loc not in closed:
-                            new_weight = curr_weight + new_weight
-                            queue.add((new_weight, new_loc))
-                            parents[new_loc] = curr_loc
+        for curr_loc, curr_weight in q:
+            if curr_loc in targets:
+                if not all_paths:
+                    break
+                if q.closed.keys() & targets == targets:
+                    break
+            for new_loc, new_weight in self.graph[curr_loc].items():
+                new_weight = curr_weight + new_weight
+                if q.add(new_loc, new_weight):
+                    parents[new_loc] = curr_loc
+        solutions = {key: val for key, val in q.closed.items() if key in targets}
         if full_paths:
             paths = {}
             for loc, dist in solutions.items():
