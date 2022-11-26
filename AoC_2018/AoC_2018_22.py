@@ -1,4 +1,5 @@
 import dancer
+from common. bfsqueue import BFSQ
 from queue import PriorityQueue
 
 
@@ -88,7 +89,8 @@ class Cave:
         else:
             return False
 
-    def heur(self, point):
+    def heur(self, node):
+        point, tool = node
         return abs(point[0] - self.target[0]) + abs(point[1] - self.target[1])
 
 
@@ -98,25 +100,18 @@ def main(input_string, verbose=False):
     if verbose:
         cave.print_types()
     p1 = sum(cave.types.values())
-    queue = PriorityQueue()
-    queue.put((0, 0, (0, 0), 'torch'))
-    closed = set()
-    while not queue.empty():
-        heur, time, loc, tool = queue.get()
+    queue = BFSQ(((0, 0), 'torch'), heuristic=cave.heur)
+    for (loc, tool), time in queue:
         if (loc, tool) == (cave.target, 'torch'):
             break
-        elif (loc, tool) not in closed:
-            closed.add((loc, tool))
-            neighbors = cave.get_neighbors((loc, tool))
-            for node in (neighbors.keys() - closed) & cave.types_tools:
+        neighbors = cave.get_neighbors((loc, tool))
+        for node in neighbors.keys() & cave.types_tools:
+            nloc, ntool = node
+            queue.add((nloc, ntool), time + neighbors[node])
+        for node in neighbors.keys() - cave.types_tools:
+            if cave.test_node(node):
                 nloc, ntool = node
-                queue.put((cave.heur(nloc) + time + neighbors[node], time + neighbors[node], nloc, ntool))
-            for node in neighbors.keys() - closed - cave.types_tools:
-                if cave.test_node(node):
-                    nloc, ntool = node
-                    queue.put((cave.heur(nloc) + time + neighbors[node], time + neighbors[node], nloc, ntool))
-                else:
-                    closed.add(node)
+                queue.add((nloc, ntool), time + neighbors[node])
     p2 = time
     return p1, p2
 

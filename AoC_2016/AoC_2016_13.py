@@ -1,6 +1,6 @@
 import dancer
 from common.misc import digits
-from common import elementwise as ew, constants as con
+from common import elementwise as ew, constants as con, bfsqueue
 
 
 def is_space(point, fav):
@@ -15,22 +15,19 @@ def is_space(point, fav):
 def main(input_string, verbose=False):
     loc, target = (1, 1), (31, 39)
     max_steps = 50
-    closed = set()
     fav = int(input_string)
     p1, p2 = None, set()
-    queue = [(0, loc)]
-    while p1 is None or steps <= max_steps:
-        steps, loc = queue.pop(0)
+    queue = bfsqueue.BFSQ(loc)
+    for loc, steps in queue:
         if p1 is None and loc == target:
             p1 = steps
         if steps <= max_steps:
             p2.add(loc)
-        for direction in con.D2D4:
-            neighbor = ew.sum2d(loc, direction)
-            if neighbor not in closed:
-                closed.add(neighbor)
+        if p1 is None or steps < max_steps:
+            for direction in con.D2D4:
+                neighbor = ew.sum2d(loc, direction)
                 if is_space(neighbor, fav):
-                    queue.append((steps + 1, neighbor))
+                    queue.add(neighbor, steps+1)
     p2 = len(p2)
     return p1, p2
 

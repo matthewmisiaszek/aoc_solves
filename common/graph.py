@@ -48,7 +48,7 @@ class Graph:
             targets = set(targets)
         assert start in self.graph, 'Start not in graph'
         assert len(targets & self.graph.keys()) > 0, 'Target(s) not in graph'
-        q = BFSQ({start: 0})
+        q = BFSQ(start)
         parents = {}
         for curr_loc, curr_weight in q:
             if curr_loc in targets:

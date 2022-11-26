@@ -4,9 +4,10 @@ import dancer
 import importlib
 import time
 from configparser import ConfigParser
-import sys
+import os
 
-sys.path.append('..')
+SAVE = 'save'
+CHECK = 'check'
 
 
 def getranges(s):
@@ -45,6 +46,20 @@ def main():
     print('Example: 2020:1-15;2020-2021:1-4,6-8')
     user_input = input('Input here: ')
     print(user_input)
+
+    save_outputs = SAVE in user_input
+    user_input = user_input.replace(SAVE, '')
+    check_outputs = CHECK in user_input
+    user_input = user_input.replace(CHECK, '')
+    user_input = user_input.strip()
+    input_path = config['files']['input_directory']
+    input_path = os.path.expandvars(input_path)
+    input_path = os.path.expanduser(input_path)
+    output_path = input_path + 'outputs.ini'
+    outputs = ConfigParser()
+    if os.path.exists(output_path):
+        outputs.read(output_path)
+
     for group in user_input.split(';'):
         if ':' in group:
             years, days = (getranges(i) for i in group.split(':'))
@@ -57,7 +72,7 @@ def main():
             days = list(range(1, 26))
         start_time_all = time.time()
         for year in years:
-            sys.path.append('../{:04d}'.format(year))
+            # sys.path.append('../{:04d}'.format(year))
             print(line)
             print('{:04d}'.format(year).center(len(column_header)))
             print(line)
@@ -65,6 +80,7 @@ def main():
             print(line)
             for day in days:
                 data = {'year': year, 'day': day}
+                yearst, dayst = str(year), str(day)
                 vars = [data[var] for var in file_variables]
                 start = time.time()
                 solve = importlib.import_module(file_format.format(*vars))
@@ -79,11 +95,26 @@ def main():
                 row = {key: val if len(val) <= widths[key] else '--' for key, val in data_str.items()}
                 extra = [key + ':\n' + data_str[key] for key in columns if len(data_str[key]) > widths[key]]
                 printstr = separator.join((row[key].rjust(widths[key]) for key in columns))
+                if check_outputs:
+                    if yearst in outputs and dayst in outputs[yearst]:
+                        saved = outputs[yearst][dayst]
+                        if str((p1, p2)) == saved:
+                            printstr+= ' Pass'
+                        else:
+                            printstr += ' Fail'
+                    else:
+                        printstr+=' No Data'
+                if save_outputs:
+                    if yearst not in outputs:
+                        outputs.add_section(yearst)
+                    outputs.set(yearst, dayst, str((p1, p2)))
                 print(printstr)
                 if extra:
                     print('\n'.join(extra))
         print('Total Time: ', time.time() - start_time_all)
-
+        if save_outputs:
+            with open(output_path, 'w') as outputfile:
+                outputs.write(outputfile)
 
 if __name__ == '__main__':
     main()
