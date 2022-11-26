@@ -1,5 +1,5 @@
 import dancer
-from common import graph, elementwise as ew, constants as con
+from common import graph, elementwise as ew, constants as con, bfsqueue
 
 WALL = '#'
 START = '@'
@@ -49,30 +49,20 @@ def make_key_graph(tunnel_graph, keys, doors):
 
 def get_the_keys(key_graph, start):
     start = tuple(sorted(start))
-    q = {(0, start, start)}  # distance, visited keys, current keys
-    closed = set()
-    while q:
-        curr = min(q)
-        q.discard(curr)
-        dist, visited, loc = curr
-        if len(visited) == len(key_graph.keys()):
-            break
-        if (visited, loc) not in closed:
-            closed.add((visited, loc))
-            to_visit = key_graph.keys() - visited
-            for current_key in loc:
-                current_keys = set(loc)
-                current_keys.discard(current_key)
-                current_keys = tuple(current_keys)
-                for next_key in to_visit & key_graph[current_key].keys():
-                    path_len, on_path = key_graph[current_key][next_key]
-                    if on_path & to_visit:
-                        pass
-                    else:
-                        new_visited = tuple(sorted(visited + (next_key,)))
-                        new_current = tuple(sorted(current_keys + (next_key,)))
-                        if (new_visited, new_current) not in closed:
-                            q.add((dist + path_len, new_visited, new_current))
+    to_visit = tuple(sorted(key_graph.keys() - start))
+    q = bfsqueue.BFSQ((to_visit, start))  # keys to visit, current keys
+    for (to_visit, current_keys), dist in q:
+        if not to_visit:
+            break  # no keys left to get
+        to_visit = set(to_visit)
+        current_keys = set(current_keys)
+        for current_key in current_keys:
+            for next_key in to_visit & key_graph[current_key].keys():
+                path_len, on_path = key_graph[current_key][next_key]
+                if not (on_path & to_visit):  # if this path is valid
+                    new_to_visit = tuple(sorted(to_visit - {next_key}))
+                    new_current = tuple(sorted(current_keys - {current_key} | {next_key}))
+                    q.add((new_to_visit, new_current), dist + path_len)
     return dist
 
 
