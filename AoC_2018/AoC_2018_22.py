@@ -105,11 +105,8 @@ def main(input_string, verbose=False):
         if (loc, tool) == (cave.target, 'torch'):
             break
         neighbors = cave.get_neighbors((loc, tool))
-        for node in neighbors.keys() & cave.types_tools:
-            nloc, ntool = node
-            queue.add((nloc, ntool), time + neighbors[node])
-        for node in neighbors.keys() - cave.types_tools:
-            if cave.test_node(node):
+        for node in neighbors.keys():
+            if node in cave.types_tools or cave.test_node(node):
                 nloc, ntool = node
                 queue.add((nloc, ntool), time + neighbors[node])
     p2 = time
