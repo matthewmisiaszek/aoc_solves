@@ -1,6 +1,5 @@
 import dancer
-from common. bfsqueue import BFSQ
-from queue import PriorityQueue
+from common.bfsqueue import BFSQ
 
 
 class Cave:
@@ -15,10 +14,10 @@ class Cave:
         self.chunk = 10
 
     def get_type(self, point):
-        tools = [{'climbing gear', 'torch'}, {'climbing gear', 'neither'}, {'torch', 'neither'}]
         if point in self.types:
             return self.types[point]
         else:
+            tools = [{'climbing gear', 'torch'}, {'climbing gear', 'neither'}, {'torch', 'neither'}]
             to_check = {(x, y) for x in range(0, point[0] + 1) for y in range(0, point[1] + 1)}
             to_check = to_check - self.types.keys()
             for checkpoint in sorted(to_check):
@@ -74,7 +73,6 @@ class Cave:
         return xn, xx, yn, yx
 
     def test_node(self, node):
-
         loc, tool = node
         x, y = loc
         if x >= 0 and y >= 0:
@@ -101,14 +99,13 @@ def main(input_string, verbose=False):
         cave.print_types()
     p1 = sum(cave.types.values())
     queue = BFSQ(((0, 0), 'torch'), heuristic=cave.heur)
-    for (loc, tool), time in queue:
-        if (loc, tool) == (cave.target, 'torch'):
+    for node, time in queue:
+        if node == (cave.target, 'torch'):
             break
-        neighbors = cave.get_neighbors((loc, tool))
-        for node in neighbors.keys():
-            if node in cave.types_tools or cave.test_node(node):
-                nloc, ntool = node
-                queue.add((nloc, ntool), time + neighbors[node])
+        neighbors = cave.get_neighbors(node)
+        for node2 in neighbors.keys():
+            if node2 in cave.types_tools or cave.test_node(node2):
+                queue.add(node2, time + neighbors[node2])
     p2 = time
     return p1, p2
 
