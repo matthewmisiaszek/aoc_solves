@@ -27,7 +27,7 @@ def getranges(s):
 
 def main():
     config = ConfigParser()
-    config.read('config.ini')
+    config.read(dancer.root_path + '/common/config.ini')
     columns = config['table']['columns'].split(',')
     column_widths = [int(i) for i in config['table']['column_widths'].split(',')]
     widths = {column: width for column, width in zip(columns, column_widths)}
