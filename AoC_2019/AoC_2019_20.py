@@ -1,7 +1,7 @@
 import dancer
 from common import graph
 
-STRIP = False
+
 WALL = '#'
 SPACE = ' '
 DOT = '.'
@@ -76,4 +76,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=20, verbose=True, strip=STRIP)
+    dancer.run(main, year=2019, day=20, verbose=True)

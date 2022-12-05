@@ -67,7 +67,7 @@ def main():
             years = getranges(group)
             days = []
         if not years:
-            years = list(range(2015, 2022))
+            years = list(range(2015, 2023))
         if not days:
             days = list(range(1, 26))
         start_time_all = time.time()

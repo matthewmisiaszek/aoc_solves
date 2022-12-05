@@ -47,7 +47,7 @@ def aoc_input(year, day, strip=True):
     full_path = input_path + file_format.format(*vars)
     input_string = open(full_path).read()
     if strip is True:
-        input_string = input_string.strip()
+        input_string = input_string.rstrip()
     return input_string
 
 holiday_greeting = config['customization']['holiday_greeting']
