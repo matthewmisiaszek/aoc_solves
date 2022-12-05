@@ -1,42 +1,35 @@
 import dancer
+from itertools import zip_longest
 
 SPACE = ' '
+GCC_MODELS = {9000: -1, 9001: 1}
 
 
 def parse(input_string):
     stacks_str, moves_str = input_string.split('\n\n')
-    stacks = []
-    for stack in stacks_str.split('\n')[-1][1::4]:
-        stacks.append([])
-    for line in reversed(stacks_str.split('\n')[:-1]):
-        for i, val in enumerate(line[1::4]):
-            if val != SPACE:
-                stacks[i].append(val)
+    stacks_transform = [''.join(stack).rstrip()
+                        for stack in zip_longest(*reversed(stacks_str.split('\n')), fillvalue=SPACE)]
+    stacks = {stack[0]: stack[1:] for stack in stacks_transform if stack}
+    stacks.pop(SPACE)
     moves = []
-    for line in moves_str.strip().split('\n'):
+    for line in moves_str.split('\n'):
         _, n, _, f, _, t = line.split()
-        n = int(n)
-        f = int(f) - 1
-        t = int(t) - 1
-        moves.append((n, f, t))
+        moves.append((int(n), f, t))
     return stacks, moves
 
 
 def gcc(stacks, moves, model):
+    step = GCC_MODELS[model]
     for n, f, t in moves:
-        crates = stacks[f][-n:]
+        stacks[t] += stacks[f][-n:][::step]
         stacks[f] = stacks[f][:-n]
-        if model != 9001:
-            crates.reverse()
-        stacks[t].extend(crates)
-    return ''.join(stack[-1] for stack in stacks if stack)
+    return ''.join(stacks[key][-1] for key in sorted(stacks.keys()))
 
 
 def main(input_string, verbose=False):
     stacks, moves = parse(input_string)
-    p2stacks = [stack.copy() for stack in stacks]
-    p1 = gcc(stacks, moves, 9000)
-    p2 = gcc(p2stacks, moves, 9001)
+    p1 = gcc(stacks.copy(), moves, 9000)
+    p2 = gcc(stacks, moves, 9001)
     return p1, p2
 
 
