@@ -31,7 +31,7 @@ def main(input_string, verbose=False):
             if f:
                 directories[path] += int(f.group(1))
 
-    for directory in sorted(directories.keys(), reverse=True):
+    for directory in sorted(directories.keys(), key=len, reverse=True):
         if len(directory) > 1:
             directories[directory[:-1]] += directories[directory]
 
