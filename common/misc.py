@@ -100,9 +100,6 @@ def digits(n, base=10, power=None):
             n %= base ** (power - i)
         return tuple(ret)
 
-aoc_input = False
 
-if __name__ == "__main__":
-    import sys
-
-    sys.path.append('..')
+def sign(n):
+    return n // abs(n) if n != 0 else 0

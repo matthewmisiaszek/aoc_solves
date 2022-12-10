@@ -36,6 +36,11 @@ def eabs(a):
     return tuple(abs(ai) for ai in a)
 
 
+def esign(a):
+    """elementwise sign of a"""
+    return tuple(ai//abs(ai) if ai != 0 else 0 for ai in a)
+
+
 def epwr(a, p=2):
     """raise every element of a to the p power"""
     return tuple(ai ** p for ai in a)

@@ -4,21 +4,16 @@ from common import constants as con, elementwise as ew
 
 def simulate_rope(moves, length):
     rope = [con.origin2] * length
-    tails = {con.origin2}
+    tails = [{con.origin2} for _ in range(length)]
     for direction, distance in moves:
-        for _ in range(distance):
-            rope[0] = ew.sum2d(rope[0], con.UDLR[direction])
-            for i in range(length - 1):
-                (ax, ay), (bx, by) = rope[i], rope[i + 1]
-                dx, dy = ax - bx, ay - by
-                if abs(dx) > 1 or abs(dy) > 1:
-                    if abs(dx) > 1:
-                        dx //= abs(dx)
-                    if abs(dy) > 1:
-                        dy //= abs(dy)
-                    rope[i + 1] = (bx + dx, by + dy)
-            tails.add(rope[-1])
-    return len(tails)
+        rope[0] = ew.sum2d(rope[0], con.UDLR[direction], distance)
+        for i in range(length - 1):
+            diff = ew.ediff(rope[i], rope[i + 1])
+            while max(ew.eabs(diff)) > 1:
+                rope[i + 1] = ew.sum2d(rope[i + 1], ew.esign(diff))
+                tails[i + 1].add(rope[i + 1])
+                diff = ew.ediff(rope[i], rope[i + 1])
+    return tails
 
 
 def parse(input_string):
@@ -31,8 +26,9 @@ def parse(input_string):
 
 def main(input_string, verbose=False):
     moves = parse(input_string)
-    p1 = simulate_rope(moves, 2)
-    p2 = simulate_rope(moves, 10)
+    tails = simulate_rope(moves, 10)
+    p1 = len(tails[1])
+    p2 = len(tails[-1])
     return p1, p2
 
 
