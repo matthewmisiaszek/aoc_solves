@@ -1,0 +1,6 @@
+Monkey (?P<id>.*):
+  Starting items: (?P<items>.*)
+  Operation: new = old (?P<op>.*)
+  Test: divisible by (?P<test>.*)
+    If true: throw to monkey (?P<true>.*)
+    If false: throw to monkey (?P<false>.*)
