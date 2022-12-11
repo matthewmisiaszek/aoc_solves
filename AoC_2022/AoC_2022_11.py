@@ -4,14 +4,13 @@ import re
 
 
 class Monkey:
-    def __init__(self, match, worrydiv):
-        match = match.groupdict()
-        self.id = int(match['id'])
-        self.items = [int(i) for i in match['items'].split(',')]  # starting items
-        self.test = int(match['test'])  # divisible by...
-        self.true = int(match['true'])  # if true throw to monkey _
-        self.false = int(match['false'])  # if false throw to monkey _
-        op, oth = match['op'].split()  # ASSUME operation takes form new = old (+|*) (\d*|old)
+    def __init__(self, worrydiv, idx, items, test, true, false, op):
+        self.id = int(idx)
+        self.items = [int(i) for i in items.split(',')]  # starting items
+        self.test = int(test)  # divisible by...
+        self.true = int(true)  # if true throw to monkey _
+        self.false = int(false)  # if false throw to monkey _
+        op, oth = op.split()  # ASSUME operation takes form new = old (+|*) (\d*|old)
         self.power = 1
         self.inc = 0
         self.fact = 1
@@ -42,12 +41,13 @@ class Monkey:
 
 def part(input_string, worrydiv, rounds):
     pattern = open(dancer.root_path + '/AoC_2022/monkey_pattern').read()
-    monkeys = [Monkey(match, worrydiv) for match in re.finditer(pattern, input_string)]  # monkeys in order listed
+    monkeys = [Monkey(worrydiv, **match.groupdict())
+               for match in re.finditer(pattern, input_string)]  # monkeys in order listed
     monkey_dict = {monkey.id: monkey for monkey in monkeys}  # monkeys indexed by ID (probably the same order)
     worrymod = ew.prod(monkey.test for monkey in monkeys)  # product of every monkey's test
     for monkey in monkeys:  # set worry mod
         monkey.worrymod = worrymod
-    for round in range(rounds):  # do rounds
+    for _ in range(rounds):  # do rounds
         for monkey in monkeys:
             monkey.turn(monkey_dict)
     activity = sorted(monkey.counter for monkey in monkeys)

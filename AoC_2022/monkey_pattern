@@ -1,4 +1,4 @@
-Monkey (?P<id>.*):
+Monkey (?P<idx>.*):
   Starting items: (?P<items>.*)
   Operation: new = old (?P<op>.*)
   Test: divisible by (?P<test>.*)
