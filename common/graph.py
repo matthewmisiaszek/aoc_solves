@@ -46,7 +46,6 @@ class Graph:
         # if full_paths, return tuple of points in path, else return just the path weight
         if not isinstance(targets, set):
             targets = set(targets)
-        assert start in self.graph, 'Start not in graph'
         assert len(targets & self.graph.keys()) > 0, 'Target(s) not in graph'
         q = BFSQ(start)
         parents = {}
