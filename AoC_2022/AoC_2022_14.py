@@ -1,8 +1,7 @@
 import dancer
-from common import elementwise as ew
 
-ENTRANCE = (500, 0)
-FALL_PRIORITY = ((0, 1), (-1, 1), (1, 1))
+ENTRANCE = 500 + 0j
+FALL_PRIORITY = (0 + 1j, -1 + 1j, 1 + 1j)
 
 
 def parse(input_string):
@@ -14,25 +13,25 @@ def parse(input_string):
             bx, by = (int(i) for i in b.split(','))
             for x in range(min(bx, ax), max(ax, bx) + 1):
                 for y in range(min(by, ay), max(ay, by) + 1):
-                    rocks.add((x, y))
+                    rocks.add(x+y*1j)
     return rocks
 
 
 def main(input_string, verbose=False):
     rocks = parse(input_string)
     lrocks = len(rocks)
-    floor = max(y for x, y in rocks) + 2
+    floor = max(rock.imag for rock in rocks) + 2
     p1 = None
     while ENTRANCE not in rocks:
         grain = ENTRANCE
         while True:
             for d in FALL_PRIORITY:
-                ngrain = ew.sum2d(grain, d)
-                if ngrain not in rocks and ngrain[1] < floor:
+                ngrain = grain + d
+                if ngrain not in rocks and ngrain.imag < floor:
                     grain = ngrain
                     break
             else:
-                if p1 is None and grain[1] == floor - 1:
+                if p1 is None and grain.imag == floor - 1:
                     p1 = len(rocks) - lrocks
                 rocks.add(grain)
                 break
