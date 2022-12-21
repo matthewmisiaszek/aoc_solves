@@ -1,5 +1,5 @@
 import dancer
-from common import elementwise as ew, constants as con
+from common import spatial
 from common.bfsqueue import BFSQ
 
 
@@ -81,29 +81,29 @@ def text_to_dict(text, exclude=None, include=None, transpose=False, yinv=False):
         exclude = set()
     else:
         exclude = {i for i in exclude}
-    ret = {(x, y): c for y, line in enumerate(text.split('\n')) for x, c in enumerate(line) if c not in exclude}
+    ret = {spatial.Point(x, y): c for y, line in enumerate(text.split('\n')) for x, c in enumerate(line) if c not in exclude}
     if include is not None:
         include = {i for i in include}
         ret = {key: val for key, val in ret.items() if val in include}
     if yinv is True:
-        ret = {(x, -y): c for (x, y), c in ret.items()}
+        ret = {point.yinv(): c for point, c in ret.items()}
     if transpose is True:
-        ret = {(y, x): c for (x, y), c in ret.items()}
+        ret = {point.transpose(): c for point, c in ret.items()}
     return ret
 
 
 def set_to_graph(map_set, diagonals=False):
-    ret = Graph()
     if diagonals is True:
-        directions = con.D2D8
+        directions = spatial.ENWS8
     else:
-        directions = con.D2D4
+        directions = spatial.ENWS
+    ret = Graph()
     map_set = set(map_set)
     for point in map_set:
         for d in directions:
-            neighbor = ew.sum2d(point, d)
-            if neighbor in map_set:
-                ret.add_edge_eq(point, neighbor)
+            n = point + d
+            if n in map_set:
+                ret.add_edge_eq(point, n)
     return ret
 
 

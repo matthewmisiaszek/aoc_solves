@@ -1,4 +1,5 @@
 import dancer
+from common import spatial
 
 
 def printdict(grid, default=' ', width=False, gridtype='cart'):
@@ -7,11 +8,9 @@ def printdict(grid, default=' ', width=False, gridtype='cart'):
 
 def strdict(grid, default=' ', width=False, gridtype='cart'):
     if grid:
-        mins = [min((si[i] for si in grid.keys())) for i in range(2)]
-        maxs = [max((si[i] for si in grid.keys())) for i in range(2)]
-
+        n, x = spatial.bounds(grid)
         if width is False:
-            width = max([len(str(grid[si])) for si in grid.keys()])
+            width = max([len(str(si)) for si in grid.values()])
         if width > 1:
             width += 1
         if gridtype == 'hexns' or gridtype == 'hexew':
@@ -19,12 +18,13 @@ def strdict(grid, default=' ', width=False, gridtype='cart'):
             hexspace = default.rjust(width // 2)
         default = default.rjust(width)
         printstr = ''
-        for y in range(mins[1], maxs[1] + 1):
+        for y in range(n.y, x.y + 1):
             if gridtype == 'hexns' or gridtype == 'hexew':
-                printstr += ''.join([hexspace for _ in range(mins[1], maxs[1] - y)])
-            for x in range(mins[0], maxs[0] + 1):
-                if (x, y) in grid:
-                    printstr += str(grid[(x, y)]).rjust(width)
+                printstr += ''.join([hexspace for _ in range(n.y, x.y - y)])
+            for x in range(n.x, x.x + 1):
+                point = spatial.Point(x, y)
+                if point in grid:
+                    printstr += str(grid[point]).rjust(width)
                 else:
                     printstr += default
             printstr += '\n'
@@ -44,14 +44,13 @@ def strset(grid, default=' ', mark='#', width=False, gridtype='cart'):
         hexspace = default.rjust(width // 2)
     mark = mark.rjust(width)
     default = default.rjust(width)
-    mins = [min((si[i] for si in grid)) for i in range(2)]
-    maxs = [max((si[i] for si in grid)) for i in range(2)]
+    n, x = spatial.bounds(grid)
     printstr = ''
-    for y in range(mins[1], maxs[1] + 1):
+    for y in range(n.y, x.y + 1):
         if gridtype == 'hexns' or gridtype == 'hexew':
-            printstr += ''.join([hexspace for i in range(mins[1], maxs[1] - y)])
-        for x in range(mins[0], maxs[0] + 1):
-            if (x, y) in grid:
+            printstr += ''.join([hexspace for i in range(n.y, x.y - y)])
+        for x in range(n.x, x.x + 1):
+            if spatial.Point(x, y) in grid:
                 printstr += mark
             else:
                 printstr += default
