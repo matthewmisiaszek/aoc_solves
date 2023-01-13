@@ -39,7 +39,7 @@ def main(input_string, verbose=False):
     paths = doors.dijkstra((0, 0), doors.graph.keys(), all_paths=True)
     p1 = max(paths.values())
     target_length = 1000
-    p2 = sum([value > target_length for value in paths.values()])
+    p2 = sum([value >= target_length for value in paths.values()])
     return p1, p2
 
 

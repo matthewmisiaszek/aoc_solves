@@ -1,5 +1,5 @@
 import dancer
-from common import graph, elementwise as ew, constants as con, bfsqueue
+from common import graph, bfsqueue, spatial
 
 WALL = '#'
 START = '@'
@@ -20,12 +20,12 @@ def four_vaults(tunnel_map, starts):
     for start in starts:
         start_key = inv_map[start]
         tunnel_map.pop(start_key)
-        for direction in con.D2D4:
-            neighbor = ew.sum2d(start_key, direction)
+        for direction in planar.D2D4:
+            neighbor = start_key + direction
             tunnel_map.pop(neighbor)
-        for i, direction in enumerate(con.D2D8[1::2]):
+        for i, direction in enumerate(planar.D2D8[1::2]):
             i = str(i)
-            neighbor = ew.sum2d(start_key, direction)
+            neighbor = start_key+direction
             tunnel_map[neighbor] = i
             new_starts += (i,)
     return new_starts

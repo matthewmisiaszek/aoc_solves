@@ -1,5 +1,5 @@
 import dancer
-from common import graph
+from common import graph, spatial
 
 
 WALL = '#'
@@ -9,11 +9,15 @@ ISUFFIX = '_IN'
 OSUFFIX = '_OUT'
 START = 'AA'
 END = 'ZZ'
+BWIDTH = 3
 
 
 def find_portals(donut_map, donut2D):
-    xn, yn = [min((si[i] for si in donut_map.keys())) + 3 for i in range(2)]
-    xx, yx = [max((si[i] for si in donut_map.keys())) - 3 for i in range(2)]
+    (xn, xx), (yn, yx) = spatial.bounds(donut_map.keys())
+    xn += BWIDTH
+    yn += BWIDTH
+    xx -= BWIDTH
+    yx -= BWIDTH
     portal_pairs = []
     portals = {}
     for key, val in donut_map.items():
@@ -28,12 +32,11 @@ def find_portals(donut_map, donut2D):
                 else:
                     letter2 = val2
             if letter2 is not None and dot is not None:
-                if dot[0] > key[0] or dot[1] > key[1]:
+                if dot.x > key.x or dot.y > key.y:
                     pkey = ''.join([letter1, letter2])
                 else:
                     pkey = ''.join([letter2, letter1])
-                x, y = dot
-                if xn <= x <= xx and yn <= y <= yx:
+                if xn <= dot.x <= xx and yn <= dot.y <= yx:
                     # inside portal
                     portal_pairs.append((pkey + ISUFFIX, pkey + OSUFFIX))
                     portals[pkey + ISUFFIX] = dot
