@@ -1,18 +1,18 @@
 import dancer
-from common import constants as con, elementwise as ew
+from common import spatial
 
 
 def simulate_rope(moves, length):
-    rope = [con.origin2] * length
-    tails = [{con.origin2} for _ in range(length)]
+    rope = [spatial.Point()] * length
+    tails = [{spatial.Point()} for _ in range(length)]
     for direction, distance in moves:
-        rope[0] = ew.sum2d(rope[0], con.UDLR[direction], distance)
-        for i in range(length - 1):
-            diff = ew.ediff(rope[i], rope[i + 1])
-            while max(ew.eabs(diff)) > 1:
-                rope[i + 1] = ew.sum2d(rope[i + 1], ew.esign(diff))
-                tails[i + 1].add(rope[i + 1])
-                diff = ew.ediff(rope[i], rope[i + 1])
+        for _ in range(distance):
+            rope[0] += spatial.NAMES_2D[direction]
+            for i in range(1, length):
+                diff = rope[i - 1] - rope[i]
+                if abs(diff.x) > 1 or abs(diff.y) > 1:
+                    rope[i] += diff.sign()
+                    tails[i].add(rope[i])
     return tails
 
 

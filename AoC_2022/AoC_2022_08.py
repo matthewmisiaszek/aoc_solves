@@ -1,5 +1,5 @@
 import dancer
-from common import graph, constants as con, elementwise as ew
+from common import graph, spatial
 
 
 def main(input_string, verbose=False):
@@ -9,11 +9,11 @@ def main(input_string, verbose=False):
     max_scenic = 0
     for tree, height in grid.items():
         scenic = 1
-        for direction in con.D2D4:
+        for direction in spatial.ENWS:
             loc = tree
             view = 0
             while True:
-                loc = ew.sum2d(loc, direction)
+                loc += direction
                 if loc not in grid:
                     visible.add(tree)
                     break

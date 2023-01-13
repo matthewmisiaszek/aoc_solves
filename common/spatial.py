@@ -1,4 +1,5 @@
 import dancer
+from common import misc
 
 
 class Point:
@@ -18,11 +19,14 @@ class Point:
     def yinv(self):
         return Point(self.x, -self.y)
 
-    def right(self):
+    def left(self):
         return Point(self.y, -self.x)
 
-    def left(self):
+    def right(self):
         return Point(-self.y, self.x)
+
+    def sign(self):
+        return Point(misc.sign(self.x), misc.sign(self.y))
 
     def __add__(self, other):
         return Point(self.x + other.x, self.y + other.y)

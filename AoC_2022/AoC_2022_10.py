@@ -1,5 +1,5 @@
 import dancer
-from common import printer
+from common import printer, spatial
 
 INTERESTING = {20, 60, 100, 140, 180, 220}
 SCREEN_HEIGHT = 6
@@ -18,8 +18,8 @@ def main(input_string, verbose=False):
             _, inc = instruction.split()
             x += int(inc)
     p1 = sum(cycle * xregs[cycle-1] for cycle in INTERESTING)
-    pixels = [(col, row) for row in range(SCREEN_WIDTH) for col in range(SCREEN_WIDTH)]
-    screen = {(col, row) for (col, row), x in zip(pixels, xregs) if abs(col - x) <= 1}
+    pixels = [spatial.Point(col, row) for row in range(SCREEN_WIDTH) for col in range(SCREEN_WIDTH)]
+    screen = {point for point, x in zip(pixels, xregs) if abs(point.x - x) <= 1}
     p2 = printer.strset(screen)
     return p1, p2
 
