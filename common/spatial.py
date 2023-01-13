@@ -4,8 +4,12 @@ from common import misc
 
 class Point:
     def __init__(self, x=0, y=0):
-        self.x = x
-        self.y = y
+        if isinstance(x, list) or isinstance(x, tuple):
+            self.x = x[0]
+            self.y = x[1]
+        else:
+            self.x = x
+            self.y = y
 
     def manhattan(self, other=None):
         if other is None:

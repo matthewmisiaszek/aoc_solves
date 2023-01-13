@@ -8,10 +8,10 @@ def parse(input_string):
     for axis, a, bn, bx in re.findall('(.)=(\d*), (?:.)=(\d*)..(\d*)', input_string):
         a, bn, bx = (int(i) for i in (a, bn, bx))
         if axis == 'x':
-            dirt.update({planar.Point(a, b) for b in range(bn, bx + 1)})
+            dirt.update({spatial.Point(a, b) for b in range(bn, bx + 1)})
         else:
-            dirt.update({planar.Point(b, a) for b in range(bn, bx + 1)})
-    xn, yn, xx, yx = planar.bounds(dirt)
+            dirt.update({spatial.Point(b, a) for b in range(bn, bx + 1)})
+    bn, bx = spatial.bounds(dirt)
     # f = input_string.split('\n')
     # dirt = set()
     # for line in f:
@@ -32,7 +32,7 @@ def parse(input_string):
     # yx = max(dirt, key=lambda x: x[1])[1]
     # xn = min(dirt)[0]-1
     # xx = max(dirt)[0]+1
-    return dirt, xn, xx, yn, yx
+    return dirt, bn.x, bx.x, bn.y, bx.y
 
 def getleft(point):
     return (point[0]-1, point[1])
@@ -66,9 +66,7 @@ def print_fun(dirt, wet, settled):
 
 def main(input_string, verbose=False):
     dirt, xn, xx, yn, yx = parse(input_string)
-
-    turtle = planar.Turtle()
-    wet = {planar.Point(500, yn)}
+    wet = {spatial.Point(500, yn)}
     settled = dirt.copy()
     # print_fun(dirt, wet, settled)
     changes = -1
@@ -77,33 +75,35 @@ def main(input_string, verbose=False):
         lset = len(settled)
         for w in tuple(wet):
             if w in wet and w.y<=yx:
-                turtle.goto(position=w)
-                while turtle.position not in settled and turtle.position.y<=yx:
-                    wet.add(turtle.position)
-                    turtle.move(planar.SOUTH)
-                turtle.move(planar.NORTH)
-                while turtle.position not in settled and turtle.position+turtle.dict[planar.SOUTHWEST] in settled:
-                    turtle.move(planar.WEST)
-                lwall = turtle.position in settled
-                lbound = turtle.position.x
-                turtle.move(planar.EAST)
-                while turtle.position not in settled and turtle.position+turtle.dict[planar.SOUTHEAST] in settled:
-                    turtle.move(planar.EAST)
-                rwall = turtle.position in settled
-                rbound = turtle.position.x
-                y = turtle.position.y
+                loc = w
+                while loc not in settled and loc.y<=yx:
+                    wet.add(loc)
+                    loc+=spatial.SOUTH
+                if loc.y > yx:
+                    continue
+                loc += spatial.NORTH
+                while loc not in settled and loc+spatial.SOUTHWEST in settled:
+                    loc += spatial.WEST
+                lwall = loc in settled
+                lbound = loc.x
+                loc += spatial.EAST
+                while loc not in settled and loc+spatial.SOUTHEAST in settled:
+                    loc += spatial.EAST
+                rwall = loc in settled
+                rbound = loc.x
+                y = loc.y
                 lbound += 1 if lwall else -1
                 rbound += -1 if rwall else 1
-                layer = {planar.Point(x, y) for x in range(lbound, rbound+1)}
+                layer = {spatial.Point(x, y) for x in range(lbound, rbound + 1)}
                 if lwall and rwall:
                     wet.difference_update(layer)
                     settled.update(layer)
                 else:
                     wet.update(layer)
         changes = abs(len(wet)-lwet) + abs(len(settled)-lset)
-        print(changes)
-        # print('\n\n\n\n')
-        # print_fun(dirt, wet, settled)
+    #     print(changes)
+    # print('\n\n\n\n')
+    # print_fun(dirt, wet, settled)
     # old_wet = set()
     # old_settled = set()
     # while wet!=old_wet or settled!=old_settled:
@@ -134,13 +134,14 @@ def main(input_string, verbose=False):
     #                 while floor[1]<=yx and floor not in settled and floor not in wet:
     #                     wet.add(floor)
     #                     floor = getfloor(floor)
-
+    wet = wet - settled
     settled = settled - dirt
     if verbose:
         print_fun(dirt, wet, settled)
     p1 = len(wet)+len(settled)
     p2 = len(settled)
     return p1, p2
+
 
 if __name__ == "__main__":
     dancer.run(main, year=2018, day=17, verbose=True)
