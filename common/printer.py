@@ -8,7 +8,7 @@ def printdict(grid, default=' ', width=False, gridtype='cart'):
 
 def strdict(grid, default=' ', width=False, gridtype='cart'):
     if grid:
-        n, x = spatial.bounds(grid)
+        nb, xb = spatial.bounds(grid)
         if width is False:
             width = max([len(str(si)) for si in grid.values()])
         if width > 1:
@@ -18,10 +18,10 @@ def strdict(grid, default=' ', width=False, gridtype='cart'):
             hexspace = default.rjust(width // 2)
         default = default.rjust(width)
         printstr = ''
-        for y in range(n.y, x.y + 1):
+        for y in range(nb.y, xb.y + 1):
             if gridtype == 'hexns' or gridtype == 'hexew':
-                printstr += ''.join([hexspace for _ in range(n.y, x.y - y)])
-            for x in range(n.x, x.x + 1):
+                printstr += ''.join([hexspace for _ in range(nb.y, xb.y - y)])
+            for x in range(nb.x, xb.x + 1):
                 point = spatial.Point(x, y)
                 if point in grid:
                     printstr += str(grid[point]).rjust(width)
@@ -44,12 +44,12 @@ def strset(grid, default=' ', mark='#', width=False, gridtype='cart'):
         hexspace = default.rjust(width // 2)
     mark = mark.rjust(width)
     default = default.rjust(width)
-    n, x = spatial.bounds(grid)
+    nb, xb = spatial.bounds(grid)
     printstr = ''
-    for y in range(n.y, x.y + 1):
+    for y in range(nb.y, xb.y + 1):
         if gridtype == 'hexns' or gridtype == 'hexew':
-            printstr += ''.join([hexspace for i in range(n.y, x.y - y)])
-        for x in range(n.x, x.x + 1):
+            printstr += ''.join([hexspace for i in range(nb.y, xb.y - y)])
+        for x in range(nb.x, xb.x + 1):
             if spatial.Point(x, y) in grid:
                 printstr += mark
             else:
