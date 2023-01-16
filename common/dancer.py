@@ -31,7 +31,7 @@ def run(solve, year, day, verbose=False, strip=True):
     input_string = open(args.path).read()
     if strip:
         input_string = input_string.rstrip()
-    p1, p2 = solve(input_string=input_string, verbose=args.v)
+    p1, p2 = solve(input_string=input_string, verbose=args.v or verbose)
     if isinstance(p1, str) and '\n' in p1:
         p1 = '\n' + p1
     if isinstance(p2, str) and '\n' in p2:

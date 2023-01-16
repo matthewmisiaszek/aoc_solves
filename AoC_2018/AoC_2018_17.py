@@ -12,34 +12,7 @@ def parse(input_string):
         else:
             dirt.update({spatial.Point(b, a) for b in range(bn, bx + 1)})
     bn, bx = spatial.bounds(dirt)
-    # f = input_string.split('\n')
-    # dirt = set()
-    # for line in f:
-    #     a,b = line.split(',')
-    #     a1, a2 = a.split('=')
-    #     b1, b2 = b.split('=')
-    #     c = a1 =='x'
-    #     d = int(a2)
-    #     bn, bx = b2.split('..')
-    #     bn = int(bn)
-    #     bx = int(bx)
-    #     for b in range(bn, bx+1):
-    #         if c:
-    #             dirt.add((d, b))
-    #         else:
-    #             dirt.add((b, d))
-    # yn = min(dirt, key=lambda x: x[1])[1]
-    # yx = max(dirt, key=lambda x: x[1])[1]
-    # xn = min(dirt)[0]-1
-    # xx = max(dirt)[0]+1
     return dirt, bn.x, bx.x, bn.y, bx.y
-
-def getleft(point):
-    return (point[0]-1, point[1])
-def getright(point):
-    return (point[0]+1, point[1])
-def getfloor(point):
-    return (point[0], point[1]+1)
 
 
 def print_fun(dirt, wet, settled):
@@ -49,20 +22,7 @@ def print_fun(dirt, wet, settled):
     pdict.update({point: '|' for point in wet})
 
     printer.printdict(pdict, default='.')
-    # s=''
-    # for y in range(yn, yx+1):
-    #     for x in range(xn,xx+1):
-    #         point = (x,y)
-    #         if point in dirt:
-    #             s+='#'
-    #         elif point in wet:
-    #             s+='|'
-    #         elif point in settled:
-    #             s+='~'
-    #         else:
-    #             s+='.'
-    #     s+='\n'
-    # print(s)
+
 
 def main(input_string, verbose=False):
     dirt, xn, xx, yn, yx = parse(input_string)
@@ -73,23 +33,32 @@ def main(input_string, verbose=False):
     while changes != 0:
         lwet = len(wet)
         lset = len(settled)
+        tocheck = wet.copy()
         for w in tuple(wet):
             if w in wet and w.y<=yx:
-                loc = w
-                while loc not in settled and loc.y<=yx:
-                    wet.add(loc)
-                    loc+=spatial.SOUTH
-                if loc.y > yx:
+                loc = w + spatial.SOUTH
+                if loc in wet:
+                    continue
+                if loc not in settled:
+                    while loc not in settled and loc.y<=yx:
+                        wet.add(loc)
+                        loc += spatial.SOUTH
                     continue
                 loc += spatial.NORTH
+                # print_fun(dirt, wet, settled)
+                if loc not in tocheck:
+                    continue
+                lwall = rwall = False
                 while loc not in settled and loc+spatial.SOUTHWEST in settled:
                     loc += spatial.WEST
-                lwall = loc in settled
                 lbound = loc.x
-                loc += spatial.EAST
+                if loc in settled:
+                    lwall = True
+                    loc += spatial.EAST
                 while loc not in settled and loc+spatial.SOUTHEAST in settled:
                     loc += spatial.EAST
-                rwall = loc in settled
+                if loc in settled:
+                    rwall = True
                 rbound = loc.x
                 y = loc.y
                 lbound += 1 if lwall else -1
@@ -97,45 +66,16 @@ def main(input_string, verbose=False):
                 layer = {spatial.Point(x, y) for x in range(lbound, rbound + 1)}
                 if lwall and rwall:
                     wet.difference_update(layer)
+                    tocheck.difference_update(layer)
                     settled.update(layer)
                 else:
                     wet.update(layer)
+                    tocheck.difference_update(layer)
+                # print_fun(dirt, wet, settled)
         changes = abs(len(wet)-lwet) + abs(len(settled)-lset)
-    #     print(changes)
-    # print('\n\n\n\n')
-    # print_fun(dirt, wet, settled)
-    # old_wet = set()
-    # old_settled = set()
-    # while wet!=old_wet or settled!=old_settled:
-    #     old_wet = wet.copy()
-    #     old_settled = settled.copy()
-    #     for wi in tuple(wet):
-    #         if wi in wet:
-    #             floor = getfloor(wi)
-    #             if floor in dirt or floor in settled:
-    #                 left = getleft(wi)
-    #                 while left not in settled and getfloor(left) in settled:
-    #                     left = getleft(left)
-    #                 lbound = left[0]
-    #                 lwall = left in settled
-    #                 right = getright(wi)
-    #                 while right not in settled and getfloor(right) in settled:
-    #                     right = getright(right)
-    #                 rbound = right[0]
-    #                 rwall = right in settled
-    #                 if lwall and rwall:
-    #                     for x in range(lbound+lwall, rbound-rwall+1):
-    #                         wet.discard((x, wi[1]))
-    #                         settled.add((x, wi[1]))
-    #                 else:
-    #                     for x in range(lbound+lwall, rbound-rwall+1):
-    #                         wet.add((x, wi[1]))
-    #             else:
-    #                 while floor[1]<=yx and floor not in settled and floor not in wet:
-    #                     wet.add(floor)
-    #                     floor = getfloor(floor)
     wet = wet - settled
     settled = settled - dirt
+
     if verbose:
         print_fun(dirt, wet, settled)
     p1 = len(wet)+len(settled)
