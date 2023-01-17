@@ -1,16 +1,25 @@
 import dancer
-from common import printer
+from common import printer, spatial
 
 
 def fold(foldstr, grid):
     axis, n = foldstr.split()[2].split('=')
     n = int(n)
-    axis = 'xy'.find(axis)
-    for key in tuple(grid):
-        if key[axis] > n:
-            grid.discard(key)
-            key = ((2 * n - key[0]) * (1 - axis) + key[0] * axis, (2 * n - key[1]) * axis + key[1] * (1 - axis))
-            grid.add(key)
+    match axis:
+        case 'x':
+            for key in tuple(grid):
+                if key.x <= n:
+                    continue
+                grid.discard(key)
+                key = spatial.Point(2*n-key.x, key.y)
+                grid.add(key)
+        case 'y':
+            for key in tuple(grid):
+                if key.y <= n:
+                    continue
+                grid.discard(key)
+                key = spatial.Point(key.x, 2*n-key.y)
+                grid.add(key)
 
 
 def makegrid(points):
@@ -18,7 +27,7 @@ def makegrid(points):
     points = points.split('\n')
     for point in points:
         x, y = (int(i) for i in point.split(','))
-        grid.add((x, y))
+        grid.add(spatial.Point(x, y))
     return grid
 
 
