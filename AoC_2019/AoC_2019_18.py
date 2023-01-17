@@ -20,10 +20,10 @@ def four_vaults(tunnel_map, starts):
     for start in starts:
         start_key = inv_map[start]
         tunnel_map.pop(start_key)
-        for direction in planar.D2D4:
+        for direction in spatial.ENWS:
             neighbor = start_key + direction
             tunnel_map.pop(neighbor)
-        for i, direction in enumerate(planar.D2D8[1::2]):
+        for i, direction in enumerate(spatial.ENWS_CORNERS):
             i = str(i)
             neighbor = start_key+direction
             tunnel_map[neighbor] = i

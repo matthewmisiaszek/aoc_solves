@@ -13,11 +13,7 @@ BWIDTH = 3
 
 
 def find_portals(donut_map, donut2D):
-    (xn, xx), (yn, yx) = spatial.bounds(donut_map.keys())
-    xn += BWIDTH
-    yn += BWIDTH
-    xx -= BWIDTH
-    yx -= BWIDTH
+    bound = spatial.bounds(donut_map.keys(), pad=-BWIDTH)
     portal_pairs = []
     portals = {}
     for key, val in donut_map.items():
@@ -36,7 +32,7 @@ def find_portals(donut_map, donut2D):
                     pkey = ''.join([letter1, letter2])
                 else:
                     pkey = ''.join([letter2, letter1])
-                if xn <= dot.x <= xx and yn <= dot.y <= yx:
+                if spatial.inbounds(dot, bound):
                     # inside portal
                     portal_pairs.append((pkey + ISUFFIX, pkey + OSUFFIX))
                     portals[pkey + ISUFFIX] = dot

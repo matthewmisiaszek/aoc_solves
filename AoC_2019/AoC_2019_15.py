@@ -3,13 +3,13 @@ from AoC_2019.intcode import Intcode
 from common import elementwise as ew, printer, graph, constants as con, spatial
 
 COMMANDS = {(0, 1): 1, (0, -1): 2, (-1, 0): 3, (1, 0): 4}
-COMMANDS = {planar.ENWS_DICT[direction]: i + 1 for i, direction in enumerate('UDLR')}
+COMMANDS = {spatial.NAMES_2D[direction]: i + 1 for i, direction in enumerate('UDLR')}
 
 
 def main(input_string, verbose=False):
     program = [int(i) for i in input_string.split(',')]
     droid = Intcode(program)
-    loc, heading = planar.Point(), 0
+    loc, heading = spatial.Point(), 0
     ship_set = set()
     start = loc
 
@@ -17,13 +17,13 @@ def main(input_string, verbose=False):
         # ship is a network of width-1 hallways with no loops
         # search path is "keep your right hand on the wall until you get back to start"
         # if you bump into a wall, turn left.  If you don't, turn right.  If you reach start, break.
-        code = COMMANDS[planar.D2D4[heading]]
+        code = COMMANDS[spatial.ENWS[heading]]
         status = droid.run(code)
         if status == 0:
             heading += 1
         else:
             heading -= 1
-            loc = loc + planar.D2D4[heading]
+            loc = loc + spatial.ENWS[heading]
             ship_set.add(loc)
             if status == 2:
                 o2sys = loc

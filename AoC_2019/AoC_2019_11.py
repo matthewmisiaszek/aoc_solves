@@ -1,13 +1,12 @@
 import dancer
 from AoC_2019.intcode import Intcode
-from common import cart2d, printer
+from common import printer, spatial
 
 
 def emergency_hull_painting_robot(brain, starting_panel):
     brain.load_state()
     hull, painted = set(), set()
-    cart = cart2d.Cart()
-    loc, heading = cart.origin, cart.north
+    loc, heading = spatial.Point(), spatial.NORTH
     if starting_panel is True:
         hull.add(loc)
 
@@ -25,10 +24,10 @@ def emergency_hull_painting_robot(brain, starting_panel):
 
         turn = brain.output.pop(0)
         if turn == 1:
-            heading = heading.right
+            heading = heading.right()
         else:
-            heading = heading.left
-        loc = heading.move(loc)
+            heading = heading.left()
+        loc+= heading
     return len(painted), printer.strset(hull)
 
 
