@@ -4,7 +4,10 @@ from common import misc
 
 class Point:
     def __init__(self, x=0, y=0):
-        if isinstance(x, list) or isinstance(x, tuple):
+        if isinstance(x, Point):
+            self.x = x.x
+            self.y = x.y
+        elif isinstance(x, list) or isinstance(x, tuple):
             self.x = x[0]
             self.y = x[1]
         else:

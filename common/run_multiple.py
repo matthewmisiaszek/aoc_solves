@@ -26,8 +26,9 @@ def getranges(s):
 
 
 def main():
-    config = ConfigParser()
-    config.read(dancer.root_path + '/common/config.ini')
+    config = dancer.config
+    # config = ConfigParser()
+    # config.read(dancer.root_path + '/common/config.ini')
     columns = config['table']['columns'].split(',')
     column_widths = [int(i) for i in config['table']['column_widths'].split(',')]
     widths = {column: width for column, width in zip(columns, column_widths)}
@@ -55,7 +56,8 @@ def main():
     input_path = config['files']['input_directory']
     input_path = os.path.expandvars(input_path)
     input_path = os.path.expanduser(input_path)
-    output_path = input_path + 'outputs.ini'
+    output_path = input_path + '/outputs.ini'
+    print(output_path)
     outputs = ConfigParser()
     if os.path.exists(output_path):
         outputs.read(output_path)
