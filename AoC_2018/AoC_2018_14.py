@@ -1,20 +1,26 @@
 import dancer
+from common.misc import digits
 
 
 def main(input_string, verbose=False):
     n_recipes = int(input_string)
     e1, e2 = 0, 1
-    scoreboard = '37'
-    while input_string not in scoreboard[-11:]:
-        se1 = int(scoreboard[e1])
-        se2 = int(scoreboard[e2])
-        scoreboard += str(se1 + se2)
-        sblen = len(scoreboard)
+    scoreboard = [3, 7]
+    score_sequence = list(digits(n_recipes))
+    score_len = len(score_sequence)
+    while True:
+        se1 = scoreboard[e1]
+        se2 = scoreboard[e2]
+        for i in digits(se1 + se2):
+            scoreboard.append(i)
+            sblen = len(scoreboard)
+            if scoreboard[-score_len:] != score_sequence:
+                continue
+            p1 = digits(scoreboard[n_recipes:n_recipes + 10])
+            p2 = sblen - score_len
+            return p1, p2
         e1 = (e1 + 1 + se1) % sblen
         e2 = (e2 + 1 + se2) % sblen
-    p1 = scoreboard[n_recipes:n_recipes + 10]
-    p2 = scoreboard.find(input_string)
-    return p1, p2
 
 
 if __name__ == "__main__":
