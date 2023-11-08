@@ -44,7 +44,7 @@ def main(input_string, verbose=False):
     all_seats = {(x, y)
                  for y, line in enumerate(input_string.split('\n'))
                  for x, c in enumerate(line)
-                 if c is empty_seat}
+                 if c == empty_seat}
     p1 = simulate(all_seats, p1neighbors, 4)
     p2 = simulate(all_seats, p2neighbors, 5)
     return p1, p2
