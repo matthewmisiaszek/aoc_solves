@@ -9,7 +9,7 @@ def main(input_string, verbose=False):
     seen_letters = ''
     steps = 1
     direction = Cart().south
-    loc = (input_string.split('\n')[1].find('|'), 1)
+    loc = (input_string.split('\n')[1].find('|'), 0)
     while True:
         steps += 1
         loc = direction.move(loc)
