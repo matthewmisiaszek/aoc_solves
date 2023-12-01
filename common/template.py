@@ -9,4 +9,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=0, day=0, verbose=True)
+    dancer.run(main, year=2023, day=0, verbose=True)
