@@ -8,7 +8,7 @@ def count_matches(card):
     return len(win & have)
 
 
-def main(input_string):
+def main(input_string, verbose=False):
     matches = [count_matches(line) for line in input_string.split('\n')]
     p1 = sum((2 ** (i - 1) for i in matches if i))
     copies = {i: 1 for i in range(len(matches))}
