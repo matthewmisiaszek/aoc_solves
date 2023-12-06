@@ -38,9 +38,7 @@ def main(input_string, verbose=False):
     seeds = maps[0]
     maps = maps[1:]
     seeds = [int(i) for i in seeds.split()[1:]]
-    print(seeds)
     seeds = [(a, a + b) for a, b in zip(seeds[::2], seeds[1::2])]
-    print(seeds)
 
     for map in maps:
         ranges = map.split('\n')[1:]
