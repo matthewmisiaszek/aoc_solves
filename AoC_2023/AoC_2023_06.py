@@ -3,7 +3,13 @@ import math
 
 
 def ways_to_win(t, d):
-    return sum(((t - h) * h > d for h in range(t)))
+    # opposite of b...
+    # +/- square root...
+    # b squared minus 4 a c...
+    # all over 2 a...
+    n = math.ceil((t - (t**2 - 4*d)**.5)/2)
+    x = math.floor((t + (t**2 - 4*d)**.5)/2)
+    return x - n + 1
 
 
 def main(input_string, verbose=False):
