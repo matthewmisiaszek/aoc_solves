@@ -32,5 +32,5 @@ DANCER handles several functions common to every day's code:
 * Print elapsed time
 
 ## Common
-
+ 
 Modules in common are used by solves from multiple days
