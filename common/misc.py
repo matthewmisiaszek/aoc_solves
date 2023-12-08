@@ -69,10 +69,8 @@ def CRT(n, b):
     for ni in n:
         N *= ni
     Ni = [N // ni for ni in n]
-    print(Ni)
     ret = 0
     for i in range(len(n)):
-        print(i)
         xi = 0
         while (Ni[i] * xi) % n[i] != 1:
             xi += 1
