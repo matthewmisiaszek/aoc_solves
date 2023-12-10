@@ -277,6 +277,10 @@ FORWARD_CMD = {'F', 'FD', 'FORWARD'}
 RIGHT_CMD = {'R', 'RIGHT', 'RT'}
 LEFT_CMD = {'L', 'LEFT', 'LT'}
 BACKWARD_CMD = {'B' 'BACKWARD', 'BACK'}
+FORWARD = 'F'
+RIGHT = 'R'
+LEFT = 'L'
+BACKWARD = 'B'
 
 
 class Turtle:
@@ -293,11 +297,11 @@ class Turtle:
         self.names = names
         self.neighbors_list = neighbors
 
-    def drive(self, direction, multiple=1, peek=False):
+    def drive(self, direction=FORWARD, multiple=1, peek=False):
         if multiple < 1:
             return self.position, self.heading, False
         direction = direction.upper()
-        forward = direction in FORWARD_CMD - direction in BACKWARD_CMD
+        forward = (direction in FORWARD_CMD) - (direction in BACKWARD_CMD)
         left = direction in LEFT_CMD
         right = direction in RIGHT_CMD
         if any((forward, left, right)):
