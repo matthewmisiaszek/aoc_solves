@@ -20,8 +20,7 @@ def region_size(region, tiles, bounds):
         current = queue.pop()
         for n in spatial.ENWS:
             neighbor = current + n
-            if neighbor in region:
-                continue
+            if neighbor in region: continue
             if neighbor in tiles:
                 queue.add(neighbor)
                 region.add(neighbor)
@@ -40,16 +39,12 @@ def main(input_string, verbose=False):
     rset, lset, new = set(), set(), True
     while new:
         for new_heading in NEIGHBORS[sketch[animal.position]]:
-            if animal.position != start and new_heading == animal.heading * -1:
-                continue
+            if animal.position != start and new_heading == animal.heading * -1: continue
             ahead = animal.position + new_heading
-            if ahead not in sketch:
-                continue
+            if ahead not in sketch: continue
             ahead_type = sketch[ahead]
-            if ahead_type not in NEIGHBORS:
-                continue
-            if new_heading * -1 not in NEIGHBORS[ahead_type]:
-                continue
+            if ahead_type not in NEIGHBORS: continue
+            if new_heading * -1 not in NEIGHBORS[ahead_type]: continue
             break
         animal.goto(heading=new_heading)
         lset.add(animal.position + animal.heading.left())
@@ -62,8 +57,9 @@ def main(input_string, verbose=False):
     p2 = sum(region_size(region, tiles, bounds) for region in (lset, rset))
     p1 = len(animal.visited) // 2
     if verbose:
+        charmap = {a:b for a, b in zip('-|F7LJS', '═║╔╗╚╝╬')}
         toprint = {p: 'O' for p in sketch.keys()}
-        toprint.update({p: sketch[p] for p in animal.visited})
+        toprint.update({p: charmap[sketch[p]] for p in animal.visited})
         toprint.update({p: 'I' for p in lset | rset})
         printer.printdict(toprint)
     return p1, p2
