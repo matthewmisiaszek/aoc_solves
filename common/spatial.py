@@ -68,6 +68,20 @@ class Point:
     def __str__(self):
         return self.__repr__()
 
+    def __getitem__(self, item):
+        if item in {0, 'x', 'X'}:
+            return self.x
+        elif item in {1, 'y', 'Y'}:
+            return self.y
+        else:
+            return None
+
+    def __setitem__(self, key, value):
+        if key in {0, 'x', 'X'}:
+            self.x = value
+        elif key in {1, 'y', 'Y'}:
+            self.y = value
+
 
 class Point3D:
     def __init__(self, x=0, y=0, z=0):
@@ -131,6 +145,24 @@ class Point3D:
 
     def __str__(self):
         return self.__repr__()
+
+    def __getitem__(self, item):
+        if item in {0, 'x', 'X'}:
+            return self.x
+        elif item in {1, 'y', 'Y'}:
+            return self.y
+        elif item in {2, 'z', 'Z'}:
+            return self.z
+        else:
+            return None
+
+    def __setitem__(self, key, value):
+        if key in {0, 'x', 'X'}:
+            self.x = value
+        elif key in {1, 'y', 'Y'}:
+            self.y = value
+        elif key in {2, 'z', 'Z'}:
+            self.z = value
 
 
 def bounds(points, pad=0):
