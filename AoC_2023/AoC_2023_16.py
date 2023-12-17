@@ -1,5 +1,5 @@
 import dancer
-from common import graph, spatial as sp, printer
+from common import graph, spatial as sp
 from collections import defaultdict
 
 
