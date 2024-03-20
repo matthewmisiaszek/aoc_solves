@@ -46,6 +46,36 @@ class Point:
             return Point(self.x * other.x, self.y * other.y)
         else:
             return Point(self.x * other, self.y * other)
+    
+    def __mod__(self, other):
+        if isinstance(other, Point):
+            return Point(self.x % other.x, self.y % other.y)
+        else:
+            return Point(self.x % other, self.y % other)
+    
+    def __truediv__(self, other):
+        if isinstance(other, Point):
+            return Point(self.x / other.x, self.y / other.y)
+        else:
+            return Point(self.x / other, self.y / other)
+    
+    def __floordiv__(self, other):
+        if isinstance(other, Point):
+            return Point(self.x // other.x, self.y // other.y)
+        else:
+            return Point(self.x // other, self.y // other)
+    
+    def div_towards_zero(self, other):
+        if isinstance(other, Point):
+            return Point(
+                misc.div_towards_zero(self.x, other.x), 
+                misc.div_towards_zero(self.y, other.y)
+                )
+        else:
+            return Point(
+                misc.div_towards_zero(self.x, other), 
+                misc.div_towards_zero(self.y, other)
+                )
 
     def __lt__(self, other):
         if self.y == other.y:
@@ -119,6 +149,12 @@ class Point3D:
             return Point3D(self.x * other.x, self.y * other.y, self.z * other.z)
         else:
             return Point3D(self.x * other, self.y * other, self.z * other)
+    
+    def __truediv__(self, other):
+        if isinstance(other, Point):
+            return Point3D(self.x / other.x, self.y / other.y, self.z / other.z)
+        else:
+            return Point3D(self.x / other, self.y / other, self.z / other)
 
     def __lt__(self, other):
         if isinstance(other, Point):
@@ -136,7 +172,7 @@ class Point3D:
 
     def __eq__(self, other):
         if isinstance(other, Point3D):
-            return self.x == other.x and self.y == other.y
+            return (self.x == other.x) and (self.y == other.y) and (self.z == other.z)
         else:
             return False
 

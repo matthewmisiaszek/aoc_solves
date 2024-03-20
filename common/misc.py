@@ -103,3 +103,7 @@ def digits(n, base=10, power=None):
 
 def sign(n):
     return n // abs(n) if n != 0 else 0
+
+
+def div_towards_zero(a, b):
+    return -(-a // b) if (a < 0) ^ (b < 0) else a // b

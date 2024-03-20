@@ -7,30 +7,31 @@ def printdict(grid, default=' ', width=False, gridtype='cart'):
 
 
 def strdict(grid, default=' ', width=False, gridtype='cart'):
-    if grid:
-        # convert tuple points to spatial points just in case
-        grid = {spatial.Point(point): value for point, value in grid.items()}
-        nb, xb = spatial.bounds(grid)
-        if width is False:
-            width = max([len(str(si)) for si in grid.values()])
-        if width > 1:
-            width += 1
+    if not grid:
+        return ''
+    # convert tuple points to spatial points just in case
+    grid = {spatial.Point(point): value for point, value in grid.items()}
+    nb, xb = spatial.bounds(grid)
+    if width is False:
+        width = max([len(str(si)) for si in grid.values()])
+    if width > 1:
+        width += 1
+    if gridtype == 'hexns' or gridtype == 'hexew':
+        width = min(width, 2)
+        hexspace = default.rjust(width // 2)
+    default = default.rjust(width)
+    printstr = ''
+    for y in range(nb.y, xb.y + 1):
         if gridtype == 'hexns' or gridtype == 'hexew':
-            width = min(width, 2)
-            hexspace = default.rjust(width // 2)
-        default = default.rjust(width)
-        printstr = ''
-        for y in range(nb.y, xb.y + 1):
-            if gridtype == 'hexns' or gridtype == 'hexew':
-                printstr += ''.join([hexspace for _ in range(nb.y, xb.y - y)])
-            for x in range(nb.x, xb.x + 1):
-                point = spatial.Point(x, y)
-                if point in grid:
-                    printstr += str(grid[point]).rjust(width)
-                else:
-                    printstr += default
-            printstr += '\n'
-        return printstr[:-1]
+            printstr += ''.join([hexspace for _ in range(nb.y, xb.y - y)])
+        for x in range(nb.x, xb.x + 1):
+            point = spatial.Point(x, y)
+            if point in grid:
+                printstr += str(grid[point]).rjust(width)
+            else:
+                printstr += default
+        printstr += '\n'
+    return printstr[:-1]
 
 
 def printset(grid, default=' ', mark='#', width=False, gridtype='cart'):
@@ -38,6 +39,8 @@ def printset(grid, default=' ', mark='#', width=False, gridtype='cart'):
 
 
 def strset(grid, default=' ', mark='#', width=False, gridtype='cart'):
+    if not grid:
+        return ''
     global hexspace
     if width is False:
         width = max(len(default), len(mark))

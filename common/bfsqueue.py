@@ -16,7 +16,8 @@ class BFSQ:
         self.heuristic = heuristic  # Heuristic function for A* (optional)
         self.heuristic_cache = {}  # Cache of node:heuristic value
         self.hargs = hargs  # Arguments for heuristic function (optional)
-
+        if init_nodes is None:
+            return
         if isinstance(init_nodes, dict):  # add all node: weight pairs in dict
             for node, weight in init_nodes.items():
                 self.add(node, weight)
