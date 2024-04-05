@@ -1,16 +1,16 @@
 import dancer
-from common import graph, spatial as sp
-from itertools import product
+from common import graph, spatial as sp, bfsqueue
 
 
 class Crucible:
     minturn = 1
     maxturn = 3
 
-    def __init__(self, loc, heading, count):
+    def __init__(self, loc, heading, count, loss=0):
         self.loc = loc
         self.heading = heading
         self.count = count
+        self.loss = loss
 
     def neighbors(self):
         if self.count >= Crucible.minturn:
@@ -36,19 +36,17 @@ class Crucible:
 
 
 def least_losses(losses):
-    minturn = Crucible.minturn
-    maxturn = Crucible.maxturn
     pool, factory = sp.bounds(losses)
-    city = graph.Graph()
-    for loc, heading, count in product(losses.keys(), sp.ENWS, range(1, maxturn+1)):
-        city.add_node(Crucible(loc, heading, count))
-    for node in city.graph.keys():
-        for neighbor in node.neighbors():
-            if neighbor in city.graph:
-                city.add_edge_neq(node, neighbor, losses[neighbor.loc])
-    targets = {Crucible(factory, heading, count) for heading in sp.ENWS for count in range(minturn, maxturn)}
-    start = {Crucible(pool, heading, 1) for heading in sp.ENWS}
-    return min(city.dijkstra(start, targets).values())
+    start = {Crucible(pool, heading, 1): -losses[pool] for heading in sp.ENWS}
+    q = bfsqueue.BFSQ(start)
+    for curr, loss in q:
+        if curr.loc not in losses:
+            continue
+        loss += losses[curr.loc]
+        if curr.loc == factory:
+            return loss
+        for neighbor in curr.neighbors():
+            q.add(neighbor, loss)
 
 
 def main(input_string, verbose=False):
