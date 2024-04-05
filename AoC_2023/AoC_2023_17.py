@@ -6,11 +6,10 @@ class Crucible:
     minturn = 1
     maxturn = 3
 
-    def __init__(self, loc, heading, count, loss=0):
+    def __init__(self, loc, heading, count):
         self.loc = loc
         self.heading = heading
         self.count = count
-        self.loss = loss
 
     def neighbors(self):
         if self.count >= Crucible.minturn:
