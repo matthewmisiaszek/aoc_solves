@@ -10,7 +10,7 @@ def main(input_string, verbose=False):
     seen_letters = ''
     steps = 1
     direction = sp.SOUTH
-    loc = sp.Point(input_string.split('\n')[1].find('|'), 0)
+    loc = sp.Point(input_string.split('\n')[0].find('|'), 0)
     while True:
         steps += 1
         loc += direction
