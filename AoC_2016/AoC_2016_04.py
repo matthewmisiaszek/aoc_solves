@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 from collections import Counter
 from string import ascii_lowercase as alph
@@ -25,7 +25,7 @@ class Room:
 
 
 def main(input_string, verbose=False):
-    pattern = '(\D*)-(\d*)\[(\D*)\]'
+    pattern = r'(\D*)-(\d*)\[(\D*)\]'
     rooms = [Room(*group) for group in re.findall(pattern, input_string)]
     p1 = sum(room.id for room in rooms if room.real)
     room_lookup = {room.decn: room.id for room in rooms}
@@ -34,4 +34,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=4, verbose=True)
+    blitzen.run(main, year=2016, day=4, verbose=True)

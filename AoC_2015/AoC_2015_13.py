@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 from itertools import permutations
 
@@ -15,7 +15,7 @@ def check_happy(arrangement, happiness):
 
 def main(input_string, verbose=False):
     happiness = {}
-    pattern = '(\S*) would (\S*) (\d*) happiness units by sitting next to (\S*).'
+    pattern = r'(\S*) would (\S*) (\d*) happiness units by sitting next to (\S*).'
     for a, gl, val, b in re.findall(pattern, input_string):
         if a not in happiness:
             happiness[a] = {}
@@ -30,4 +30,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=13, verbose=True)
+    blitzen.run(main, year=2015, day=13, verbose=True)

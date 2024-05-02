@@ -1,27 +1,26 @@
-import dancer
-from common import cart2d
-from common import elementwise as ew
+import blitzen
+from donner import spatial as sp
 
 
 def main(input_string, verbose=False):
     directions = [(line[0], int(line[1:])) for line in input_string.split(', ')]
-    heading = cart2d.Cart().north
-    position = (0, 0)
+    heading = sp.NORTH
+    position = sp.Point()
     p2 = None
     history = {position}
     for turn, distance in directions:
         if turn == 'R':
-            heading = heading.right
+            heading = heading.right()
         elif turn == 'L':
-            heading = heading.left
+            heading = heading.left()
         for _ in range(distance):
-            position = heading.move(position)
+            position += heading
             if p2 is None and position in history:
-                p2 = sum(ew.eabs(position))
+                p2 = position.manhattan()
             history.add(position)
-    p1 = sum(ew.eabs(position))
+    p1 = position.manhattan()
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=1, verbose=True)
+    blitzen.run(main, year=2016, day=1, verbose=True)

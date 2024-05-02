@@ -1,6 +1,5 @@
-import dancer
-from common.elementwise import prod
-
+import blitzen
+from math import prod
 
 def check_slope(trees, slope, bottom, width):
     tx, ty = 0, 0
@@ -33,4 +32,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=3, verbose=True)
+    blitzen.run(main, year=2020, day=3, verbose=True)

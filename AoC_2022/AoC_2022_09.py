@@ -1,5 +1,5 @@
-import dancer
-from common import spatial
+import blitzen
+from donner import spatial
 
 
 def simulate_rope(moves, length):
@@ -33,4 +33,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=9, verbose=True)
+    blitzen.run(main, year=2022, day=9, verbose=True)

@@ -1,5 +1,5 @@
-import dancer
-from common import printer, spatial
+import blitzen
+from donner import printer, spatial
 
 INTERESTING = {20, 60, 100, 140, 180, 220}
 SCREEN_HEIGHT = 6
@@ -25,4 +25,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=10, verbose=True)
+    blitzen.run(main, year=2022, day=10, verbose=True)

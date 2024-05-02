@@ -1,20 +1,19 @@
-import dancer
-import common.constants as con
-import common.elementwise as ew
+import blitzen
+import donner.spatial as sp
 
 
 def distance(loc):
-    a, b = loc
+    a, b = loc.x, loc.y
     return (abs(a) + abs(b) + abs(a + b)) // 2
 
 
 def main(input_string, verbose=False):
-    input_string = input_string.upper()
+    input_string = input_string
     path = input_string.split(',')
-    loc = con.origin2
+    loc = sp.Point()
     max_distance = 0
     for step in path:
-        loc = ew.sum2d(loc, con.HEX_N[step])
+        loc += sp.NAMES_HEX_S[step]
         max_distance = max(max_distance, distance(loc))
     p1 = distance(loc)
     p2 = max_distance
@@ -22,4 +21,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2017, day=11, verbose=True)
+    blitzen.run(main, year=2017, day=11, verbose=True)

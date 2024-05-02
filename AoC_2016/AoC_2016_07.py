@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 from string import ascii_lowercase as alph
 from itertools import permutations
@@ -25,7 +25,7 @@ def main(input_string, verbose=False):
     tls_count = 0
     ssl_count = 0
     for ip in input_string.split('\n'):
-        ip_split = re.split('\[|\]', ip)
+        ip_split = re.split(r'\[|\]', ip)
         supernet = ','.join(ip_split[::2])
         hypernet = ','.join(ip_split[1::2])
         if tls_check(supernet) and not tls_check(hypernet):
@@ -38,4 +38,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=7, verbose=True)
+    blitzen.run(main, year=2016, day=7, verbose=True)

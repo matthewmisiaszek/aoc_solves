@@ -1,28 +1,29 @@
-import dancer
-from common.misc import md5hash
-from common import elementwise as ew, constants as con
+import blitzen
+from donner.misc import md5hash
+from donner import spatial as sp
+
+
+UDLR = (sp.NORTH, sp.SOUTH, sp.WEST, sp.EAST)
 
 
 def main(input_string, verbose=False):
-    loc = con.origin2
-    target = (3, 3)
-    xn, xx = 0, 3
-    yn, yx = 0, 3
+    loc = sp.Point()
+    target = sp.Point(3, 3)
+    bounds = sp.Point(), sp.Point(3, 3)
     open_doors = {'b', 'c', 'd', 'e', 'f'}
     password = input_string
     queue = {('', loc)}
     paths = set()
     while queue:
         path, loc = queue.pop()
-        x, y = loc
         if loc == target:
             paths.add(path)
-        elif xn <= x <= xx and yn <= y <= yx:
+        elif sp.inbounds(loc, bounds):
             path_hash = md5hash(password + path)
-            for direction, door in zip(con.UDLR_ordered, path_hash):
+            for dname, direction, door in zip('UDLR', UDLR, path_hash):
                 if door in open_doors:
-                    nloc = ew.sum2d(loc, con.UDLR_YINV[direction])
-                    npath = path + direction
+                    nloc = loc + direction
+                    npath = path + dname
                     queue.add((npath, nloc))
     p1 = min(paths, key=lambda n: len(n))
     p2 = len(max(paths, key=lambda n: len(n)))
@@ -30,4 +31,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=17, verbose=True)
+    blitzen.run(main, year=2016, day=17, verbose=True)

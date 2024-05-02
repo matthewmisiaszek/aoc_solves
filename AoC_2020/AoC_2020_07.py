@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 
 
@@ -7,7 +7,7 @@ def parse(input_string):
     inside_out = {} # what bags may this bag be found in?
     for bag in input_string.split('\n'):
         parent, children = bag.split(' bags contain ')
-        children = re.findall('(\d{1,}) ([a-z ]*) bag', children)
+        children = re.findall(r'(\d{1,}) ([a-z ]*) bag', children)
         outside_in[parent] = {}
         for qty, child in children:
             outside_in[parent][child] = int(qty)
@@ -49,4 +49,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=7, verbose=True)
+    blitzen.run(main, year=2020, day=7, verbose=True)

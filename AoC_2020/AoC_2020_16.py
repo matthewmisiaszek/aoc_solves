@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def parse_ticket(ticket):
@@ -62,4 +62,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=16, verbose=True)
+    blitzen.run(main, year=2020, day=16, verbose=True)

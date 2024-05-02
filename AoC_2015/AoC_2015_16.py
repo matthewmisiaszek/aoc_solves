@@ -1,5 +1,5 @@
 # YOU HAVE SELECTED MFCSAM AS THE COMPUTER'S DEFAULT VOICE
-import dancer
+import blitzen
 
 
 def who_is_sue(ticker, sues, gt=None, ft=None):
@@ -26,7 +26,7 @@ def who_is_sue(ticker, sues, gt=None, ft=None):
 def parse(input_string):
     table = input_string.maketrans(':,', '  ')
     input_string = input_string.translate(table)
-    ticker = dancer.root_path + '/AoC_2015/ticker_tape.txt'
+    ticker = blitzen.root_path + '/AoC_2015/ticker_tape.txt'
     ticker = [line.split(': ') for line in open(ticker).read().split('\n')]
     ticker = {key: int(val) for key, val in ticker}
 
@@ -50,4 +50,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=16, verbose=True)
+    blitzen.run(main, year=2015, day=16, verbose=True)

@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 from collections import Counter
 
@@ -21,4 +21,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2018, day=3, verbose=True)
+    blitzen.run(main, year=2018, day=3, verbose=True)

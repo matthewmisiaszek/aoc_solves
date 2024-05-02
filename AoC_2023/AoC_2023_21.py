@@ -1,5 +1,5 @@
-import dancer
-from common import graph, spatial
+import blitzen
+from donner import graph, spatial
 
 
 class Garden:
@@ -7,6 +7,7 @@ class Garden:
         self.garden_dict = graph.text_to_dict(input_string, exclude='#')
         self.plots = set(self.garden_dict.keys())
         _, self.plotsize = spatial.bounds(self.plots, pad=1)
+        self.plotsize += spatial.Point(0, 0, 1)
         for plot, char in self.garden_dict.items():
             if char == 'S':
                 self.start = plot
@@ -116,4 +117,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=21, verbose=True)
+    blitzen.run(main, year=2023, day=21, verbose=True)

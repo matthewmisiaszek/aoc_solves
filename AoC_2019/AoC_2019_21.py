@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 from AoC_2019.intcode import Intcode
 
 
@@ -14,12 +14,12 @@ def operate_droid(droid, program, verbose):
 def main(input_string, verbose=False):
     program = [int(i) for i in input_string.split(',')]
     spring_droid = Intcode(program)
-    program = open(dancer.root_path + '/AoC_2019/spring_droid_mk1').read()
+    program = open(blitzen.root_path + '/AoC_2019/spring_droid_mk1').read()
     p1 = operate_droid(spring_droid, program, verbose)
-    program = open(dancer.root_path + '/AoC_2019/spring_droid_mk2').read()
+    program = open(blitzen.root_path + '/AoC_2019/spring_droid_mk2').read()
     p2 = operate_droid(spring_droid, program, verbose)
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=21, verbose=True)
+    blitzen.run(main, year=2019, day=21, verbose=True)

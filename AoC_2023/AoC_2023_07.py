@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 CARDS = 'j23456789TJQKA'
@@ -28,4 +28,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=7, verbose=True)
+    blitzen.run(main, year=2023, day=7, verbose=True)

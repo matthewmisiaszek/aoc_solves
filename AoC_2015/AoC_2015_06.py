@@ -1,10 +1,10 @@
-import dancer
+import blitzen
 import re
 
 
 def main(input_string, verbose=False):
     size = 1000
-    pattern = '(.*) (\d*),(\d*) through (\d*),(\d*)'
+    pattern = r'(.*) (\d*),(\d*) through (\d*),(\d*)'
     p1 = {(x, y): 0 for x in range(size) for y in range(size)}
     p2 = p1.copy()
     for line in input_string.split('\n'):
@@ -30,4 +30,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=6, verbose=True)
+    blitzen.run(main, year=2015, day=6, verbose=True)

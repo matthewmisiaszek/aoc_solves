@@ -1,164 +1,79 @@
-import dancer
-from common import misc
+import blitzen
+from donner import misc
+from recordclass import dataobject, astuple, asdict
 
 
-class Point:
-    def __init__(self, x=0, y=0):
-        if isinstance(x, Point):
-            self.x = x.x
-            self.y = x.y
-        elif isinstance(x, list) or isinstance(x, tuple):
-            self.x = x[0]
-            self.y = x[1]
-        else:
-            self.x = x
-            self.y = y
-
-    def manhattan(self, other=None):
-        if other is None:
-            return abs(self.x) + abs(self.y)
-        else:
-            return abs(self.x - other.x) + abs(self.y - other.y)
-
-    def transpose(self):
-        return Point(self.y, self.x)
-
-    def yinv(self):
-        return Point(self.x, -self.y)
-
-    def left(self):
-        return Point(self.y, -self.x)
-
-    def right(self):
-        return Point(-self.y, self.x)
-
-    def sign(self):
-        return Point(misc.sign(self.x), misc.sign(self.y))
-
-    def __add__(self, other):
-        return Point(self.x + other.x, self.y + other.y)
-
-    def __sub__(self, other):
-        return Point(self.x - other.x, self.y - other.y)
-
-    def __mul__(self, other):
-        if isinstance(other, Point):
-            return Point(self.x * other.x, self.y * other.y)
-        else:
-            return Point(self.x * other, self.y * other)
-    
-    def __mod__(self, other):
-        if isinstance(other, Point):
-            return Point(self.x % other.x, self.y % other.y)
-        else:
-            return Point(self.x % other, self.y % other)
-    
-    def __truediv__(self, other):
-        if isinstance(other, Point):
-            return Point(self.x / other.x, self.y / other.y)
-        else:
-            return Point(self.x / other, self.y / other)
-    
-    def __floordiv__(self, other):
-        if isinstance(other, Point):
-            return Point(self.x // other.x, self.y // other.y)
-        else:
-            return Point(self.x // other, self.y // other)
-    
-    def div_towards_zero(self, other):
-        if isinstance(other, Point):
-            return Point(
-                misc.div_towards_zero(self.x, other.x), 
-                misc.div_towards_zero(self.y, other.y)
-                )
-        else:
-            return Point(
-                misc.div_towards_zero(self.x, other), 
-                misc.div_towards_zero(self.y, other)
-                )
-
-    def __lt__(self, other):
-        if self.y == other.y:
-            return self.x < other.x
-        else:
-            return self.y < other.y
-
-    def __hash__(self):
-        return hash((self.x, self.y))
-
-    def __eq__(self, other):
-        if isinstance(other, Point):
-            return self.x == other.x and self.y == other.y
-        else:
-            return False
-
-    def __repr__(self):
-        return 'x:' + str(self.x) + ',y:' + str(self.y)
-
-    def __str__(self):
-        return self.__repr__()
-
-    def __getitem__(self, item):
-        if item in {0, 'x', 'X'}:
-            return self.x
-        elif item in {1, 'y', 'Y'}:
-            return self.y
-        else:
-            return None
-
-    def __setitem__(self, key, value):
-        if key in {0, 'x', 'X'}:
-            self.x = value
-        elif key in {1, 'y', 'Y'}:
-            self.y = value
-
-
-class Point3D:
-    def __init__(self, x=0, y=0, z=0):
-        if isinstance(x, Point):
-            self.x = x.x
-            self.y = x.y
-            self.z = 0
-        else:
-            self.x = x
-            self.y = y
-            self.z = z
+class Point(dataobject, readonly=True, hashable=True):
+    x: int | float = 0
+    y: int | float = 0
+    z: int | float = 0
 
     def manhattan(self, other=None):
         if other is None:
             return abs(self.x) + abs(self.y) + abs(self.z)
         else:
-            if isinstance(other, Point):
-                other = Point3D(other)
             return abs(self.x - other.x) + abs(self.y - other.y) + abs(self.z - other.z)
 
+    def transpose(self):
+        return Point(self.y, self.x, self.z)
+
+    def yinv(self):
+        return Point(self.x, -self.y, self.z)
+
+    def left(self):
+        return Point(self.y, -self.x, self.z)
+
+    def right(self):
+        return Point(-self.y, self.x, self.z)
+
+    def sign(self):
+        return Point(misc.sign(self.x), misc.sign(self.y), misc.sign(self.z))
+
     def __add__(self, other):
-        if isinstance(other, Point):
-            other = Point3D(other)
-        return Point3D(self.x + other.x, self.y + other.y, self.z + other.z)
+        return Point(self.x + other.x, self.y + other.y, self.z + other.z)
 
     def __sub__(self, other):
-        if isinstance(other, Point):
-            other = Point3D(other)
-        return Point3D(self.x - other.x, self.y - other.y, self.z - other.z)
+        return Point(self.x - other.x, self.y - other.y, self.z - other.z)
 
     def __mul__(self, other):
         if isinstance(other, Point):
-            other = Point3D(other)
-        if isinstance(other, Point3D):
-            return Point3D(self.x * other.x, self.y * other.y, self.z * other.z)
+            return Point(self.x * other.x, self.y * other.y, self.z * other.z)
         else:
-            return Point3D(self.x * other, self.y * other, self.z * other)
-    
+            return Point(self.x * other, self.y * other, self.z * other)
+
+    def __mod__(self, other):
+        if isinstance(other, Point):
+            return Point(self.x % other.x, self.y % other.y, self.z % other.z)
+        else:
+            return Point(self.x % other, self.y % other, self.z % other)
+
     def __truediv__(self, other):
         if isinstance(other, Point):
-            return Point3D(self.x / other.x, self.y / other.y, self.z / other.z)
+            return Point(self.x / other.x, self.y / other.y, self.z / other.z)
         else:
-            return Point3D(self.x / other, self.y / other, self.z / other)
+            return Point(self.x / other, self.y / other, self.z / other)
+
+    def __floordiv__(self, other):
+        if isinstance(other, Point):
+            return Point(self.x // other.x, self.y // other.y, self.z // other.z)
+        else:
+            return Point(self.x // other, self.y // other, self.z // other)
+
+    def div_towards_zero(self, other):
+        if isinstance(other, Point):
+            return Point(
+                misc.div_towards_zero(self.x, other.x),
+                misc.div_towards_zero(self.y, other.y),
+                misc.div_towards_zero(self.z, other.z)
+                )
+        else:
+            return Point(
+                misc.div_towards_zero(self.x, other),
+                misc.div_towards_zero(self.y, other),
+                misc.div_towards_zero(self.z, other)
+                )
 
     def __lt__(self, other):
-        if isinstance(other, Point):
-            other = Point3D(other)
         if self.y == other.y:
             if self.x == other.x:
                 return self.z < other.z
@@ -167,63 +82,25 @@ class Point3D:
         else:
             return self.y < other.y
 
-    def __hash__(self):
-        return hash((self.x, self.y, self.z))
+    def astuple(self):
+        return astuple(self)
 
-    def __eq__(self, other):
-        if isinstance(other, Point3D):
-            return (self.x == other.x) and (self.y == other.y) and (self.z == other.z)
-        else:
-            return False
-
-    def __repr__(self):
-        return 'x:' + str(self.x) + ',y:' + str(self.y) + ',z:' + str(self.z)
-
-    def __str__(self):
-        return self.__repr__()
-
-    def __getitem__(self, item):
-        if item in {0, 'x', 'X'}:
-            return self.x
-        elif item in {1, 'y', 'Y'}:
-            return self.y
-        elif item in {2, 'z', 'Z'}:
-            return self.z
-        else:
-            return None
-
-    def __setitem__(self, key, value):
-        if key in {0, 'x', 'X'}:
-            self.x = value
-        elif key in {1, 'y', 'Y'}:
-            self.y = value
-        elif key in {2, 'z', 'Z'}:
-            self.z = value
+    def asdict(self):
+        return asdict(self)
 
 
 def bounds(points, pad=0):
-    xes = [point.x for point in points]
-    yes = [point.y for point in points]
-    n = Point(min(xes) - pad, min(yes) - pad)
-    x = Point(max(xes) + pad, max(yes) + pad)
-    return n, x
-
-
-def bounds3D(points, pad=0):
+    if not isinstance(pad, Point):
+        pad = Point(pad, pad, pad)
     xes = [point.x for point in points]
     yes = [point.y for point in points]
     zes = [point.z for point in points]
-    n = Point3D(min(xes) - pad, min(yes) - pad, min(zes) - pad)
-    x = Point3D(max(xes) + pad, max(yes) + pad, max(zes) + pad)
+    n = Point(min(xes), min(yes), min(zes)) - pad
+    x = Point(max(xes), max(yes), max(zes)) + pad
     return n, x
 
 
 def inbounds(point, bound):
-    n, x = bound
-    return n.x <= point.x <= x.x and n.y <= point.y <= x.y
-
-
-def inbounds3D(point, bound):
     n, x = bound
     return n.x <= point.x <= x.x and n.y <= point.y <= x.y and n.z <= point.z <= x.z
 
@@ -235,8 +112,8 @@ EAST = Point(1, 0)
 NORTH = Point(0, -1)
 WEST = Point(-1, 0)
 SOUTH = Point(0, 1)
-UP = Point3D(0, 0, 1)
-DOWN = Point3D(0, 0, -1)
+UP = Point(0, 0, 1)
+DOWN = Point(0, 0, -1)
 NORTHEAST = NORTH + EAST
 NORTHWEST = NORTH + WEST
 SOUTHWEST = SOUTH + WEST
@@ -296,15 +173,14 @@ HEX_E_WEST = Point(-1, 0)
 HEX_E_SOUTHWEST = Point(0, -1)
 HEX_E_SOUTHEAST = Point(1, -1)
 
-NAMES_HEX_E = {
-    'East': HEX_E_EAST,
-    'Northeast': HEX_E_NORTHEAST,
-    'Northwest': HEX_E_NORTHWEST,
-    'West': HEX_E_WEST,
-    'Southwest': HEX_E_SOUTHWEST,
-    'Southeast': HEX_E_SOUTHEAST
-
-}
+HEX_E_6 = (HEX_E_EAST, HEX_E_NORTHEAST, HEX_E_NORTHWEST, HEX_E_WEST, HEX_E_SOUTHWEST, HEX_E_SOUTHEAST)
+NAMES_HEX_E = {key: val
+               for nlist in (
+                   ('e', 'ne', 'nw', 'w', 'sw', 'se'),
+                   ('East', 'Northeast', 'Northwest', 'West', 'Southwest', 'Southeast')
+               )
+               for key, val in zip(nlist, HEX_E_6)
+               }
 
 # 2D Hex, Southeast, South
 HEX_S_SOUTH = Point(0, 1)
@@ -314,14 +190,15 @@ HEX_S_NORTH = Point(0, -1)
 HEX_S_NORTHWEST = Point(-1, 0)
 HEX_S_SOUTHWEST = Point(-1, 1)
 
-NAMES_HEX_S = {
-    'South': HEX_S_SOUTH,
-    'Southeast': HEX_S_SOUTHEAST,
-    'Northeast': HEX_S_NORTHEAST,
-    'North': HEX_S_NORTH,
-    'Northwest': HEX_S_NORTHWEST,
-    'Southwest': HEX_S_SOUTHWEST
-}
+HEX_S_6 = (HEX_S_SOUTH, HEX_S_SOUTHEAST, HEX_S_NORTHEAST, HEX_S_NORTH, HEX_S_NORTHWEST, HEX_S_SOUTHWEST)
+
+NAMES_HEX_S = {key: val
+               for nlist in (
+                   ('s', 'se', 'ne', 'n', 'nw', 'sw'),
+                   ('South', 'Southeast', 'Northeast', 'North', 'Northwest', 'Southwest')
+               )
+               for key, val in zip(nlist, HEX_E_6)
+               }
 
 # include upper and lower cases of all keys
 for name_dict in (NAMES_2D, NAMES_3D, NAMES_HEX_E, NAMES_HEX_S):
@@ -332,14 +209,13 @@ for name_dict in (NAMES_2D, NAMES_3D, NAMES_HEX_E, NAMES_HEX_S):
 ENWS8 = (EAST, NORTHEAST, NORTH, NORTHWEST, WEST, SOUTHWEST, SOUTH, SOUTHEAST)
 ENWS = ENWS8[::2]
 ENWS_CORNERS = ENWS8[1::2]
-D3D6 = tuple(Point3D(i) for i in ENWS) + (UP, DOWN)
-D3D26 = tuple(Point3D(x, y, z)
+D3D6 = tuple(Point(*i.astuple()) for i in ENWS) + (UP, DOWN)
+D3D26 = tuple(Point(x, y, z)
               for x in range(-1, 2)
               for y in range(-1, 2)
               for z in range(-1, 2)
               if x != 0 or y != 0 or z != 0)
-HEX_E_6 = (HEX_E_EAST, HEX_E_NORTHEAST, HEX_E_NORTHWEST, HEX_E_WEST, HEX_E_SOUTHWEST, HEX_E_SOUTHEAST)
-HEX_S_6 = (HEX_S_SOUTH, HEX_S_SOUTHEAST, HEX_S_NORTHEAST, HEX_S_NORTH, HEX_S_NORTHWEST, HEX_S_SOUTHWEST)
+
 
 FORWARD_CMD = {'F', 'FD', 'FORWARD'}
 RIGHT_CMD = {'R', 'RIGHT', 'RT'}

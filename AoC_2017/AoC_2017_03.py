@@ -1,7 +1,5 @@
-import dancer
-from common import cart2d
-from common import constants as con
-from common import elementwise as ew
+import blitzen
+from donner import spatial as sp
 
 
 def part1(square):
@@ -13,16 +11,15 @@ def part1(square):
 
 
 def part2(target):
-    cart = cart2d.Cart()
-    memory = {(0, 0): 1}
-    square = (0, 0)
-    heading = cart.east
+    square = sp.Point()
+    memory = {square: 1}
+    heading = sp.EAST
     value = 1
     while value < target:
-        if heading.left.move(square) not in memory:
-            heading = heading.left
-        square = heading.move(square)
-        neighbors = tuple(ew.sum2d(square, d) for d in con.D2D8)
+        if square + heading.left() not in memory:
+            heading = heading.left()
+        square += heading
+        neighbors = tuple(square + d for d in sp.ENWS8)
         value = sum((memory[neighbor] for neighbor in neighbors if neighbor in memory))
         memory[square] = value
     return value
@@ -36,4 +33,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2017, day=3, verbose=True)
+    blitzen.run(main, year=2017, day=3, verbose=True)

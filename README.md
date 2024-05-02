@@ -3,27 +3,27 @@ My solves for Advent of Code https://adventofcode.com/
 
 Solves in Python 3
 
-Run times for each day are listed in each year's README.
-Times measured using M1 MBP.
-
 ## Running
-Run a single day by running its file.  
+Run a single day by running its file `py AoC_20XX/AoC_20XX_XX.py`.  
 
-Run multiple days using common/run_multiple.py.
+Run multiple days using donner/run_multiple.py.  
+Enter ranges of years and days as `20XX-20XX:XX-XX` with multiple ranges separated by space.  
+The flag `-s` will save outputs for later comparison.
 
 cd to repo root or to directory containing file before running.
 
 ## Configuration
-Several options may be set in common/config.ini including:
+A config file is saved to `~/.cache/aoc_blitzen/config.ini`
+Several options may be set including:
 * Input file directory
 * Input file naming convention
 * Holiday greeting displayed on day 25
 * Output formats
 
-## DANCER
-### Directory Augmentation and Normalized Code Execution Routine
+## BLITZEN
+### Boilerplate Library for Inputs, Timing, and Zealous Execution Normalization
 
-DANCER handles several functions common to every day's code:
+Blitzen handles several functions common to every day's code:
 * Append repo root to sys.path
 * Retrieve input file
 * Execute main()
@@ -31,6 +31,7 @@ DANCER handles several functions common to every day's code:
 * Print outputs
 * Print elapsed time
 
-## Common
+## DONNER
+### Directory of Naughty and Nice modules for Easy code Reuse
  
-Modules in common are used by solves from multiple days
+Modules in donner are used by solves from multiple days

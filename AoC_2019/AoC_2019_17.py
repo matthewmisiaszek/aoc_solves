@@ -1,13 +1,11 @@
-import dancer
+import blitzen
 from AoC_2019.intcode import Intcode
-from common import constants as con, elementwise as ew, cart2d
 import re
+from donner import graph, spatial as sp
 
 
 def parse(ascii_str):
-    scaffold = {(x, y): c
-                for y, line in enumerate(ascii_str.split('\n'))
-                for x, c in enumerate(line) if c != '.'}
+    scaffold = graph.text_to_dict(ascii_str, exclude='.')
     alignment_sum = 0
     ends = set()
     corners = set()
@@ -15,20 +13,20 @@ def parse(ascii_str):
     for node in scaffold.keys():
         neighbor_count = 0
         neighbors = []
-        for direction in con.D2D4:
-            neighbor = ew.sum2d(node, direction)
+        for direction in sp.ENWS:
+            neighbor = node + direction
             if neighbor in scaffold:
                 neighbors.append(neighbor)
                 neighbor_count += 1
         if neighbor_count > 2:
-            alignment_sum += ew.prod(node)
+            alignment_sum += node.x * node.y
             intersections.add(node)
         elif neighbor_count < 2:
             ends.add(node)
             intersections.add(node)
         else:
-            (ax, ay), (bx, by) = neighbors
-            if ax == bx or ay == by:
+            a, b = neighbors
+            if a.x == b.x or a.y == b.y:
                 pass
             else:
                 corners.add(node)
@@ -41,26 +39,25 @@ def parse(ascii_str):
 
 
 def find_path(scaffold, dock, scaffold_end):
-    cart = cart2d.Cart()
-    heading = cart.north
+    heading = sp.NORTH
     loc = dock
     cmd = []
     dist = 0
     while True:
-        if heading.move(loc) not in scaffold:
+        if loc + heading not in scaffold:
             cmd.append(str(dist))
             if loc == scaffold_end:
                 break
             dist = 0
-            if heading.right.move(loc) in scaffold:
+            if loc + heading.right() in scaffold:
                 cmd.append('R')
-                heading = heading.right
+                heading = heading.right()
             else:
                 cmd.append('L')
-                heading = heading.left
+                heading = heading.left()
         else:
             dist += 1
-            loc = heading.move(loc)
+            loc += heading
     return cmd[1:]
 
 
@@ -99,4 +96,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=17, verbose=True)
+    blitzen.run(main, year=2019, day=17, verbose=True)

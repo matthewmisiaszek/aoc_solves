@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 
 
@@ -12,13 +12,13 @@ def re_default(line, pattern, default=0):
 
 class Spell:
     def __init__(self, line):
-        ((self.name, cost),) = re.findall('(.*) costs (\d*) mana.', line)
+        ((self.name, cost),) = re.findall(r'(.*) costs (\d*) mana.', line)
         self.cost = int(cost)
-        self.duration = re_default(line, 'lasts for (\d*) turns.', 1)
-        self.damage = re_default(line, '(\d*) damage')
-        self.hp = re_default(line, '(\d*) hit points')
-        self.mana = re_default(line, '(\d*) new mana')
-        self.armor = re_default(line, 'armor is increased by (\d*)')
+        self.duration = re_default(line, r'lasts for (\d*) turns.', 1)
+        self.damage = re_default(line, r'(\d*) damage')
+        self.hp = re_default(line, r'(\d*) hit points')
+        self.mana = re_default(line, r'(\d*) new mana')
+        self.armor = re_default(line, r'armor is increased by (\d*)')
 
     def __str__(self):
         return self.name
@@ -105,7 +105,7 @@ def fight(spells, you, boss, attrition=0):
 
 
 def parse(input_string):
-    spell_file = open(dancer.root_path + '/AoC_2015/spells.txt').read()
+    spell_file = open(blitzen.root_path + '/AoC_2015/spells.txt').read()
     spells = tuple(Spell(line) for line in spell_file.split('\n'))
     bhp, bd = (int(line[-1]) for line in [line.split() for line in input_string.split('\n')])
     boss = Fighter(bhp, bd, 0)
@@ -121,4 +121,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=22, verbose=True)
+    blitzen.run(main, year=2015, day=22, verbose=True)

@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 from AoC_2019.intcode import Intcode
 import re
 from itertools import combinations
@@ -115,9 +115,9 @@ def main(input_string, verbose=False):
     process_command(droid, path_to_checkpoint)
     santas_message = safe_cracker(droid, inventory, check_command)
     p1 = re.search('typing (.*) on', santas_message).group(1)
-    p2 = dancer.holiday_greeting
+    p2 = blitzen.holiday_greeting
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=25, verbose=True)
+    blitzen.run(main, year=2019, day=25, verbose=True)

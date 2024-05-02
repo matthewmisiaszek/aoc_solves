@@ -1,7 +1,14 @@
-import dancer
-from common import elementwise as ew
+import blitzen
 import re
 import math
+
+
+def manhattan(a):
+    return sum((abs(i) for i in a))
+
+
+def sum_tuple(a, b):
+    return tuple(ai + bi for ai, bi in zip(a, b))
 
 
 def gravity(pos, vel, moon_positions):
@@ -27,12 +34,12 @@ def main(input_string, verbose=False):
     while steps < 1000 or len(periods) < 3:
         moon_velocities = tuple(gravity(pos, vel, moon_positions)
                                 for pos, vel in zip(moon_positions, moon_velocities))
-        moon_positions = tuple(ew.esum(pos, vel)
+        moon_positions = tuple(sum_tuple(pos, vel)
                                for pos, vel in zip(moon_positions, moon_velocities))
         steps += 1
 
         if steps == 1000:
-            p1 = sum(sum(ew.eabs(mpos)) * sum(ew.eabs(mvel))
+            p1 = sum(manhattan(mpos) * manhattan(mvel)
                      for mpos, mvel in zip(moon_positions, moon_velocities))
 
         for axis, (p, v, ip, iv) in enumerate(zip(
@@ -46,4 +53,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=12, verbose=True)
+    blitzen.run(main, year=2019, day=12, verbose=True)

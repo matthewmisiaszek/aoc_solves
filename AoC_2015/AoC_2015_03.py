@@ -1,12 +1,12 @@
-import dancer
-from common import constants as con, elementwise as ew
+import blitzen
+from donner import spatial as sp
 
 
 def santa(instructions):
-    pos = con.origin2
+    pos = sp.Point()
     houses = {pos}
     for c in instructions:
-        pos = ew.sum2d(pos, con.caret[c])
+        pos += sp.NAMES_2D[c]
         houses.add(pos)
     return houses
 
@@ -18,4 +18,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=3, verbose=True)
+    blitzen.run(main, year=2015, day=3, verbose=True)

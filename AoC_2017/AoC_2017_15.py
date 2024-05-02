@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def generator(value, factor, modulus, judge_modulus):
@@ -28,4 +28,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2017, day=15, verbose=True)
+    blitzen.run(main, year=2017, day=15, verbose=True)

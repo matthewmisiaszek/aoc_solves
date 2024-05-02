@@ -1,6 +1,6 @@
-import dancer
+import blitzen
 from AoC_2019.intcode import Intcode
-from common import elementwise as ew, printer, graph, constants as con, spatial
+from donner import graph, spatial
 
 COMMANDS = {(0, 1): 1, (0, -1): 2, (-1, 0): 3, (1, 0): 4}
 COMMANDS = {spatial.NAMES_2D[direction]: i + 1 for i, direction in enumerate('UDLR')}
@@ -47,4 +47,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=15, verbose=True)
+    blitzen.run(main, year=2019, day=15, verbose=True)

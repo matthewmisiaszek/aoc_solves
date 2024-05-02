@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 from itertools import product
 
 
@@ -10,7 +10,7 @@ class Fighter:
 
 
 def item_shop():
-    file = open(dancer.root_path + '/AoC_2015/item_shop.txt').read()
+    file = open(blitzen.root_path + '/AoC_2015/item_shop.txt').read()
     items = {}
     for section in file.split('\n\n'):
         section = section.split('\n')
@@ -62,4 +62,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=21, verbose=True)
+    blitzen.run(main, year=2015, day=21, verbose=True)

@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import string
 from collections import deque
 
@@ -81,4 +81,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2017, day=18, verbose=True)
+    blitzen.run(main, year=2017, day=18, verbose=True)

@@ -1,5 +1,5 @@
-import dancer
-from common import elementwise as ew, constants as con
+import blitzen
+from donner import graph, spatial as sp
 
 BUG = '#'
 
@@ -14,7 +14,7 @@ def part1(full_input):
     all_points = tuple(sorted(full_input.keys()))
     bugs = {key for key, val in full_input.items() if val is BUG}
     bio_points = {point: 2 ** i for i, point in enumerate(all_points)}
-    neighbors = {bug: {ew.sum2d(bug, d) for d in con.D2D4} & bio_points.keys() for bug in bio_points.keys()}
+    neighbors = {bug: {bug + d for d in sp.ENWS} & bio_points.keys() for bug in bio_points.keys()}
     bio_ratings = set()
     while True:
         bio_rating = sum(bio_points[bug] for bug in bugs)
@@ -26,16 +26,14 @@ def part1(full_input):
 
 
 def neighbors2(all_points):
-    yx, xx = max(all_points)
-    ym, xm = yx // 2, xx // 2
-    center = (ym, xm)
-    size = xx - xm
+    center = max(all_points) // 2
+    size = center.x
     all_points.discard(center)
-    neighbors = {bug: {ew.sum2d(bug, d) for d in con.D2D4} & all_points for bug in all_points}
-    inside_edges = [ew.sum2d(center, d) for d in con.D2D4]
-    outside_edges = [[ew.sum2d(ew.sum2d(center, d1, size), d2, pos)
+    neighbors = {bug: {bug + d for d in sp.ENWS} & all_points for bug in all_points}
+    inside_edges = [center + d for d in sp.ENWS]
+    outside_edges = [[center + d1 * size + d2 * pos
                       for pos in range(-size, size + 1)]
-                     for d1, d2 in zip(con.D2D4, con.D2D4[1:] + con.D2D4[0:1])]
+                     for d1, d2 in zip(sp.ENWS, sp.ENWS[1:] + sp.ENWS[0:1])]
     for iedge, oedges in zip(inside_edges, outside_edges):
         for oedge in oedges:
             neighbors[iedge].add((oedge, -1))
@@ -67,13 +65,11 @@ def part2(full_input):
 
 
 def main(input_string, verbose=False):
-    full_input = {(y, x): c
-                  for y, line in enumerate(input_string.split('\n'))
-                  for x, c in enumerate(line)}
+    full_input = graph.text_to_dict(input_string)
     p1 = part1(full_input)
     p2 = part2(full_input)
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=24, verbose=True)
+    blitzen.run(main, year=2019, day=24, verbose=True)

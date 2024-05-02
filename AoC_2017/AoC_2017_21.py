@@ -1,5 +1,5 @@
-import dancer
-# from common import printer
+import blitzen
+# from donner import printer
 
 
 def parse_pattern(pattern, mark, cr):
@@ -58,4 +58,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2017, day=21, verbose=True)
+    blitzen.run(main, year=2017, day=21, verbose=True)

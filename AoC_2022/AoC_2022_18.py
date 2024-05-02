@@ -1,11 +1,11 @@
-import dancer
-from common import spatial
+import blitzen
+from donner import spatial
 
 
 def main(input_string, verbose=False):
-    cubes = {spatial.Point3D(*(int(i) for i in line.split(','))) for line in input_string.split('\n')}
+    cubes = {spatial.Point(*(int(i) for i in line.split(','))) for line in input_string.split('\n')}
     p1 = sum(cube+direction not in cubes for cube in cubes for direction in spatial.D3D6)
-    bounds = spatial.bounds3D(cubes, pad=1)
+    bounds = spatial.bounds(cubes, pad=1)
     corner, _ = bounds
     queue = [corner]
     closed = {corner}
@@ -16,11 +16,11 @@ def main(input_string, verbose=False):
             neighbor = curr + d
             if neighbor in cubes:
                 p2 += 1
-            elif neighbor not in closed and spatial.inbounds3D(neighbor, bounds):
+            elif neighbor not in closed and spatial.inbounds(neighbor, bounds):
                 closed.add(neighbor)
                 queue.append(neighbor)
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=18, verbose=True)
+    blitzen.run(main, year=2022, day=18, verbose=True)

@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 from string import ascii_lowercase as alph
 from itertools import product
 
@@ -46,4 +46,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=5, verbose=True)
+    blitzen.run(main, year=2015, day=5, verbose=True)

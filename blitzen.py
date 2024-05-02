@@ -1,4 +1,4 @@
-"""Directory Augmentation and Normalized Code Execution Routine"""
+"""Boilerplate Library for Inputs, Timing, and Zealous Execution Normalization (BLITZEN)"""
 import sys
 import os
 root_path = os.path.dirname(__file__)
@@ -6,4 +6,5 @@ if root_path not in sys.path:
     sys.path.append(root_path)
 
 
-from common.dancer import *
+
+from donner.blitzen import *

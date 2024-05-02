@@ -1,6 +1,6 @@
-import dancer
-from common import graph, constants as con, elementwise as ew
-from itertools import combinations, permutations
+import blitzen
+from donner import graph
+from itertools import permutations
 
 WALL = '#'
 DUCT = '.'
@@ -26,4 +26,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=24, verbose=True)
+    blitzen.run(main, year=2016, day=24, verbose=True)

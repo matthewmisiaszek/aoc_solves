@@ -1,7 +1,7 @@
-import dancer
+import blitzen
 import json
 from functools import cmp_to_key
-from common import elementwise as ew
+from math import prod
 
 DIV_PACKETS = '/AoC_2022/divider_packets'
 
@@ -46,11 +46,11 @@ def part1(input_string):
 
 
 def part2(input_string):
-    divider_packets_str = open(dancer.root_path + DIV_PACKETS).read().split('\n')
+    divider_packets_str = open(blitzen.root_path + DIV_PACKETS).read().split('\n')
     div_packets = [json.loads(i) for i in divider_packets_str]
     packets = [json.loads(i) for i in input_string.replace('\n\n', '\n').split('\n')] + div_packets
     packets.sort(key=cmp_to_key(cmp))
-    return ew.prod(packets.index(i) for i in div_packets)
+    return prod(packets.index(i) for i in div_packets)
 
 
 def main(input_string, verbose=False):
@@ -60,4 +60,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=13, verbose=True)
+    blitzen.run(main, year=2022, day=13, verbose=True)

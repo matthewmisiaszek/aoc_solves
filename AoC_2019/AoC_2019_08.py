@@ -1,5 +1,5 @@
-import dancer
-from common import printer, spatial
+import blitzen
+from donner import printer, spatial
 
 
 def main(input_string, verbose=False):
@@ -23,4 +23,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=8, verbose=True)
+    blitzen.run(main, year=2019, day=8, verbose=True)

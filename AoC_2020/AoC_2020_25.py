@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def main(input_string, verbose=False):
@@ -17,9 +17,9 @@ def main(input_string, verbose=False):
         ekey *= subject_number
         ekey %= modfact
     p1 = ekey
-    p2 = dancer.holiday_greeting
+    p2 = blitzen.holiday_greeting
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=25, verbose=True)
+    blitzen.run(main, year=2020, day=25, verbose=True)

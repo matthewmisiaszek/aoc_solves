@@ -1,5 +1,5 @@
-import dancer
-from common import spatial
+import blitzen
+from donner import spatial
 from itertools import product
 from collections import defaultdict
 
@@ -7,10 +7,10 @@ from collections import defaultdict
 class Block:
     def __init__(self, line, stack):
         self.line = line
-        self.corners = tuple(spatial.Point3D(
+        self.corners = tuple(spatial.Point(
             *(int(i) for i in point.split(','))
             ) for point in line.split('~'))
-        self.nb, self.xb = spatial.bounds3D(self.corners)
+        self.nb, self.xb = spatial.bounds(self.corners)
         self.footprint = {
             spatial.Point(x, y): self 
             for x, y in product(
@@ -69,4 +69,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=22, verbose=True)
+    blitzen.run(main, year=2023, day=22, verbose=True)

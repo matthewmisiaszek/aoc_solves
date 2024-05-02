@@ -1,6 +1,8 @@
-import dancer
-import common.elementwise as ew
+import blitzen
 
+
+def eabsdiff(a, b):
+    return tuple((abs(bi - ai) for ai, bi in zip(a, b)))
 
 def inrange(point):
     cdist = 3
@@ -12,7 +14,7 @@ def inrange(point):
         if len(item) == order:
             ret.add(item)
         else:
-            rdist = cdist - sum(ew.eabsdiff(item, point))
+            rdist = cdist - sum(eabsdiff(item, point))
             x0 = point[len(item)]
             queue.update({item + (x,) for x in range(x0 - rdist, x0 + rdist + 1)})
     return ret
@@ -31,9 +33,9 @@ def main(input_string, verbose=False):
             if point in pointranges:
                 constellation.update(pointranges.pop(point))
     p1 = constellations
-    p2 = dancer.holiday_greeting
+    p2 = blitzen.holiday_greeting
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2018, day=25, verbose=True)
+    blitzen.run(main, year=2018, day=25, verbose=True)

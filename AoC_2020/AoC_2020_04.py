@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 
 
@@ -25,7 +25,7 @@ def hgt(field):
 
 
 def hcl(field):
-    return bool(re.match('^#[\da-f]{6}$', field))
+    return bool(re.match(r'^#[\da-f]{6}$', field))
 
 
 def ecl(field):
@@ -33,7 +33,7 @@ def ecl(field):
 
 
 def pid(field):
-    return bool(re.match('^\d{9}$', field))
+    return bool(re.match(r'^\d{9}$', field))
 
 
 def parse(input_string):
@@ -85,4 +85,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=4, verbose=True)
+    blitzen.run(main, year=2020, day=4, verbose=True)

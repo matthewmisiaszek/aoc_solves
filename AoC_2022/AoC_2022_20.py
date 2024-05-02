@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 DKEY = 811589153
@@ -44,4 +44,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=20, verbose=True)
+    blitzen.run(main, year=2022, day=20, verbose=True)

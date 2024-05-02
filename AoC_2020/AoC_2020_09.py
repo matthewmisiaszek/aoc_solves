@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def part1(numbers):
@@ -38,4 +38,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=9, verbose=True)
+    blitzen.run(main, year=2020, day=9, verbose=True)

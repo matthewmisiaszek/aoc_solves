@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def look_n_say(sequence, iterations):
@@ -24,4 +24,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=10, verbose=True)
+    blitzen.run(main, year=2015, day=10, verbose=True)

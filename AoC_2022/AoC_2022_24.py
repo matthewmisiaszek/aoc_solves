@@ -1,5 +1,5 @@
-import dancer
-from common import graph, spatial as sp
+import blitzen
+from donner import graph, spatial as sp
 
 WALL = '#'
 headings = {v: h for v, h in zip('>^<v', sp.ENWS)}
@@ -29,7 +29,7 @@ def navigate(start, end, blizzards, non_wall, pacman):
 
 def cobe(non_wall):
     pacman = {}
-    bn, bx = sp.bounds(non_wall, pad=1)
+    bn, bx = sp.bounds(non_wall, pad=sp.Point(1, 1, 0))
     for dir_1, dir_2 in ((sp.EAST, sp.SOUTH), (sp.SOUTH, sp.EAST)):
         line_head = bn
         while sp.inbounds(line_head, (bn, bx)):
@@ -64,4 +64,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=24, verbose=True)
+    blitzen.run(main, year=2022, day=24, verbose=True)

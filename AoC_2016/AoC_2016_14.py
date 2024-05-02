@@ -1,6 +1,6 @@
-import dancer
-from common.misc import md5hash
-from common import multiproc
+import blitzen
+from donner.misc import md5hash
+from donner import multiproc
 import re
 
 THOUSAND = 1000
@@ -57,4 +57,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=14, verbose=True)
+    blitzen.run(main, year=2016, day=14, verbose=True)

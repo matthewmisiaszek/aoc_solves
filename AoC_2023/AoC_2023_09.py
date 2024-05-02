@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def extrapolate(x):
@@ -17,4 +17,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=9, verbose=True)
+    blitzen.run(main, year=2023, day=9, verbose=True)

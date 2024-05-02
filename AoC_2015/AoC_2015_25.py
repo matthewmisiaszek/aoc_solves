@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 
 
@@ -15,9 +15,9 @@ def main(input_string, verbose=False):
         code = code * 252533
         code = code % 33554393
     p1 = code
-    p2 = dancer.holiday_greeting
+    p2 = blitzen.holiday_greeting
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=25, verbose=True)
+    blitzen.run(main, year=2015, day=25, verbose=True)

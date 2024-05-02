@@ -1,6 +1,6 @@
-import dancer
+import blitzen
 from itertools import combinations
-from common import elementwise as ew
+from math import prod
 
 
 def balance(packages, n_groups):
@@ -8,10 +8,10 @@ def balance(packages, n_groups):
     for n in range(1, len(packages) + 1):
         small_groups = [group for group in combinations(packages, n) if sum(group) == goal_weight]
         if small_groups:
-            small_groups.sort(key=lambda x: ew.prod(x))
+            small_groups.sort(key=lambda x: prod(x))
             for group in small_groups:
                 if n_groups == 2 or balance(packages - set(group), n_groups - 1) is not False:
-                    return ew.prod(group)
+                    return prod(group)
     return False
 
 
@@ -23,4 +23,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=24, verbose=True)
+    blitzen.run(main, year=2015, day=24, verbose=True)

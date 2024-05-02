@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def addr(regs, a, b, c):
@@ -107,4 +107,4 @@ def main(input_string, verbose=False):
     return p1, p2
 
 if __name__ == "__main__":
-    dancer.run(main, year=2018, day=19, verbose=True)
+    blitzen.run(main, year=2018, day=19, verbose=True)

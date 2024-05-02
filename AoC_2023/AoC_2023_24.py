@@ -1,13 +1,16 @@
-import dancer
-from common import spatial, elementwise as ew
+import blitzen
+from donner import spatial
 from itertools import combinations
 
+
+def ediff(a, b):
+    return tuple(ai - bi for ai, bi in zip(a, b))
 
 class HailStone:
     def __init__(self, line=None):
         pstr, vstr = line.split('@')
-        self.p = spatial.Point3D(*(int(i) for i in pstr.split(',')))
-        self.v = spatial.Point3D(*(int(i) for i in vstr.split(',')))
+        self.p = spatial.Point(*(int(i) for i in pstr.split(',')))
+        self.v = spatial.Point(*(int(i) for i in vstr.split(',')))
         self.m = self.v.y / self.v.x if self.v.x else None
         self.b = self.p.y - self.v.y * self.p.x / self.v.x if self.v.x else None
 
@@ -73,7 +76,7 @@ def main(input_string, verbose=False):
     bounds = (spatial.Point(n, n), spatial.Point(x, x))
     p1 = sum(a.intersect2D(b, bounds) for a, b in combinations(stones, 2))
     A = list(zip(*[s.matrix() for s in stones[:4]]))
-    A = [ew.ediff(Ai[0], Aij) for Ai in A for Aij in Ai[1:]]
+    A = [ediff(Ai[0], Aij) for Ai in A for Aij in Ai[1:]]
     a = [Ai[:-1] for Ai in A]
     b = [Ai[-1] for Ai in A]
     p2 = sum(cramer(a, b, i) for i in range(3))
@@ -82,4 +85,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=24, verbose=True)
+    blitzen.run(main, year=2023, day=24, verbose=True)

@@ -1,5 +1,5 @@
-import dancer
-from common import elementwise as ew
+import blitzen
+from math import prod
 import re
 
 
@@ -40,11 +40,11 @@ class Monkey:
 
 
 def part(input_string, worrydiv, rounds):
-    pattern = open(dancer.root_path + '/AoC_2022/monkey_pattern').read()
+    pattern = open(blitzen.root_path + '/AoC_2022/monkey_pattern').read()
     monkeys = [Monkey(worrydiv, **match.groupdict())
                for match in re.finditer(pattern, input_string)]  # monkeys in order listed
     monkey_dict = {monkey.id: monkey for monkey in monkeys}  # monkeys indexed by ID (probably the same order)
-    worrymod = ew.prod(monkey.test for monkey in monkeys)  # product of every monkey's test
+    worrymod = prod(monkey.test for monkey in monkeys)  # product of every monkey's test
     for monkey in monkeys:  # set worry mod
         monkey.worrymod = worrymod
     for _ in range(rounds):  # do rounds
@@ -62,4 +62,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=11, verbose=True)
+    blitzen.run(main, year=2022, day=11, verbose=True)

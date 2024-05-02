@@ -1,6 +1,6 @@
-import dancer
-from common import spatial
-from common.bfsqueue import BFSQ
+import blitzen
+from donner import spatial
+from donner.bfsqueue import BFSQ
 
 
 class Graph(dict):

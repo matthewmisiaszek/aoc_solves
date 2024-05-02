@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def scrambler(instructions, pw):
@@ -111,4 +111,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=21, verbose=True)
+    blitzen.run(main, year=2016, day=21, verbose=True)

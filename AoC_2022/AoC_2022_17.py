@@ -1,5 +1,5 @@
-import dancer
-from common import spatial
+import blitzen
+from donner import spatial
 
 ROCK = '#'
 JET_DIRECTIONS = {'>': spatial.EAST,
@@ -10,7 +10,7 @@ RBOUND = 6
 
 
 def get_rocks():
-    rock_file = open(dancer.root_path + '/AoC_2022/rocks').read().strip()
+    rock_file = open(blitzen.root_path + '/AoC_2022/rocks').read().strip()
     rocks = []
     for rock in rock_file.split('\n\n'):
         rock = tuple(spatial.Point(x, y).yinv()
@@ -81,4 +81,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=17, verbose=True)
+    blitzen.run(main, year=2022, day=17, verbose=True)

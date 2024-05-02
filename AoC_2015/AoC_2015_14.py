@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 
 
@@ -30,7 +30,7 @@ class Reindeer:
 
 
 def main(input_string, verbose=False):
-    pattern = '.* can fly (\d*) km/s for (\d*) seconds, but then must rest for (\d*) seconds.'
+    pattern = r'.* can fly (\d*) km/s for (\d*) seconds, but then must rest for (\d*) seconds.'
     reindeer = {Reindeer(speed, endurance, rest)
                 for speed, endurance, rest
                 in re.findall(pattern, input_string)}
@@ -44,4 +44,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=14, verbose=True)
+    blitzen.run(main, year=2015, day=14, verbose=True)

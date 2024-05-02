@@ -1,5 +1,5 @@
-import dancer
-from common.misc import CRT
+import blitzen
+from donner.misc import CRT
 
 
 def main(input_string, verbose=False):
@@ -13,4 +13,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=13, verbose=True)
+    blitzen.run(main, year=2020, day=13, verbose=True)

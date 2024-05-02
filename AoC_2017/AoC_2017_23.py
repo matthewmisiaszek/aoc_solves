@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import AoC_2017.AoC_2017_18 as tablet
 
 
@@ -28,4 +28,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2017, day=23, verbose=True)
+    blitzen.run(main, year=2017, day=23, verbose=True)

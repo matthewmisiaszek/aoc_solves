@@ -1,5 +1,5 @@
-import dancer
-from common import graph
+import blitzen
+from donner import graph
 
 
 def unique_paths(start, target, wm):
@@ -23,9 +23,9 @@ def main(input_string, verbose=False):
             wm.add_edge_eq(node, neighbor)
     p1 = sum(unique_paths(node, target, wm) == 3 for target in wm)
     p1 = p1 * (len(wm) - p1)
-    p2 = dancer.holiday_greeting
+    p2 = blitzen.holiday_greeting
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=25, verbose=True)
+    blitzen.run(main, year=2023, day=25, verbose=True)

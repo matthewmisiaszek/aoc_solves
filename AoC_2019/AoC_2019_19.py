@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 from AoC_2019.intcode import Intcode
 from itertools import combinations_with_replacement as combo
 
@@ -31,4 +31,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=19, verbose=True)
+    blitzen.run(main, year=2019, day=19, verbose=True)

@@ -1,5 +1,5 @@
-import dancer
-from common import spatial
+import blitzen
+from donner import spatial
 
 
 def printdict(grid, default=' ', width=False, gridtype='cart'):
@@ -10,7 +10,7 @@ def strdict(grid, default=' ', width=False, gridtype='cart'):
     if not grid:
         return ''
     # convert tuple points to spatial points just in case
-    grid = {spatial.Point(point): value for point, value in grid.items()}
+    grid = {point if isinstance(point, spatial.Point) else spatial.Point(point): value for point, value in grid.items()}
     nb, xb = spatial.bounds(grid)
     if width is False:
         width = max([len(str(si)) for si in grid.values()])
@@ -50,7 +50,7 @@ def strset(grid, default=' ', mark='#', width=False, gridtype='cart'):
     mark = mark.rjust(width)
     default = default.rjust(width)
     # convert tuple points to spatial points just in case
-    grid = {spatial.Point(point)for point in grid}
+    grid = {point if isinstance(point, spatial.Point) else spatial.Point(point)for point in grid}
     nb, xb = spatial.bounds(grid)
     printstr = ''
     for y in range(nb.y, xb.y + 1):

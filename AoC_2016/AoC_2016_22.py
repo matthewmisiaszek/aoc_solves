@@ -1,7 +1,7 @@
-import dancer
+import blitzen
 import re
 from itertools import permutations
-from common import constants as con, elementwise as ew
+from donner import spatial as sp
 
 
 def manh(a, b):
@@ -9,11 +9,11 @@ def manh(a, b):
 
 
 def parse(input_string):
-    pattern = '/dev/grid/node-x(\d*)-y(\d*) *(\d*)T *(\d*)T *(\d*)T *(\d*)%'
+    pattern = r'/dev/grid/node-x(\d*)-y(\d*) *(\d*)T *(\d*)T *(\d*)T *(\d*)%'
     size = {}
     used = {}
     for x, y, size_i, used_i, _, _ in [[int(i) for i in line] for line in re.findall(pattern, input_string)]:
-        node = (x, y)
+        node = sp.Point(x, y)
         size[node] = size_i
         used[node] = used_i
     return size, used
@@ -48,8 +48,8 @@ def merge(used, old_hist, new_hist, empty_node, target):
 
 
 def branch(size, used, empty_node, target, access, history, queue, closed):
-    for direction in con.D2D4:
-        new_empty_node = ew.sum2d(empty_node, direction)
+    for direction in sp.ENWS:
+        new_empty_node = empty_node + direction
         if new_empty_node in size:
             data_size = used[new_empty_node]
             if data_size <= size[empty_node] - used[empty_node]:
@@ -59,16 +59,16 @@ def branch(size, used, empty_node, target, access, history, queue, closed):
                     new_target = target
                 new_history = history + ((empty_node, new_empty_node, data_size),)
                 if (new_empty_node, new_target) not in closed:
-                    score = manh(new_target, access) + manh(new_empty_node, new_target)
+                    score = new_target.manhattan(access) + new_empty_node.manhattan(new_target)
                     queue.add((score, new_history))
                     closed.add((new_empty_node, new_target))
 
 
 def part2(size, used):
     empty_node = min(used.keys(), key=lambda node: used[node])
-    nodes_with_y_0 = {(x, y) for x, y in size.keys() if y == 0}
+    nodes_with_y_0 = {p for p in size.keys() if p.y == 0}
     target = max(nodes_with_y_0)
-    access = (0, 0)
+    access = sp.Point(0, 0)
     queue = {(0, tuple())}
     history = tuple()
     closed = set()
@@ -92,4 +92,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=22, verbose=True)
+    blitzen.run(main, year=2016, day=22, verbose=True)

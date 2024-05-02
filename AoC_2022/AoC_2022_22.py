@@ -1,5 +1,5 @@
-import dancer
-from common import graph, spatial as sp
+import blitzen
+from donner import graph, spatial as sp
 import re
 
 # cube sides: 0: front, 1: right, 2: back, 3: left, 4: top, 5: bottom
@@ -26,7 +26,7 @@ def follow_path(board, pacman, path):
     walls = {tile for tile, c in board.items() if c is WALL}
     loc = min(board.keys())
     head = sp.EAST
-    for cmd in re.findall('R|L|\d+', path):
+    for cmd in re.findall(r'R|L|\d+', path):
         match cmd:
             case 'R':
                 head = head.right()
@@ -52,7 +52,7 @@ def follow_path(board, pacman, path):
 def part1(input_string):
     board, path = input_string.split('\n\n')
     board = graph.text_to_dict(board, exclude=' ')
-    bn, bx = sp.bounds(board.keys(), pad=1)
+    bn, bx = sp.bounds(board.keys(), pad=sp.Point(1, 1, 0))
     pacman = {}
     for dir_1, dir_2 in ((sp.EAST, sp.SOUTH), (sp.SOUTH, sp.EAST)):
         line_head = bn
@@ -140,4 +140,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=22, verbose=True)
+    blitzen.run(main, year=2022, day=22, verbose=True)

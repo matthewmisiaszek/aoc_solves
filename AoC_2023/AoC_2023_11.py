@@ -1,5 +1,5 @@
-import dancer
-from common import graph, spatial
+import blitzen
+from donner import graph, spatial
 from itertools import combinations
 
 
@@ -20,4 +20,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=11, verbose=True)
+    blitzen.run(main, year=2023, day=11, verbose=True)

@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def deal_into_new(card, deck, var, rev):
@@ -68,4 +68,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=22, verbose=True)
+    blitzen.run(main, year=2019, day=22, verbose=True)

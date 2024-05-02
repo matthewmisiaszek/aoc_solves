@@ -1,5 +1,5 @@
-import dancer
-from common import graph, spatial as sp, bfsqueue
+import blitzen
+from donner import graph, spatial as sp, bfsqueue
 
 
 class Crucible:
@@ -58,4 +58,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=17, verbose=True)
+    blitzen.run(main, year=2023, day=17, verbose=True)

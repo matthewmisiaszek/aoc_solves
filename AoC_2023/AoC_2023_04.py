@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def count_matches(card):
@@ -20,4 +20,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=4, verbose=True)
+    blitzen.run(main, year=2023, day=4, verbose=True)

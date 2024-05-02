@@ -5,8 +5,8 @@
 # Intersections of regions are also regions
 # A cluster is a collection of bots that share one or more points 'in-range'
 
-import dancer
-import common.cartnd as cartnd
+import blitzen
+import donner.cartnd as cartnd
 import re
 import itertools
 import numpy as np
@@ -173,4 +173,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2018, day=23, verbose=True)
+    blitzen.run(main, year=2018, day=23, verbose=True)

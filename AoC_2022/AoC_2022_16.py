@@ -1,6 +1,6 @@
-import dancer
+import blitzen
 import re
-from common import graph
+from donner import graph
 from itertools import combinations
 
 START = 'AA'
@@ -74,4 +74,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=16, verbose=True)
+    blitzen.run(main, year=2022, day=16, verbose=True)

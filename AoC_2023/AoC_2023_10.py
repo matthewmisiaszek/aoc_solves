@@ -1,5 +1,5 @@
-import dancer
-from common import graph, spatial, printer
+import blitzen
+from donner import graph, spatial, printer
 
 NEIGHBORS = {
     'S': set(spatial.ENWS),
@@ -66,4 +66,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=10, verbose=True)
+    blitzen.run(main, year=2023, day=10, verbose=True)

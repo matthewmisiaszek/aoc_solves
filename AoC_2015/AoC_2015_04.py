@@ -1,5 +1,5 @@
-import dancer
-from common.misc import md5hash
+import blitzen
+from donner.misc import md5hash
 
 
 def mine(seed, zeroes):
@@ -18,4 +18,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=4, verbose=True)
+    blitzen.run(main, year=2015, day=4, verbose=True)

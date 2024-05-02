@@ -1,5 +1,5 @@
-import dancer
-from common import cartnd
+import blitzen
+from donner import cartnd
 from itertools import product
 
 
@@ -39,4 +39,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=17, verbose=True)
+    blitzen.run(main, year=2020, day=17, verbose=True)

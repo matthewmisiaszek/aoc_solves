@@ -1,27 +1,28 @@
-import dancer
-from common.cart2d import Cart
-from common import printer
+import blitzen
+from donner import printer
+from donner import graph
+from donner import spatial as sp
 
 
 def main(input_string, verbose=False):
-    path = {(x, y): c for y, line in enumerate(input_string.split('\n')) for x, c in enumerate(line) if c != ' '}
+    path = graph.text_to_dict(input_string, exclude=' ')
     letters = {loc for loc, c in path.items() if c not in '+|-'}
     seen_letters = ''
     steps = 1
-    direction = Cart().south
-    loc = (input_string.split('\n')[1].find('|'), 0)
+    direction = sp.SOUTH
+    loc = sp.Point(input_string.split('\n')[1].find('|'), 0)
     while True:
         steps += 1
-        loc = direction.move(loc)
+        loc += direction
         if loc in letters:
             seen_letters += path[loc]
         elif loc not in path:
             steps -= 1
-            loc = direction.back.move(loc)
-            if direction.left.move(loc) in path:
-                direction = direction.left
-            elif direction.right.move(loc) in path:
-                direction = direction.right
+            loc -= direction
+            if loc + direction.left() in path:
+                direction = direction.left()
+            elif loc + direction.right() in path:
+                direction = direction.right()
             else:
                 break
     if verbose:
@@ -32,4 +33,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2017, day=19, verbose=True)
+    blitzen.run(main, year=2017, day=19, verbose=True)

@@ -1,23 +1,21 @@
-import dancer
-from common.constants import D2D8 as neighbors
-from common.elementwise import esum
+import blitzen
+from donner import spatial as sp, graph
 
 
 def p1neighbors(all_seats):
-    return {seat: {esum(seat, neighbor) for neighbor in neighbors} & all_seats for seat in all_seats}
+    return {seat: {seat + neighbor for neighbor in sp.ENWS8} & all_seats for seat in all_seats}
 
 
 def p2neighbors(all_seats):
     ret = {}
-    xn, yn = min(all_seats)
-    xx, yx = max(all_seats)
+    bounds = sp.bounds(all_seats)
     for seat in all_seats:
         seat_neighbors = set()
-        for direction in neighbors:
-            neighbor = esum(seat, direction)
+        for direction in sp.ENWS8:
+            neighbor = seat + direction
             while neighbor not in all_seats:
-                neighbor = esum(neighbor, direction)
-                if not (xn <= neighbor[0] <= xx and yn <= neighbor[1] <= yx):
+                neighbor += direction
+                if not sp.inbounds(neighbor, bounds):
                     break
             else:
                 seat_neighbors.add(neighbor)
@@ -41,14 +39,11 @@ def simulate(all_seats, neighbor_fun, tolerance):
 
 def main(input_string, verbose=False):
     empty_seat = 'L'
-    all_seats = {(x, y)
-                 for y, line in enumerate(input_string.split('\n'))
-                 for x, c in enumerate(line)
-                 if c == empty_seat}
+    all_seats = set(graph.text_to_dict(input_string, include=empty_seat).keys())
     p1 = simulate(all_seats, p1neighbors, 4)
     p2 = simulate(all_seats, p2neighbors, 5)
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=11, verbose=True)
+    blitzen.run(main, year=2020, day=11, verbose=True)

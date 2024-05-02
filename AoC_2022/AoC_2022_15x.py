@@ -1,6 +1,6 @@
-import dancer
+import blitzen
 import re
-from common import spatial, printer, elementwise as ew
+from donner import spatial
 
 def rintersect(r1, r2):
     ret = tuple(min(a, b) for a, b in zip(r1, r2))
@@ -12,7 +12,7 @@ def rintersect(r1, r2):
 
 def makeregion(sensor, beacon):
     mh = sensor.manhattan(beacon)
-    mp = planar.Point(mh, 0)
+    mp = spatial.Point(mh, 0)
     x1 = sensor.x - mh
     x2 = sensor.x + mh
     y = sensor.y
@@ -36,8 +36,8 @@ def main(input_string, verbose=False):
     p1 = set()
     for group in re.findall('Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)', input_string):
         sx, sy, bx, by = (int(i) for i in group)
-        sensor = planar.Point(sx, sy)
-        beacon = planar.Point(bx, by)
+        sensor = spatial.Point(sx, sy)
+        beacon = spatial.Point(bx, by)
         mh = sensor.manhattan(beacon)
         regions.add((sensor, mh))
         n = mh - abs(sensor.y - TARGET)
@@ -58,4 +58,4 @@ def main(input_string, verbose=False):
 #2825078
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=15, verbose=True)
+    blitzen.run(main, year=2022, day=15, verbose=True)

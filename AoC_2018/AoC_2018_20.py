@@ -1,18 +1,17 @@
-import dancer
-from common import graph
-from common import constants
+import blitzen
+from donner import graph, spatial as sp
 
 
 def re_path(input_string):
     door_graph = graph.Graph()
-    directions = constants.NSEW
+    directions = sp.NAMES_2D
     f = input_string.strip()
-    origin = constants.origin2
+    origin = sp.Point()
     start = {origin}
     current = start.copy()
     end = set()
     stack = []
-    for c in f:
+    for c in f[1:]:
         if c == '(':
             stack.append((start, end))
             start = current.copy()
@@ -27,7 +26,7 @@ def re_path(input_string):
             direction = directions[c]
             new_current = set()
             for room in current:
-                new_room = (room[0] + direction[0], room[1] + direction[1])
+                new_room = room + direction
                 door_graph.add_edge_eq(room, new_room)
                 new_current.add(new_room)
             current = new_current
@@ -36,7 +35,7 @@ def re_path(input_string):
 
 def main(input_string, verbose=False):
     doors = re_path(input_string)
-    paths = doors.dijkstra((0, 0), doors.graph.keys(), all_paths=True)
+    paths = doors.dijkstra(sp.Point(0, 0), doors.graph.keys(), all_paths=True)
     p1 = max(paths.values())
     target_length = 1000
     p2 = sum([value >= target_length for value in paths.values()])
@@ -44,4 +43,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2018, day=20, verbose=True)
+    blitzen.run(main, year=2018, day=20, verbose=True)

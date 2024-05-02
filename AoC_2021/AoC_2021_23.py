@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def movepod(burrow, move):
@@ -119,11 +119,11 @@ def solve(start_state, verbose=True):
 def main(input_string, verbose=False):
     start_state = input_string.split('\n')
     p1 = solve(start_state, verbose)
-    p2_start_insert = open(dancer.root_path+'/AoC_2021/day23_p2insert.txt').read().split('\n')
+    p2_start_insert = open(blitzen.root_path+'/AoC_2021/day23_p2insert.txt').read().split('\n')
     start_state = start_state[:3] + p2_start_insert + start_state[3:]
     p2 = solve(start_state, verbose)
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2021, day=23, verbose=True)
+    blitzen.run(main, year=2021, day=23, verbose=True)

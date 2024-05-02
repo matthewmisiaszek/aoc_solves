@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 from itertools import combinations, product
 
@@ -21,7 +21,7 @@ def parse(input_string):
     # pairs are interchangeable so by sorting them we make equivalent states equal!
     floor_names = ('first', 'second', 'third', 'fourth')
     floor_pattern = 'The (.*) floor contains (.*).'
-    obj_pattern = 'an? ([a-z\- ]*)'
+    obj_pattern = r'an? ([a-z\- ]*)'
     gen_suffix = ' generator'
     chip_suffix = '-compatible microchip'
     pairs = {}
@@ -82,11 +82,11 @@ def fox_chicken_corn(state, elevator, top_floor):
 def main(input_string, verbose=False):
     state, top = parse(input_string)
     p1 = fox_chicken_corn(state, 0, top)
-    extra = open(dancer.root_path+'/AoC_2016/day11_extra_items').read()
+    extra = open(blitzen.root_path+'/AoC_2016/day11_extra_items').read()
     state, top = parse(input_string + '\n' + extra)
     p2 = fox_chicken_corn(state, 0, top)
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=11, verbose=True)
+    blitzen.run(main, year=2016, day=11, verbose=True)

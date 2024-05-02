@@ -1,16 +1,17 @@
-import dancer
-from common import elementwise as ew
+import blitzen
+from donner import spatial as sp
 from collections import Counter
 
 
-def install_tiles(input_string, directions, translate):
-    for a, b in translate:  # replace 2 character directions with 1 character substitutions
-        input_string = input_string.replace(a, b)
+def install_tiles(input_string):
+    for i in 'ew':
+        input_string = input_string.replace(i, i + ' ')
     tiles = set()
     for instruction in input_string.split('\n'):
-        tile = (0, 0)
-        for key, val in directions.items():  # count instances of each direction in instruction and offset
-            tile = ew.sum2d(tile, val, instruction.count(key))
+        instruction = ' ' + instruction
+        tile = sp.Point()
+        for key, val in sp.NAMES_HEX_E.items():  # count instances of each direction in instruction and offset
+            tile += val * instruction.count(' ' + key)
         if tile in tiles:  # flip the tile (in set means black, not in set means white)
             tiles.discard(tile)
         else:
@@ -18,11 +19,11 @@ def install_tiles(input_string, directions, translate):
     return tiles
 
 
-def simulate_day(tiles, directions):
+def simulate_day(tiles):
     adj_list = []  # list of tiles adjacent to every black tile in tiles including duplicates
     for tile in tiles:
-        for direction in directions.values():
-            adj = ew.sum2d(tile, direction)
+        for direction in sp.HEX_E_6:
+            adj = tile + direction
             adj_list.append(adj)
     adj_count = Counter(adj_list)  # count occurrences of each adjacent tile
     tiles &= adj_count.keys()  # remove black tiles with no adjacent tiles
@@ -37,19 +38,13 @@ def simulate_day(tiles, directions):
 
 
 def main(input_string, verbose=False):
-    # replace two character directions with 1 character substitute
-    # optional: replace one character direction with substitute for consistency
-    # convention: East is 0, other directions numbered CCW from East
-    translate = (('ne', '1'), ('nw', '2'), ('sw', '4'), ('se', '5'), ('e', '0'), ('w', '3'))
-    # convention: East is (1,0), Northeast is (0,1)
-    directions = {'0': (1, 0), '1': (0, 1), '2': (-1, 1), '3': (-1, 0), '4': (0, -1), '5': (1, -1)}
-    tiles = install_tiles(input_string, directions, translate)
+    tiles = install_tiles(input_string)
     p1 = len(tiles)
     for day in range(100):
-        tiles = simulate_day(tiles, directions)
+        tiles = simulate_day(tiles)
     p2 = len(tiles)
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=24, verbose=True)
+    blitzen.run(main, year=2020, day=24, verbose=True)

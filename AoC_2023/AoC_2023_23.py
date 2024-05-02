@@ -1,6 +1,6 @@
-import dancer
-from common import graph, spatial
-from common.bfsqueue import BFSQ
+import blitzen
+from donner import graph, spatial
+from donner.bfsqueue import BFSQ
 
 
 def find_longest(trailmap, slopes=False):
@@ -23,7 +23,7 @@ def find_longest(trailmap, slopes=False):
                 continue
             if node in connections:
                 connections.pop(node)
-            q.add(neighbor, 0)
+            q.add(neighbor, weight + 1)
     return find_longest_rec(trailgraph, start, target, 0, set())
 
 
@@ -48,4 +48,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=23, verbose=True)
+    blitzen.run(main, year=2023, day=23, verbose=True)

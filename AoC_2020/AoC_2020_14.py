@@ -1,5 +1,5 @@
-import dancer
-from common.misc import digits
+import blitzen
+from donner.misc import digits
 
 
 def apply_mask1(dec_val, mask):
@@ -63,4 +63,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=14, verbose=True)
+    blitzen.run(main, year=2020, day=14, verbose=True)

@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import re
 from collections import defaultdict
 
@@ -98,4 +98,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2018, day=24, verbose=True)
+    blitzen.run(main, year=2018, day=24, verbose=True)

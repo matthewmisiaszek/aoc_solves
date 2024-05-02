@@ -1,5 +1,5 @@
-import dancer
-from common.bfsqueue import BFSQ
+import blitzen
+from donner.bfsqueue import BFSQ
 
 
 class Cave:
@@ -111,4 +111,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2018, day=22, verbose=True)
+    blitzen.run(main, year=2018, day=22, verbose=True)

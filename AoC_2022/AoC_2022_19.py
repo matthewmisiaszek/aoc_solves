@@ -1,11 +1,21 @@
-import dancer
+import blitzen
 import re
 from collections import defaultdict
-from common import elementwise as ew
 import math
 
 ORE = 'ore'
 GEODE = 'geode'
+
+
+def esum(a, b):
+    return tuple(ai + bi for ai, bi in zip(a, b))
+
+
+def ediff(a, b):
+    return tuple(ai - bi for ai, bi in zip(a, b))
+
+def emulsum(a, b, c):
+    return tuple(ai + bi * c for ai, bi in zip(a, b))
 
 
 def most_geodes_flat(blueprint, types, time):
@@ -50,9 +60,9 @@ def most_geodes_flat(blueprint, types, time):
             # if we'll never make the robot or won't make it in time, don't bother
             if etime < 0 or etime >= time:
                 continue
-            nrobots = ew.esum(robots, product)  # make the robot
-            nresources = ew.ediff(resources, recipe)  # subtract the cost
-            nresources = ew.emulsum(nresources, robots, etime + 1)  # grind
+            nrobots = esum(robots, product)  # make the robot
+            nresources = ediff(resources, recipe)  # subtract the cost
+            nresources = emulsum(nresources, robots, etime + 1)  # grind
             stack.append((nrobots, nresources, time - etime - 1))  # push
     return most
 
@@ -106,4 +116,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=19, verbose=True)
+    blitzen.run(main, year=2022, day=19, verbose=True)

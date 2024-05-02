@@ -1,5 +1,5 @@
-import dancer
-from common import graph, spatial as sp
+import blitzen
+from donner import graph, spatial as sp
 from collections import defaultdict
 
 ROUNDS = 10
@@ -45,4 +45,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=23, verbose=True)
+    blitzen.run(main, year=2022, day=23, verbose=True)

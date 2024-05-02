@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 import math
 from AoC_2016.assembunny import AsmBny
 
@@ -14,4 +14,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2016, day=23, verbose=True)
+    blitzen.run(main, year=2016, day=23, verbose=True)

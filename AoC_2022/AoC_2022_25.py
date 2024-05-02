@@ -1,5 +1,5 @@
-import dancer
-from common.misc import digits, roughlog
+import blitzen
+from donner.misc import digits, roughlog
 
 DIGITS = {'2': 2, '1': 1, '0': 0, '-': -1, '=': -2}
 DIGITS_INV = {val: key for key, val in DIGITS.items()}
@@ -16,9 +16,9 @@ def int_to_SNAFU(i):
 
 def main(input_string, verbose=False):
     p1 = int_to_SNAFU(sum(SNAFU_to_int(i) for i in input_string.split('\n')))
-    p2 = dancer.holiday_greeting
+    p2 = blitzen.holiday_greeting
     return p1, p2
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2022, day=25, verbose=True)
+    blitzen.run(main, year=2022, day=25, verbose=True)

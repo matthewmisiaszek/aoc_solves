@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def combat(hands, recursive=False):
@@ -31,4 +31,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2020, day=22, verbose=True)
+    blitzen.run(main, year=2020, day=22, verbose=True)

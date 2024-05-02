@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 
 
 def knot(lengths):
@@ -41,4 +41,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2017, day=10, verbose=True)
+    blitzen.run(main, year=2017, day=10, verbose=True)

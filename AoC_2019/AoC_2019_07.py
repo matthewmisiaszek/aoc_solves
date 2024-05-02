@@ -1,4 +1,4 @@
-import dancer
+import blitzen
 from AoC_2019.intcode import Intcode
 from itertools import permutations
 
@@ -34,4 +34,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=7, verbose=True)
+    blitzen.run(main, year=2019, day=7, verbose=True)

@@ -1,5 +1,5 @@
-import dancer
-from common import graph, spatial
+import blitzen
+from donner import graph, spatial
 
 
 WALL = '#'
@@ -13,7 +13,7 @@ BWIDTH = 3
 
 
 def find_portals(donut_map, donut2D):
-    bound = spatial.bounds(donut_map.keys(), pad=-BWIDTH)
+    bound = spatial.bounds(donut_map.keys(), pad=spatial.Point(-BWIDTH, -BWIDTH, 0))
     portal_pairs = []
     portals = {}
     for key, val in donut_map.items():
@@ -75,4 +75,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2019, day=20, verbose=True)
+    blitzen.run(main, year=2019, day=20, verbose=True)

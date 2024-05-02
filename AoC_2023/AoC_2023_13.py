@@ -1,5 +1,5 @@
-import dancer
-from common import graph, spatial
+import blitzen
+from donner import graph, spatial
 
 
 def main(input_string, verbose=False):
@@ -8,11 +8,12 @@ def main(input_string, verbose=False):
         pattern = graph.text_to_dict(pattern, include='#')
         bn, bx = spatial.bounds(pattern.keys())
         for axis, fact in (('x', 1), ('y', 100)):
-            for mirror in range(bn[axis] + 1, bx[axis] + 1):
+            for mirror in range(bn.asdict()[axis] + 1, bx.asdict()[axis] + 1):
                 smudge = 0
                 for rock in pattern:
-                    reflected = spatial.Point(rock)
-                    reflected[axis] = mirror - (rock[axis] - mirror + 1)
+                    reflected = rock.asdict()
+                    reflected[axis] = mirror - (reflected[axis] - mirror + 1)
+                    reflected = spatial.Point(**reflected)
                     if spatial.inbounds(reflected, (bn, bx)) and reflected not in pattern:
                         smudge += 1
                 if smudge == 0:
@@ -23,4 +24,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2023, day=13, verbose=True)
+    blitzen.run(main, year=2023, day=13, verbose=True)

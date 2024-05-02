@@ -1,11 +1,11 @@
-import dancer
-from common import spatial, printer
+import blitzen
+from donner import spatial, printer
 import re
 
 
 def parse(input_string):
     dirt = set()
-    for axis, a, bn, bx in re.findall('(.)=(\d*), (?:.)=(\d*)..(\d*)', input_string):
+    for axis, a, bn, bx in re.findall(r'(.)=(\d*), (?:.)=(\d*)..(\d*)', input_string):
         a, bn, bx = (int(i) for i in (a, bn, bx))
         if axis == 'x':
             dirt.update({spatial.Point(a, b) for b in range(bn, bx + 1)})
@@ -84,4 +84,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2018, day=17, verbose=True)
+    blitzen.run(main, year=2018, day=17, verbose=True)

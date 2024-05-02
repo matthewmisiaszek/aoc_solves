@@ -1,5 +1,5 @@
-import dancer
-from common import elementwise as ew
+import blitzen
+from math import prod
 from itertools import combinations_with_replacement as combo
 
 
@@ -23,7 +23,7 @@ def main(input_string, verbose=False):
                 if prop not in properties:
                     properties[prop] = 0
                 properties[prop] += value * qty
-        score = ew.prod((max(value, 0) for key, value in properties.items() if key != calories))
+        score = prod((max(value, 0) for key, value in properties.items() if key != calories))
         if properties[calories] == meal:
             p2 = max(p2, score)
         p1 = max(p1, score)
@@ -31,4 +31,4 @@ def main(input_string, verbose=False):
 
 
 if __name__ == "__main__":
-    dancer.run(main, year=2015, day=15, verbose=True)
+    blitzen.run(main, year=2015, day=15, verbose=True)
