@@ -63,7 +63,8 @@ def extract(pattern, string):
         print(string)
         return {key: 'ERR' for key in fvals}
     else:
-        return match.groupdict()
+        return {key: val.strip('\n') for key, val in match.groupdict().items()}
+
 
 def run(solve, year=None, day=None, verbose=False, strip=True):
     start_time = time.time()
