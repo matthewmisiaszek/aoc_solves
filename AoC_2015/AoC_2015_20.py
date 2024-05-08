@@ -1,6 +1,8 @@
 import blitzen
+from numba import njit
 
 
+@njit
 def busywork(presents, target, endurance=None):
     n_houses = target // presents
     if endurance is None:

@@ -1,9 +1,15 @@
 import blitzen
 from donner.misc import digits
+from numba import njit
 
 
 def main(input_string, verbose=False):
     n_recipes = int(input_string)
+    return solve(n_recipes)
+
+
+@njit
+def solve(n_recipes):
     e1, e2 = 0, 1
     scoreboard = [3, 7]
     score_sequence = list(digits(n_recipes))

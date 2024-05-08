@@ -1,5 +1,6 @@
 import blitzen
 import hashlib
+from numba import njit
 
 
 def combinations(items, length, duplicates=False):
@@ -78,6 +79,7 @@ def CRT(n, b):
     return ret % N
 
 
+@njit
 def roughlog(x, b):
     ret = 0
     while x >= b:
@@ -86,6 +88,7 @@ def roughlog(x, b):
     return ret
 
 
+@njit
 def digits(n, base=10, power=None):
     if isinstance(n, list) or isinstance(n, tuple):
         return sum([n[i] * base ** (len(n) - i - 1) for i in range(len(n))])
@@ -98,7 +101,7 @@ def digits(n, base=10, power=None):
         for i in range(power+1):
             ret.append(n // base ** (power - i))
             n %= base ** (power - i)
-        return tuple(ret)
+        return ret
 
 
 def sign(n):
