@@ -51,6 +51,7 @@ def get_sum(history, generation):
 
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     pots, rules = parse(input_string)
     history = generate(pots, rules)
@@ -58,6 +59,3 @@ def main(input_string, verbose=False):
     p2 = get_sum(history, 50000000000)
     return p1,p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=12, verbose=True)

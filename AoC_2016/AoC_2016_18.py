@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     trap = '^'
     row = tuple(tile == trap for tile in input_string)
@@ -12,6 +13,3 @@ def main(input_string, verbose=False):
     p2 = safe_count[400000 - 1]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=18, verbose=True)

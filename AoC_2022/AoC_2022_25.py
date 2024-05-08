@@ -14,11 +14,9 @@ def int_to_SNAFU(i):
     return ''.join(DIGITS_INV[n - 2] for n in digits(i, 5))
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = int_to_SNAFU(sum(SNAFU_to_int(i) for i in input_string.split('\n')))
     p2 = blitzen.holiday_greeting
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=25, verbose=True)

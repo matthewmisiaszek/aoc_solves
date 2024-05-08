@@ -6,6 +6,7 @@ WALL = '#'
 DUCT = '.'
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     duct_dict = graph.text_to_dict(input_string, exclude=WALL)
     duct_graph = graph.set_to_graph(duct_dict.keys())
@@ -24,6 +25,3 @@ def main(input_string, verbose=False):
             p2 = p2len
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=24, verbose=True)

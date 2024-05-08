@@ -2,6 +2,7 @@ import blitzen
 from math import ceil
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     f = input_string
     for d in ['target area: x=', ',', 'y=']:
@@ -31,6 +32,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=17, verbose=True)

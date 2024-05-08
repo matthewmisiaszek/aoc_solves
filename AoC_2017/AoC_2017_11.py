@@ -7,6 +7,7 @@ def distance(loc):
     return (abs(a) + abs(b) + abs(a + b)) // 2
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     input_string = input_string
     path = input_string.split(',')
@@ -19,6 +20,3 @@ def main(input_string, verbose=False):
     p2 = max_distance
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=11, verbose=True)

@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1, p2 = 0, 0
     i = input_string.find('\\')
@@ -15,6 +16,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=8, verbose=True)

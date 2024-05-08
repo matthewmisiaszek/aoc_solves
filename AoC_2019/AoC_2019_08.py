@@ -2,6 +2,7 @@ import blitzen
 from donner import printer, spatial
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     w_px, h_px = 25, 6
     n_px = h_px * w_px
@@ -21,6 +22,3 @@ def main(input_string, verbose=False):
     p2 = img_str
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=8, verbose=True)

@@ -8,6 +8,7 @@ START_H = 'a'
 END_H = 'z'
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     amap = graph.text_to_dict(input_string)  # map of (x,y):c
     poi = {val: key for key, val in amap.items()}  # map of c:(x,y) to find S, E
@@ -23,6 +24,3 @@ def main(input_string, verbose=False):
     p2 = heighmap.dijkstra(low_points, {poi[END_KEY]})[poi[END_KEY]]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=12, verbose=True)

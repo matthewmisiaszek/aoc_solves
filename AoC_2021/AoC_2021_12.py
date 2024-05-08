@@ -2,6 +2,7 @@ import blitzen
 from collections import defaultdict, deque
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     # map of all nodes that can be reached from a given node
     nodes = defaultdict(list)
@@ -29,6 +30,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=12, verbose=True)

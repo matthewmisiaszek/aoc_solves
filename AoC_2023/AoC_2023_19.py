@@ -53,12 +53,10 @@ def part2(wdict):
     return combinations({i:(1,4000) for i in 'xmas'}, wdict, 'in', 0)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     wdict, plist = parse(input_string)
     p1 = part1(wdict, plist)
     p2 = part2(wdict)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=19, verbose=True)

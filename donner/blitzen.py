@@ -67,35 +67,37 @@ def extract(pattern, string):
 
 
 def run(solve, year=None, day=None, verbose=False, strip=True):
-    start_time = time.time()
-    parser = argparse.ArgumentParser(description='AoC Solver Argument Parser')
-    parser.add_argument('path', nargs='?', default='')
-    parser.add_argument('-v', action='store_true')  # force verbose
-    parser.add_argument('-q', action='store_true')  # force quiet
-    args = parser.parse_args()
-    if args.path:  # path to input file has been provided
-        input_path = args.path
-    else:
-        if year is None or day is None:  # if year and day not specified in function call, extract from filepath
-            filepath = str(sys.modules['__main__'].__file__)
-            vals = extract(config['files']['solution_format'], filepath)
-            if year is None:
-                year = vals['year']
-            if day is None:
-                day = vals['day']
-        input_path = aoc_input_path(year, day)
-    input_string = open(input_path).read()
-    if strip:
-        input_string = input_string.rstrip()
-    p1, p2 = solve(input_string=input_string, verbose=(args.v or verbose) and (not args.q))
-    if isinstance(p1, str) and '\n' in p1:
-        p1 = '\n' + p1
-    if isinstance(p2, str) and '\n' in p2:
-        p2 = '\n' + p2
-    elapsed_time = time.time() - start_time
-    print_dict = {'year': int(year), 'day': int(day), 'p1': p1, 'p2': p2, 'time': float(elapsed_time)}
-    printformat = config['dayprint']['format']
-    print(printformat.format(**print_dict))
+    if solve.__module__ == '__main__':
+        start_time = time.time()
+        parser = argparse.ArgumentParser(description='AoC Solver Argument Parser')
+        parser.add_argument('path', nargs='?', default='')
+        parser.add_argument('-v', action='store_true')  # force verbose
+        parser.add_argument('-q', action='store_true')  # force quiet
+        args = parser.parse_args()
+        if args.path:  # path to input file has been provided
+            input_path = args.path
+        else:
+            if year is None or day is None:  # if year and day not specified in function call, extract from filepath
+                filepath = str(sys.modules['__main__'].__file__)
+                vals = extract(config['files']['solution_format'], filepath)
+                if year is None:
+                    year = vals['year']
+                if day is None:
+                    day = vals['day']
+            input_path = aoc_input_path(year, day)
+        input_string = open(input_path).read()
+        if strip:
+            input_string = input_string.rstrip()
+        p1, p2 = solve(input_string=input_string, verbose=(args.v or verbose) and (not args.q))
+        if isinstance(p1, str) and '\n' in p1:
+            p1 = '\n' + p1
+        if isinstance(p2, str) and '\n' in p2:
+            p2 = '\n' + p2
+        elapsed_time = time.time() - start_time
+        print_dict = {'year': int(year), 'day': int(day), 'p1': p1, 'p2': p2, 'time': float(elapsed_time)}
+        printformat = config['dayprint']['format']
+        print(printformat.format(**print_dict))
+    return solve
 
 
 def aoc_input_path(year, day):

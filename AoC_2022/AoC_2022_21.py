@@ -36,6 +36,7 @@ def solve_monkeys(math_monkeys, val_monkeys, monkey_queue, waiting):
     return val_monkeys[ROOT]
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     math_monkeys, val_monkeys, monkey_queue, waiting = parse(input_string)
     p1 = int(eval(solve_monkeys(math_monkeys, val_monkeys.copy(), monkey_queue.copy(), waiting)))
@@ -46,6 +47,3 @@ def main(input_string, verbose=False):
     p2 = int(solve(eval(solve_monkeys(math_monkeys, val_monkeys, monkey_queue, waiting)))[0])
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=21, verbose=True)

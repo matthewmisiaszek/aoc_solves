@@ -27,6 +27,7 @@ def startup(initial_state, order):
     return len(active)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     active = '#'
     initial_state = {(x, y)
@@ -37,6 +38,3 @@ def main(input_string, verbose=False):
     p2 = startup(initial_state, 4)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=17, verbose=True)

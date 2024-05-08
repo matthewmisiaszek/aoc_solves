@@ -40,6 +40,7 @@ def fight(boss_stats, loadout_stats):
             return False
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     boss_stats = {a: int(b) for a, b in [line.split(': ') for line in input_string.split('\n')]}
     items = item_shop()
@@ -60,6 +61,3 @@ def main(input_string, verbose=False):
     p2 = max(losses)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=21, verbose=True)

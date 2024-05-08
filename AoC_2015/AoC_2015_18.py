@@ -17,6 +17,7 @@ def animate(lights, grid, neighbors, steps, stuck=None, verbose=False):
     return lights
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     on = '#'
     grid = graph.text_to_dict(input_string)
@@ -30,6 +31,3 @@ def main(input_string, verbose=False):
     p2 = len(animate(lights, grid, neighbors, 100, stuck, verbose=verbose))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=18, verbose=True)

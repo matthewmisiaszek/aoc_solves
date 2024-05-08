@@ -94,6 +94,7 @@ def step(cart, carts, corners, crashed, C):
         carts[cart] = (direction, next_intersection)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     C = Constants()
     carts, corners = parse(input_string, C)
@@ -105,7 +106,4 @@ def main(input_string, verbose=False):
     p1 = tuple(reversed(crashed[0]))
     p2 = tuple(reversed(list(carts.keys())[0]))
     return p1, p2
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=13, verbose=True)
 

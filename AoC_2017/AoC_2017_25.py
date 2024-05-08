@@ -2,6 +2,7 @@ import blitzen
 import re
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     initial_pattern = 'Begin in state (.).\nPerform a diagnostic checksum after (.*) steps.'
     state_pattern = 'In state (.):\n' \
@@ -34,6 +35,3 @@ def main(input_string, verbose=False):
     p2 = blitzen.holiday_greeting
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=25, verbose=True)

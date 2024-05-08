@@ -109,12 +109,10 @@ class Garden:
         return score
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     garden = Garden(input_string)
     p1 = garden.part1(64)
     p2 = garden.part2(26501365)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=21, verbose=True)

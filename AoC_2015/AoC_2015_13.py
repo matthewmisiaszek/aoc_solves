@@ -13,6 +13,7 @@ def check_happy(arrangement, happiness):
     return ret
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     happiness = {}
     pattern = r'(\S*) would (\S*) (\d*) happiness units by sitting next to (\S*).'
@@ -28,6 +29,3 @@ def main(input_string, verbose=False):
     p2 = max(check_happy(perm, happiness) for perm in permutations(happiness.keys()))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=13, verbose=True)

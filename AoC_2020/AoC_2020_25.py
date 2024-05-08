@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     card_pkey, door_pkey = [int(i) for i in input_string.split('\n')]
     subject_number = 7
@@ -20,6 +21,3 @@ def main(input_string, verbose=False):
     p2 = blitzen.holiday_greeting
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=25, verbose=True)

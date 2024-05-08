@@ -52,6 +52,7 @@ def process(s, n=1):
     return i, sumversion, packetlist
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     fl = ''.join(["{0:04b}".format(int(c, 16)) for c in input_string])
     i, sumversion, operlist = process(fl, 1)
@@ -60,6 +61,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=16, verbose=True)

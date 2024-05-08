@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = input_string.count('(')-input_string.count(')')
     floor = 0
@@ -14,6 +15,3 @@ def main(input_string, verbose=False):
             break
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=1, verbose=True)

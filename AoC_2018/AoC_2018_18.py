@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     f = input_string.split('\n')
     field = {}
@@ -76,6 +77,3 @@ def main(input_string, verbose=False):
     p1 = history[9]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=18, verbose=True)

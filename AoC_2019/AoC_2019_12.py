@@ -22,6 +22,7 @@ def gravity(pos, vel, moon_positions):
     return tuple(vel)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     pattern = '<x=(.*), y=(.*), z=(.*)>'
     moon_positions = tuple(tuple(int(i) for i in moon)
@@ -51,6 +52,3 @@ def main(input_string, verbose=False):
     p2 = math.lcm(*periods.values())
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=12, verbose=True)

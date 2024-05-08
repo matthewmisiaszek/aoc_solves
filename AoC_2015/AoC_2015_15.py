@@ -3,6 +3,7 @@ from math import prod
 from itertools import combinations_with_replacement as combo
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     calories = 'calories'
     meal = 500
@@ -29,6 +30,3 @@ def main(input_string, verbose=False):
         p1 = max(p1, score)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=15, verbose=True)

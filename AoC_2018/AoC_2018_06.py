@@ -2,6 +2,7 @@ import blitzen
 from collections import Counter
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     points = tuple(tuple(int(i) for i in line.split(',')) for line in input_string.split('\n'))
     (xn, xx), (yn, yx) = ((fun(points, key=lambda x: x[ax])[ax]
@@ -20,6 +21,3 @@ def main(input_string, verbose=False):
     p2 = sum((x < 10000 for x in sumdist))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=6, verbose=True)

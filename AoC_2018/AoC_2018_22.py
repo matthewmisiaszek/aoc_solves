@@ -92,6 +92,7 @@ class Cave:
         return abs(point[0] - self.target[0]) + abs(point[1] - self.target[1])
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     cave = Cave(input_string)
     cave.get_type(cave.target)
@@ -109,6 +110,3 @@ def main(input_string, verbose=False):
     p2 = time
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=22, verbose=True)

@@ -62,6 +62,7 @@ class Computer:
             self.jmp((offset,))
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     computer = Computer(input_string)
     p1 = computer.run('b')
@@ -69,6 +70,3 @@ def main(input_string, verbose=False):
     p2 = computer.run('b')
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=23, verbose=True)

@@ -22,6 +22,7 @@ def combat(hands, recursive=False):
     return winner, score
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     hands = [[int(i) for i in player.split('\n') if i.isdigit()] for player in input_string.split('\n\n')]
     hands2 = [hand.copy() for hand in hands]
@@ -29,6 +30,3 @@ def main(input_string, verbose=False):
     p2 = combat(hands2, recursive=True)[1]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=22, verbose=True)

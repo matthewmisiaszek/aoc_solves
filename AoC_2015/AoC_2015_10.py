@@ -17,11 +17,9 @@ def look_n_say(sequence, iterations):
     return sequence
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = len(look_n_say(input_string, 40))
     p2 = len(look_n_say(input_string, 50))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=10, verbose=True)

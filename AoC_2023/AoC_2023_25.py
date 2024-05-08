@@ -15,6 +15,7 @@ def unique_paths(start, target, wm):
     return paths
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     wm = graph.Graph()
     for line in input_string.split('\n'):
@@ -26,6 +27,3 @@ def main(input_string, verbose=False):
     p2 = blitzen.holiday_greeting
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=25, verbose=True)

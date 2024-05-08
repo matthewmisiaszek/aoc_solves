@@ -113,6 +113,7 @@ def part1(sensors):
     return len(no_beacons - beacons)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     pattern = r'Sensor at x=(-?\d*), y=(-?\d*): closest beacon is at x=(-?\d*), y=(-?\d*)'
     sensors = [[int(i) for i in group] for group in re.findall(pattern, input_string)]
@@ -120,6 +121,3 @@ def main(input_string, verbose=False):
     p2 = part2(sensors)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=15, verbose=True)

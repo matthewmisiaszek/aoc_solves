@@ -40,12 +40,10 @@ def find_longest_rec(trailgraph, current, target, weight, visited):
     return maxlen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     trailmap = graph.text_to_dict(input_string, exclude='#')
     p1 = find_longest(trailmap, slopes=True)
     p2 = find_longest(trailmap, slopes=False)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=23, verbose=True)

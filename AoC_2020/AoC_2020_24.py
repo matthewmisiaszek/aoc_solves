@@ -37,6 +37,7 @@ def simulate_day(tiles):
     return tiles
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     tiles = install_tiles(input_string)
     p1 = len(tiles)
@@ -45,6 +46,3 @@ def main(input_string, verbose=False):
     p2 = len(tiles)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=24, verbose=True)

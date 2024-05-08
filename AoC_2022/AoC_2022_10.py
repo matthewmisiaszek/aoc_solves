@@ -7,6 +7,7 @@ SCREEN_WIDTH = 40
 NOOP = 'noop'
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     signal = input_string.split('\n')
     x = 1
@@ -23,6 +24,3 @@ def main(input_string, verbose=False):
     p2 = printer.strset(screen)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=10, verbose=True)

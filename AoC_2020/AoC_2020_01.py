@@ -10,12 +10,10 @@ def prodifsum(entries, count, target_sum):
     return False
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     entries = tuple(sorted(int(i) for i in input_string.split('\n')))
     p1 = prodifsum(entries, 2, 2020)
     p2 = prodifsum(entries, 3, 2020)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=1, verbose=True)

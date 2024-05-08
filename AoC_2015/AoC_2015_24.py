@@ -15,12 +15,10 @@ def balance(packages, n_groups):
     return False
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     packages = {int(i) for i in input_string.split('\n')}
     p1 = balance(packages, 3)
     p2 = balance(packages, 4)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=24, verbose=True)

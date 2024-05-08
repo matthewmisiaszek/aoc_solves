@@ -13,6 +13,7 @@ def calibration(lines, digits):
     return calibration_value
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     lines = input_string.split('\n')
     digits = {str(i): i for i in range(1, 10)}
@@ -22,6 +23,3 @@ def main(input_string, verbose=False):
     p2 = calibration(lines, digits)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=1, verbose=True)

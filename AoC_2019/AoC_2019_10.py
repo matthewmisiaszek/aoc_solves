@@ -26,6 +26,7 @@ def giant_laser(station_sight_lines, station):
     return vaporized
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     asteroids = graph.text_to_dict(input_string, exclude='.')
     all_sight_lines = get_sight_lines(asteroids)
@@ -39,6 +40,3 @@ def main(input_string, verbose=False):
     p2 = 100 * v.x + v.y
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=10, verbose=True)

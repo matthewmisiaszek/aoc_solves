@@ -49,6 +49,7 @@ def parse(input_string):
     return process, techniques
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     process, techniques = parse(input_string)
     p1 = shuffle(10007, 2019, process)
@@ -66,6 +67,3 @@ def main(input_string, verbose=False):
     p2 = (increment * card + offset) % deck
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=22, verbose=True)

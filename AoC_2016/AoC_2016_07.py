@@ -21,6 +21,7 @@ def ssl_check(supernet, hypernet):
     return False
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     tls_count = 0
     ssl_count = 0
@@ -36,6 +37,3 @@ def main(input_string, verbose=False):
     p2 = ssl_count
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=7, verbose=True)

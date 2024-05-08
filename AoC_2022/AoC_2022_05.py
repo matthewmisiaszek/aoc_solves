@@ -26,12 +26,10 @@ def gcc(stacks, moves, model):
     return ''.join(stacks[key][-1] for key in sorted(stacks.keys()))
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     stacks, moves = parse(input_string)
     p1 = gcc(stacks.copy(), moves, 9000)
     p2 = gcc(stacks, moves, 9001)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=5, verbose=True)

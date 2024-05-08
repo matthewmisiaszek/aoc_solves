@@ -3,6 +3,7 @@ import math
 from AoC_2016.assembunny import AsmBny
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     aby = AsmBny(input_string, initial={'a':7})
     p1 = aby.run()
@@ -12,6 +13,3 @@ def main(input_string, verbose=False):
     p2 = math.factorial(12)+a*b
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=23, verbose=True)

@@ -2,11 +2,6 @@ import blitzen
 from numba import njit
 
 
-def main(input_string, verbose=False):
-    n_recipes = int(input_string)
-    return solve(n_recipes)
-
-
 @njit
 def roughlog(x, b):
     ret = 0
@@ -53,5 +48,7 @@ def solve(n_recipes):
         e2 = (e2 + 1 + se2) % sblen
 
 
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=14, verbose=True)
+@blitzen.run
+def main(input_string, verbose=False):
+    n_recipes = int(input_string)
+    return solve(n_recipes)

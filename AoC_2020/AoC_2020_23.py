@@ -35,6 +35,7 @@ def crab_cups(cups_in, moves, max_cup=None, n_return=None):
     return ret
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     cups = tuple(int(i) for i in input_string)
     p1cups = crab_cups(cups, 100)
@@ -43,6 +44,3 @@ def main(input_string, verbose=False):
     p2 = p2cups[0] * p2cups[1]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=23, verbose=True)

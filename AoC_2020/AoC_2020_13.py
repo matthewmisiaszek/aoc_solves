@@ -2,6 +2,7 @@ import blitzen
 from donner.misc import CRT
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     earliest, ids = input_string.split('\n')
     ids = [(int(bus), -i) for i, bus in enumerate(ids.split(',')) if bus.isdigit()]
@@ -11,6 +12,3 @@ def main(input_string, verbose=False):
     p2 = CRT(*zip(*ids))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=13, verbose=True)

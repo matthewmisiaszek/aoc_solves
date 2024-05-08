@@ -10,6 +10,7 @@ CDPAT = r'\$ cd (.*)'
 FPAT = r'(\d+).*'
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     root_path = (ROOT,)
     path = root_path
@@ -43,6 +44,3 @@ def main(input_string, verbose=False):
             break
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=7, verbose=True)

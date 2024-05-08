@@ -45,6 +45,7 @@ def printgrid(grid):
     return ret
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     points, folds = input_string.split('\n\n')
     grid = makegrid(points)
@@ -57,6 +58,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=13, verbose=True)

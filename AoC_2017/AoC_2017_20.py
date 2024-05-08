@@ -2,6 +2,7 @@ import blitzen
 import numpy as np
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     points = np.array([[[int(j) for j in k]
                         for k in (i[3:-1].split(',')for i in line.split(', '))]
@@ -24,6 +25,3 @@ def main(input_string, verbose=False):
     p2 = p.shape[0]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=20, verbose=True)

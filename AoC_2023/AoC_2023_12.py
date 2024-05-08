@@ -71,12 +71,10 @@ def combos(record, fold=1, cache={}):
     return cache[record]
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     records = tuple(parse_line(line) for line in input_string.split('\n'))
     p1 = sum(combos(record) for record in records)
     p2 = sum(combos(record, fold=5) for record in records)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=12, verbose=True)

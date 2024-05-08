@@ -6,6 +6,7 @@ COMMANDS = {(0, 1): 1, (0, -1): 2, (-1, 0): 3, (1, 0): 4}
 COMMANDS = {spatial.NAMES_2D[direction]: i + 1 for i, direction in enumerate('UDLR')}
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     program = [int(i) for i in input_string.split(',')]
     droid = Intcode(program)
@@ -45,6 +46,3 @@ def main(input_string, verbose=False):
     p2 = max(dijkstra.values())
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=15, verbose=True)

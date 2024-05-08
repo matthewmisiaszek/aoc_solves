@@ -56,11 +56,9 @@ def part2(input_string):
     return sum(key * len(val) for key, val in mem.items())
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = part1(input_string)
     p2 = part2(input_string)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=14, verbose=True)

@@ -2,6 +2,7 @@ import blitzen
 import re
 from collections import Counter
 
+@blitzen.run
 def main(input_string, verbose=False):
     pattern = '#([0-9]*) @ ([0-9]*),([0-9]*): ([0-9]*)x([0-9]*)'
     claims_re = re.findall(pattern, input_string)
@@ -19,6 +20,3 @@ def main(input_string, verbose=False):
     p2 = {cid for cid,claim in claims_set.items() if  not claim & double_claimed}.pop()
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=3, verbose=True)

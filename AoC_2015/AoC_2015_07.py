@@ -60,11 +60,9 @@ def circuit(input_string, initial_state=None):
     return wires
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = circuit(input_string)['a']
     p2 = circuit(input_string, {'b': p1})['a']
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=7, verbose=True)

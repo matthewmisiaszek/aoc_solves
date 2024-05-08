@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     seafloor, motion, step = input_string.split('\n'), True, 0
     bx, by = (len(seafloor[0]), len(seafloor))
@@ -14,6 +15,3 @@ def main(input_string, verbose=False):
     p1=step
     p2=blitzen.holiday_greeting
     return p1,p2
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=25, verbose=True)

@@ -5,6 +5,7 @@ from itertools import product
 vow = 'aeiou'
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1, p2 = 0, 0
     invalid = ('ab', 'cd', 'pq', 'xy')
@@ -44,6 +45,3 @@ def main(input_string, verbose=False):
             p2 += 1
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=5, verbose=True)

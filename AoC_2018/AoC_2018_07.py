@@ -54,12 +54,10 @@ def part2(prereqs, workers, verbose=False):
             print('{:04d}'.format(t),complete, in_progress, todo)
     return t
 
+@blitzen.run
 def main(input_string, verbose=False):
     prereqs = parse(input_string)
     p1 = part1(prereqs)
     p2 = part2(prereqs, 5, verbose)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=7, verbose=True)

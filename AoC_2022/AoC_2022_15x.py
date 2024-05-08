@@ -27,6 +27,7 @@ grid1 = 4000000
 # grid1 = 20
 grid2 = 4000000
 
+@blitzen.run
 def main(input_string, verbose=False):
     inrange = set()
     beacons = set()
@@ -56,6 +57,3 @@ def main(input_string, verbose=False):
     p2 = 1
     return p1, p2
 #2825078
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=15, verbose=True)

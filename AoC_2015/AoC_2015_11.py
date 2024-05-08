@@ -24,6 +24,7 @@ def check(pw, straights, pairs):
     return sum(pw.count(pair) for pair in pairs) >= 2
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     pw = input_string
     alph = ascii_lowercase
@@ -71,6 +72,3 @@ def main(input_string, verbose=False):
     p2 = pw
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=11, verbose=True)

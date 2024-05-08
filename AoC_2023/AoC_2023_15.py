@@ -18,6 +18,7 @@ def focusing_power(boxes):
     return power
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = sum(hash_alg(step) for step in input_string.split(','))
     boxes = [([], {}) for _ in range(256)]
@@ -42,6 +43,3 @@ def main(input_string, verbose=False):
     p2 = focusing_power(boxes)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=15, verbose=True)

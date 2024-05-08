@@ -102,6 +102,7 @@ def parse(input_string):
     return blueprints, robots, resources, geode_index, types
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     blueprints, robots, resources, geode_index, types = parse(input_string)
     p1 = 0
@@ -114,6 +115,3 @@ def main(input_string, verbose=False):
         p2 *= most_geodes_flat(blueprint, types, 32)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=19, verbose=True)

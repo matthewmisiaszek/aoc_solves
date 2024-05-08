@@ -147,6 +147,7 @@ def find_monsters(image, monster_pattern):
         image = flip_set(image)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     tile_list = parse(input_string)
     p1 = prod((tile.id for tile in tile_list if len(tile.neighbors) <= 2))
@@ -160,6 +161,3 @@ def main(input_string, verbose=False):
         printer.printdict(print_dict, default=' ')
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=20, verbose=True)

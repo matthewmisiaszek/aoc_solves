@@ -6,6 +6,7 @@ from donner import spatial as sp
 UDLR = (sp.NORTH, sp.SOUTH, sp.WEST, sp.EAST)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     loc = sp.Point()
     target = sp.Point(3, 3)
@@ -29,6 +30,3 @@ def main(input_string, verbose=False):
     p2 = len(max(paths, key=lambda n: len(n)))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=17, verbose=True)

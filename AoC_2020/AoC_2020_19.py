@@ -19,6 +19,7 @@ def parse(input_string, start):
     return messages, parsed_rules
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     messages, rules = parse(input_string, '0')
     pattern = re.compile('^' + rules['0'] + '$')
@@ -30,6 +31,3 @@ def main(input_string, verbose=False):
               for message in messages])
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=19, verbose=True)

@@ -37,6 +37,7 @@ def mix(file, n):
     return sum(coords)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     file = [int(i) for i in input_string.split('\n')]
     p1 = mix(file, 1)
@@ -44,6 +45,3 @@ def main(input_string, verbose=False):
     p2 = mix(file, 10)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=20, verbose=True)

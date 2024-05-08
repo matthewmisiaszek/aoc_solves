@@ -66,6 +66,7 @@ def get_the_keys(key_graph, start):
     return dist
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     tunnel_map = graph.text_to_dict(input_string, exclude=WALL)
     tunnel_graph = graph.set_to_graph(tunnel_map.keys())
@@ -80,6 +81,3 @@ def main(input_string, verbose=False):
     p2 = get_the_keys(key_graph, start)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=18, verbose=True)

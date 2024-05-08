@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     f = input_string
     removed = 0
@@ -28,7 +29,4 @@ def main(input_string, verbose=False):
     p2 = removed
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=9, verbose=True)
 

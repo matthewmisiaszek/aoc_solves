@@ -113,12 +113,10 @@ def parse(input_string):
     return you, boss, spells
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     you, boss, spells = parse(input_string)
     p1 = fight(spells, you.copy(), boss.copy())
     p2 = fight(spells, you, boss, 1)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=22, verbose=True)

@@ -84,12 +84,10 @@ def part2(size, used):
     return len(history)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     size, used, = parse(input_string)
     p1 = part1(size, used)
     p2 = part2(size, used)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=22, verbose=True)

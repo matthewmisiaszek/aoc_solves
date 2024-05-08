@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     f = input_string.split('\n')
 
@@ -18,6 +19,3 @@ def main(input_string, verbose=False):
     p1, p2 = depth1 * travel, depth2 * travel
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=2, verbose=True)

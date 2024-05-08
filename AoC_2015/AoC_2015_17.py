@@ -2,6 +2,7 @@ import blitzen
 from itertools import combinations as combos
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     NOG = 150
     containers = [int(i) for i in input_string.split('\n')]
@@ -12,6 +13,3 @@ def main(input_string, verbose=False):
     p2 = len(valid_combos[0])
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=17, verbose=True)

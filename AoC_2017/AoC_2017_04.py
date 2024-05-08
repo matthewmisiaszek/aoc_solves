@@ -2,6 +2,7 @@ import blitzen
 from collections import Counter
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     passphrase_list = [passphrase.split() for passphrase in input_string.split('\n')]
     p1 = sum([max(Counter(passphrase).values()) == 1 for passphrase in passphrase_list])
@@ -9,6 +10,3 @@ def main(input_string, verbose=False):
     p2 = sum([max(Counter(passphrase).values()) == 1 for passphrase in passphrase_list])
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=4, verbose=True)

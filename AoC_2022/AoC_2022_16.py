@@ -66,12 +66,10 @@ def release_pressure(valves, rates, time_limit, nworkers):
         return best_combo(valves, closed, nworkers)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     valves, rates = parse(input_string)
     p1 = release_pressure(valves, rates, 30, 1)
     p2 = release_pressure(valves, rates, 26, 2)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=16, verbose=True)

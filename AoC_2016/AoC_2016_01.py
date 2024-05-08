@@ -2,6 +2,7 @@ import blitzen
 from donner import spatial as sp
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     directions = [(line[0], int(line[1:])) for line in input_string.split(', ')]
     heading = sp.NORTH
@@ -21,6 +22,3 @@ def main(input_string, verbose=False):
     p1 = position.manhattan()
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=1, verbose=True)

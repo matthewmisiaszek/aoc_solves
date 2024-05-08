@@ -37,6 +37,7 @@ def maxofsize(powergrid, size):
     return maxpower, maxloc
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     input_int = int(input_string)
     powergrid = PowerGrid(input_int)
@@ -51,6 +52,3 @@ def main(input_string, verbose=False):
     p2 = (*maxloc, maxsize)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=11, verbose=True)

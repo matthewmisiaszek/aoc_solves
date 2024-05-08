@@ -30,12 +30,10 @@ def part2(numbers, p1):
                     return min(cont_range) + max(cont_range)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     numbers = tuple(int(i) for i in input_string.split('\n'))
     p1 = part1(numbers)
     p2 = part2(numbers, p1)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=9, verbose=True)

@@ -51,6 +51,7 @@ def startup(init_proc):
     return power_states
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     init_proc = parse(input_string)
     init_proc += [(((-50, 50), (-50, 50), (-50, 50)), False)]  # turn off init_proc area and measure difference
@@ -59,6 +60,3 @@ def main(input_string, verbose=False):
     p2 = power_states[-2]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=22, verbose=True)

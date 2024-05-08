@@ -2,6 +2,7 @@ import blitzen
 from donner import graph, spatial
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     grid = graph.text_to_dict(input_string)
     grid = {key: int(val) for key, val in grid.items()}
@@ -26,6 +27,3 @@ def main(input_string, verbose=False):
     p2 = max_scenic
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=8, verbose=True)

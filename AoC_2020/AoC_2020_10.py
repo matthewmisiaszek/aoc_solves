@@ -30,6 +30,7 @@ def part2(adapters, outlet, device):
     return closed[0]
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     adapters = sorted(int(i) for i in input_string.split('\n'))
     outlet = 0
@@ -38,6 +39,3 @@ def main(input_string, verbose=False):
     p2 = part2(adapters, outlet, device)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=10, verbose=True)

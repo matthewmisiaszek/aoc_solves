@@ -59,12 +59,10 @@ def parse(input_string):
     return reactions, parents
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     reactions, parents = parse(input_string)
     p1 = ore_needed(reactions, parents)
     p2 = int(ONE_TRILLION_UNITS / ore_needed(reactions, parents, True))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=14, verbose=True)

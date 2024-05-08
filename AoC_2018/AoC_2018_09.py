@@ -3,6 +3,7 @@ import collections
 import re
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     pattern = '(.*) players; last marble is worth (.*) points'
     nplayers, nmarbles1 = (int(i) for i in re.findall(pattern, input_string)[0])
@@ -22,6 +23,3 @@ def main(input_string, verbose=False):
     p2 = max(players)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=9, verbose=True)

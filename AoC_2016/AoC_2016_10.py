@@ -3,6 +3,7 @@ import re
 from collections import defaultdict
 from math import prod
 
+@blitzen.run
 def main(input_string, verbose=False):
     give_pattern = r'(.* \d+) gives low to (.* \d+) and high to (.* \d+)'
     give = {giver: (low, high) for giver, low, high in re.findall(give_pattern, input_string)}
@@ -28,6 +29,3 @@ def main(input_string, verbose=False):
     p2 = prod(sum(bots['output ' + str(i)]) for i in range(3))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=10, verbose=True)

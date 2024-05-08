@@ -64,6 +64,7 @@ def part2(donut1D, portal_pairs):
     return p2graph.simple_dijkstra(START+OSUFFIX+'_0', END+OSUFFIX+'_0')
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     donut_map = graph.text_to_dict(input_string, exclude={WALL, SPACE})
     donut2D = graph.set_to_graph(donut_map.keys())
@@ -73,6 +74,3 @@ def main(input_string, verbose=False):
     p2 = part2(donut1D, portal_pairs)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=20, verbose=True)

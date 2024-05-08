@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     f = tuple(int(i) for i in input_string.split("\n"))
     s = 0
@@ -18,6 +19,3 @@ def main(input_string, verbose=False):
         if p1 is None:
             p1 = s
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=1, verbose=True)

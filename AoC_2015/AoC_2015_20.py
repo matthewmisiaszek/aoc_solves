@@ -16,12 +16,10 @@ def busywork(presents, target, endurance=None):
             return i
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     target = int(input_string)
     p1 = busywork(10, target)
     p2 = busywork(11, target, 50)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=20, verbose=True)

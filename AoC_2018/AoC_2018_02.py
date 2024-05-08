@@ -1,6 +1,7 @@
 import blitzen
 import string
 
+@blitzen.run
 def main(input_string, verbose=False):
     alf = string.ascii_lowercase
     f = input_string.split("\n")
@@ -32,6 +33,3 @@ def main(input_string, verbose=False):
     p2 = s
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=2, verbose=True)

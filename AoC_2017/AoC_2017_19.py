@@ -4,6 +4,7 @@ from donner import graph
 from donner import spatial as sp
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     path = graph.text_to_dict(input_string, exclude=' ')
     letters = {loc for loc, c in path.items() if c not in '+|-'}
@@ -31,6 +32,3 @@ def main(input_string, verbose=False):
     p2 = steps
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=19, verbose=True)

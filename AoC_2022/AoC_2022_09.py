@@ -24,6 +24,7 @@ def parse(input_string):
     return moves
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     moves = parse(input_string)
     tails = simulate_rope(moves, 10)
@@ -31,6 +32,3 @@ def main(input_string, verbose=False):
     p2 = len(tails[-1])
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=9, verbose=True)

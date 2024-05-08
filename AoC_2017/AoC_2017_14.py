@@ -3,6 +3,7 @@ from AoC_2017.AoC_2017_10 import knothash
 from donner import misc, spatial as sp
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     disk_size = 128
     hexstr = '0123456789abcdef'
@@ -25,6 +26,3 @@ def main(input_string, verbose=False):
     p2 = regions
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=14, verbose=True)

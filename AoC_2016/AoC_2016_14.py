@@ -50,11 +50,9 @@ def generate(salt, hashfun, want):
     return keys[want - 1]
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = generate(salt=input_string, hashfun=md5hash, want=64)
     p2 = generate(salt=input_string, hashfun=stretch, want=64)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=14, verbose=True)

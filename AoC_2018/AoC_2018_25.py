@@ -20,6 +20,7 @@ def inrange(point):
     return ret
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     f = input_string.split('\n')
     points = {tuple(int(i) for i in line.split(',')) for line in f}
@@ -36,6 +37,3 @@ def main(input_string, verbose=False):
     p2 = blitzen.holiday_greeting
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=25, verbose=True)

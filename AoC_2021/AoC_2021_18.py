@@ -64,12 +64,10 @@ def part2(numbers):
                 if a != b])
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     numbers = parse(input_string)
     p1 = part1(numbers)
     p2 = part2(numbers)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=18, verbose=True)

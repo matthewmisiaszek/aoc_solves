@@ -29,6 +29,7 @@ class Reindeer:
         self.score += 1
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     pattern = r'.* can fly (\d*) km/s for (\d*) seconds, but then must rest for (\d*) seconds.'
     reindeer = {Reindeer(speed, endurance, rest)
@@ -42,6 +43,3 @@ def main(input_string, verbose=False):
     p2 = max(deer.score for deer in reindeer)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=14, verbose=True)

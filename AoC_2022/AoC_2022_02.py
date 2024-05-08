@@ -6,6 +6,7 @@ MOD = 3
 FACT = 3
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1, p2 = 0, 0
     for line in input_string.split('\n'):
@@ -15,6 +16,3 @@ def main(input_string, verbose=False):
         p2 += you * FACT + 1 + (opp + you - 1) % MOD
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=2, verbose=True)

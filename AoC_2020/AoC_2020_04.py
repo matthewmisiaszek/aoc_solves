@@ -70,6 +70,7 @@ def part2(passports, rules):
     return sum(tuple(check_passport2(passport, rules) for passport in passports))
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     rules = {'byr': byr,
              'iyr': iyr,
@@ -83,6 +84,3 @@ def main(input_string, verbose=False):
     p2 = part2(passports, rules)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=4, verbose=True)

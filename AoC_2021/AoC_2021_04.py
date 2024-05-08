@@ -17,6 +17,7 @@ class BoardClass:
         return num * (np.multiply(self.values, np.logical_not(self.mask))).sum()
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     f = input_string.split('\n\n')
 
@@ -36,6 +37,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=4, verbose=True)

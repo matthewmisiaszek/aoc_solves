@@ -2,6 +2,7 @@ import blitzen
 from donner.misc import digits
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     ones = {'B', 'R'}
     ids = {digits(tuple(c in ones for c in ticket), 2)
@@ -13,6 +14,3 @@ def main(input_string, verbose=False):
             break
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=5, verbose=True)

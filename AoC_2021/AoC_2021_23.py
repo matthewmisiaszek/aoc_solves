@@ -116,6 +116,7 @@ def solve(start_state, verbose=True):
     return cost
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     start_state = input_string.split('\n')
     p1 = solve(start_state, verbose)
@@ -124,6 +125,3 @@ def main(input_string, verbose=False):
     p2 = solve(start_state, verbose)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=23, verbose=True)

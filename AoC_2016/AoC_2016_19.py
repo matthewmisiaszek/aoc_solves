@@ -18,12 +18,10 @@ def part2(n_elves):
     return elves[0]
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     n_elves = int(input_string)
     p1 = part1(n_elves)
     p2 = part2(n_elves)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=19, verbose=True)

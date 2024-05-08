@@ -22,6 +22,7 @@ def parse(input_string):
     return trees, bottom, width
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     trees, bottom, width = parse(input_string)
     slopes = ((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))
@@ -30,6 +31,3 @@ def main(input_string, verbose=False):
     p2 = prod(tree_counts.values())
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=3, verbose=True)

@@ -30,6 +30,7 @@ def region_size(region, tiles, bounds):
     return len(region)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     sketch = graph.text_to_dict(input_string)
     for start, char in sketch.items():
@@ -64,6 +65,3 @@ def main(input_string, verbose=False):
         printer.printdict(toprint)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=10, verbose=True)

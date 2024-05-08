@@ -24,6 +24,7 @@ class Room:
         self.decn = ''.join(alph[(alph.find(c) + self.id) % lalph] if c != '-' else c for c in self.encn)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     pattern = r'(\D*)-(\d*)\[(\D*)\]'
     rooms = [Room(*group) for group in re.findall(pattern, input_string)]
@@ -32,6 +33,3 @@ def main(input_string, verbose=False):
     p2 = room_lookup['northpole-object-storage']
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=4, verbose=True)

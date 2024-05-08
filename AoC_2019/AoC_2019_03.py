@@ -2,6 +2,7 @@ import blitzen
 from donner import spatial as sp
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     wires = []
     for wire_path in input_string.split('\n'):
@@ -23,6 +24,3 @@ def main(input_string, verbose=False):
     p2 = min(wire0[a] + wire1[a] for a in intersections)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=3, verbose=True)

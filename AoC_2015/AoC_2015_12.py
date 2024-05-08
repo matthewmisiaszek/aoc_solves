@@ -25,6 +25,7 @@ def count(file, exclude=None):
     return ret
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     file = json.loads(input_string)
 
@@ -32,6 +33,3 @@ def main(input_string, verbose=False):
     p2 = count(file, {"red"})
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=12, verbose=True)

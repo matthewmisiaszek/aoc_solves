@@ -20,6 +20,7 @@ def run_amps(amps, phases):
     return amps[0].run()
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     program = [int(i) for i in input_string.split(',')]
     n_amps = 5
@@ -32,6 +33,3 @@ def main(input_string, verbose=False):
     p2 = max(run_amps(amps, phases) for phases in permutations(range(5, 5 + n_amps)))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=7, verbose=True)

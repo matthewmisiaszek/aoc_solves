@@ -10,11 +10,9 @@ def extrapolate(x):
     return x[0][-1], x[0][0]
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     history = [[int(i) for i in line.split()] for line in input_string.split('\n')]
     p1, p2 = (sum(i) for i in zip(*(extrapolate([line]) for line in history)))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=9, verbose=True)

@@ -102,6 +102,7 @@ def unscramble(instructions):
     return tuple(reversed(reverse_instructions))
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     instructions = parse(input_string)
     p1 = scrambler(instructions, 'abcdefgh')
@@ -109,6 +110,3 @@ def main(input_string, verbose=False):
     p2 = scrambler(reverse_instructions, 'fbgdceah')
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=21, verbose=True)

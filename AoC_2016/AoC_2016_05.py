@@ -33,6 +33,7 @@ def pw_fill(mpc, result, p1, p2, pc, verbose):
         print('\rHacking... ' + ''.join(p1) + ' ' + ''.join(p2), end='')
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     seed = input_string
     p1, p1c = [PH_CHAR] * PWLEN, 0
@@ -46,6 +47,3 @@ def main(input_string, verbose=False):
         print('\rHacked!:   ' + p1 + ' ' + p2)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=5, verbose=True)

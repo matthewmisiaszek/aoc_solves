@@ -54,12 +54,10 @@ def part(input_string, worrydiv, rounds):
     return activity[-2] * activity[-1]
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = part(input_string, worrydiv=3, rounds=20)
     p2 = part(input_string, worrydiv=1, rounds=10000)
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=11, verbose=True)

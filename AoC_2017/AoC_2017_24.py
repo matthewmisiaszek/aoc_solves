@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     components = {tuple(int(i) for i in line.split('/')) for line in input_string.split('\n')}
     queue = {(0, tuple(), 0)}  # strength, sorted list of components, last connector
@@ -26,6 +27,3 @@ def main(input_string, verbose=False):
     _, p2 = max(p2set)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=24, verbose=True)

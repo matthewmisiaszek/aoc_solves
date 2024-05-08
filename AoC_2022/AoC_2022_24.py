@@ -48,6 +48,7 @@ def cobe(non_wall):
     return pacman
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     valley_map = graph.text_to_dict(input_string, ' ')
     walls = {key for key, val in valley_map.items() if val is WALL}
@@ -62,6 +63,3 @@ def main(input_string, verbose=False):
     p2 = t1 + t2 + t3
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=24, verbose=True)

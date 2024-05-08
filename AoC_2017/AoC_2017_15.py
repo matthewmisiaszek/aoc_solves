@@ -33,10 +33,8 @@ def solve(value_a, value_b):
     return p1, p2
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     value_a, value_b = [int(i) for i in (line.split()[-1] for line in input_string.split('\n'))]
     return solve(value_a, value_b)
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=15, verbose=True)

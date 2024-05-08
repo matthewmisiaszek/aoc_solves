@@ -70,6 +70,7 @@ def parse_example(example):
     return [[int(i) for i in line.strip().split()] for line in example.split('\n')]
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     input_file = input_string.split('\n\n\n\n')
     examples = input_file.pop(0).split('\n\n')
@@ -106,6 +107,3 @@ def main(input_string, verbose=False):
         p2 = regs[0]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=16, verbose=True)

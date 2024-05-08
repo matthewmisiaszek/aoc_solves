@@ -2,6 +2,7 @@ import blitzen
 from donner import spatial
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     cubes = {spatial.Point(*(int(i) for i in line.split(','))) for line in input_string.split('\n')}
     p1 = sum(cube+direction not in cubes for cube in cubes for direction in spatial.D3D6)
@@ -21,6 +22,3 @@ def main(input_string, verbose=False):
                 queue.append(neighbor)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=18, verbose=True)

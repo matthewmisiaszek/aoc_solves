@@ -13,12 +13,10 @@ def steps(jumps, change):
     return step_count
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     jumps = [int(i) for i in input_string.split('\n')]
     p1 = steps(jumps.copy(), 1)
     p2 = steps(jumps.copy(), -1)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=5, verbose=True)

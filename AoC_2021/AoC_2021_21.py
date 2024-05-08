@@ -33,12 +33,10 @@ def part1(positions):
     return scores, roll, min(scores) * roll
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     positions = [int(line.split()[-1]) - 1 for line in input_string.split('\n')]
     p1 = part1(positions)[-1]
     p2 = max(part2(tuple(positions)))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=21, verbose=True)

@@ -91,11 +91,9 @@ def part2(input_file):
     return remaining
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = part1(input_string)
     p2 = part2(input_string)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=24, verbose=True)

@@ -3,6 +3,7 @@ import re
 from donner import printer, spatial
 
 
+@blitzen.run
 def main(input_string, verbose=False):
 
     points = re.findall('position=<(.*)> velocity=<(.*)>', input_string)
@@ -17,7 +18,3 @@ def main(input_string, verbose=False):
     points2 = {p + v * t for p, v in points}
     message = printer.strset(points2)
     return message, t
-
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=10, verbose=True)

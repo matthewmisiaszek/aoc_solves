@@ -32,6 +32,7 @@ def knothash(input_string):
     dense_hash = [xor(circle[i:i + 16]) for i in range(0, len(circle), 16)]
     return ''.join('{:02x}'.format(a) for a in dense_hash)
 
+@blitzen.run
 def main(input_string, verbose=False):
     lengths = tuple(int(i) for i in input_string.split(','))
     circle = knot(lengths)
@@ -39,6 +40,3 @@ def main(input_string, verbose=False):
     p2 = knothash(input_string)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=10, verbose=True)

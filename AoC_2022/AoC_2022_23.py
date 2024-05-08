@@ -5,6 +5,7 @@ from collections import defaultdict
 ROUNDS = 10
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     elves = set(graph.text_to_dict(input_string, '.').keys())
     consider = [(sp.NORTH, (sp.NORTHWEST, sp.NORTH, sp.NORTHEAST)),
@@ -43,6 +44,3 @@ def main(input_string, verbose=False):
     p2 = len(history)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=23, verbose=True)

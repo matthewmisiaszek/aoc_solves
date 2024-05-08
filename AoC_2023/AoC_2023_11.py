@@ -3,6 +3,7 @@ from donner import graph, spatial
 from itertools import combinations
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     galaxies = graph.text_to_dict(input_string, include='#')
     bn, bx = spatial.bounds(galaxies)
@@ -18,6 +19,3 @@ def main(input_string, verbose=False):
         }
         yield sum(a.manhattan(b) for a, b in combinations(expanded_galaxies, 2))
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=11, verbose=True)

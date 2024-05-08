@@ -24,6 +24,7 @@ def run(instructions, switch=None):
     return False, accumulator
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     instructions = [line.split() for line in input_string.split('\n')]
     instructions = [(op, int(val)) for op, val in instructions]
@@ -36,6 +37,3 @@ def main(input_string, verbose=False):
     p2 = accumulator
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=8, verbose=True)

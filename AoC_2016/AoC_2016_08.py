@@ -2,6 +2,7 @@ import blitzen
 import re
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     on, off = '#', ' '
     screen_width, screen_height = 50, 6
@@ -31,6 +32,3 @@ def main(input_string, verbose=False):
     p2 = code
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=8, verbose=True)

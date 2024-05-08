@@ -2,6 +2,7 @@ import blitzen
 import re
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     pattern = 'To continue, please consult the code grid in the manual.  Enter the code at row (.*), column (.*).'
     row, column = (int(i) for i in re.findall(pattern, input_string)[0])
@@ -18,6 +19,3 @@ def main(input_string, verbose=False):
     p2 = blitzen.holiday_greeting
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=25, verbose=True)

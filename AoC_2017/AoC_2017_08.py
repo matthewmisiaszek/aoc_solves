@@ -37,6 +37,7 @@ class Instruction:
             return False
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     instructions = [Instruction(line) for line in input_string.split('\n')]
     registers = {}
@@ -48,6 +49,3 @@ def main(input_string, verbose=False):
     p2 = maxreg
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=8, verbose=True)

@@ -9,12 +9,10 @@ def game(starting_numbers, turns):
     return last
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     starting_numbers = [int(i) for i in input_string.split(',')]
     p1 = game(starting_numbers, 2020)
     p2 = game(starting_numbers, 30000000)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=15, verbose=True)

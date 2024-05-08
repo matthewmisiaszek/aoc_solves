@@ -33,12 +33,10 @@ def part2(actions, ship, waypoint):
     return ship.manhattan()
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     actions = tuple((action[0], int(action[1:])) for action in input_string.split('\n'))
     p1 = part1(actions, sp.Point(), sp.EAST)
     p2 = part2(actions, sp.Point(), sp.EAST * 10 + sp.NORTH * 1)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=12, verbose=True)

@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     algo_raw, img_raw = input_string.split('\n\n')
     algo_dict = {tuple(i == '1' for i in format(idx, '09b')): c == '#'
@@ -29,6 +30,3 @@ def main(input_string, verbose=False):
     p1, p2 = pcount
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=20, verbose=True)

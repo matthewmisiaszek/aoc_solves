@@ -40,6 +40,7 @@ def parse(input_string):
     return sues, ticker
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     sues, ticker = parse(input_string)
     p1 = who_is_sue(ticker, sues)
@@ -48,6 +49,3 @@ def main(input_string, verbose=False):
     p2 = who_is_sue(ticker, sues, gt, ft)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=16, verbose=True)

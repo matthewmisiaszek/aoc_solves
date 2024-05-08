@@ -16,6 +16,7 @@ def dance(programs, moves):
     return ''.join(programs)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     programs = [i for i in string.ascii_lowercase[:16]]
     moves = input_string.split(',')
@@ -32,6 +33,3 @@ def main(input_string, verbose=False):
     p2 = cache[1000000000 % len(cache) - 1]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=16, verbose=True)

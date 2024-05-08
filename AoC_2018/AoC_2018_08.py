@@ -1,12 +1,6 @@
 import blitzen
 
 
-def main(input_string, verbose=False):
-    input_ints = [int(i) for i in input_string.split()]
-    _, p1, p2 = recfun(input_ints, 0)
-    return p1, p2
-
-
 def recfun(f, i):
     qchild = f[i]
     qmeta = f[i + 1]
@@ -29,5 +23,8 @@ def recfun(f, i):
     return i, p1sum, p2sum
 
 
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=8, verbose=True)
+@blitzen.run
+def main(input_string, verbose=False):
+    input_ints = [int(i) for i in input_string.split()]
+    _, p1, p2 = recfun(input_ints, 0)
+    return p1, p2

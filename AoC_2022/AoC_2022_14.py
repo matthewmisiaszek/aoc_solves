@@ -18,6 +18,7 @@ def parse(input_string):
     return rocks
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     rocks = parse(input_string)
     floor = max(rock.y for rock in rocks) + FLOOR_HEIGHT
@@ -40,6 +41,3 @@ def main(input_string, verbose=False):
     p2 = len(turtle.visited) - len(rocks)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=14, verbose=True)

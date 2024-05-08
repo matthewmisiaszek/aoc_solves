@@ -28,6 +28,7 @@ def expand(cave, repeat=5):
                     cave[nkey] = nval
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     f = input_string.split('\n')
     cave = {}
@@ -41,6 +42,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=15, verbose=True)

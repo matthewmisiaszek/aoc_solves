@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     step = 363
     position = 0
@@ -21,6 +22,3 @@ def main(input_string, verbose=False):
         position = (position + step + 1) % buffer_length
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=17, verbose=True)

@@ -16,6 +16,7 @@ class lanternFish:
         return sum(self.schools)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     fish = lanternFish(input_string)
     p1 = fish.ticks(80)
@@ -23,6 +24,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=6, verbose=True)

@@ -31,6 +31,7 @@ def reduce(allergen_possibilities):
     return allergen_ingredients
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     allergen_possibilities, all_ingredients = get_possibilities(input_string)
     ingredients_w_allergens = set().union(*allergen_possibilities.values())
@@ -40,6 +41,3 @@ def main(input_string, verbose=False):
     p2 = ','.join((allergen_ingredients[x] for x in sorted(allergen_ingredients.keys())))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=21, verbose=True)

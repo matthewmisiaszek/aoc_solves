@@ -37,6 +37,7 @@ def simulate(all_seats, neighbor_fun, tolerance):
     return len(occupied_seats)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     empty_seat = 'L'
     all_seats = set(graph.text_to_dict(input_string, include=empty_seat).keys())
@@ -44,6 +45,3 @@ def main(input_string, verbose=False):
     p2 = simulate(all_seats, p2neighbors, 5)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=11, verbose=True)

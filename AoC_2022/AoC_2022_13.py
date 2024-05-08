@@ -53,11 +53,9 @@ def part2(input_string):
     return prod(packets.index(i) for i in div_packets)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = part1(input_string)
     p2 = part2(input_string)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=13, verbose=True)

@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     rpt = [[int(c) for c in line] for line in input_string.split('\n')]
     bits, rptlen = len(rpt[0]), len(rpt)
@@ -30,6 +31,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=3, verbose=True)

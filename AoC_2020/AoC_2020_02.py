@@ -13,6 +13,7 @@ def part2(example_list):
                for a, b, c, password in example_list)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     pattern = '(.*)-(.*) (.): (.*)'
     example_list = tuple((int(a), int(b), c, d) for a, b, c, d in re.findall(pattern, input_string))
@@ -20,6 +21,3 @@ def main(input_string, verbose=False):
     p2 = part2(example_list)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=2, verbose=True)

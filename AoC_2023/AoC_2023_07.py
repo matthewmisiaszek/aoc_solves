@@ -20,12 +20,10 @@ def score(input_string):
     return sum((int(bd) * (i + 1) for i, (co, st, ca, bd) in enumerate(detailed_cards)))
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = score(input_string)
     input_string = input_string.replace(JOKER.upper(), JOKER)
     p2 = score(input_string)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=7, verbose=True)

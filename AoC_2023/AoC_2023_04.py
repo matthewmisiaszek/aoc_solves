@@ -8,6 +8,7 @@ def count_matches(card):
     return len(win & have)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     matches = [count_matches(line) for line in input_string.split('\n')]
     p1 = sum((2 ** (i - 1) for i in matches if i))
@@ -18,6 +19,3 @@ def main(input_string, verbose=False):
     p2 = sum(copies.values())
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=4, verbose=True)

@@ -175,11 +175,8 @@ def part2(input_string, verbose=False):
     return outcome
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     _, p1 = part1(input_string, verbose=verbose)
     p2 = part2(input_string, verbose=verbose)
     return p1, p2
-
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=15, verbose=True)

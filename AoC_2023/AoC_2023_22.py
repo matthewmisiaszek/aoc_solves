@@ -56,6 +56,7 @@ class Block:
         return self.line == other.line
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     stack = defaultdict(dict)
     blocks = [Block(line, stack) for line in input_string.split('\n')]
@@ -67,6 +68,3 @@ def main(input_string, verbose=False):
     p2 = sum(block.n_fall() for block in blocks) - len(blocks)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=22, verbose=True)

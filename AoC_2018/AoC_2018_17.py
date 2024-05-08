@@ -24,6 +24,7 @@ def print_fun(dirt, wet, settled):
     printer.printdict(pdict, default='.')
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     dirt, xn, xx, yn, yx = parse(input_string)
     wet = {spatial.Point(500, yn)}
@@ -81,7 +82,3 @@ def main(input_string, verbose=False):
     p1 = len(wet)+len(settled)
     p2 = len(settled)
     return p1, p2
-
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=17, verbose=True)

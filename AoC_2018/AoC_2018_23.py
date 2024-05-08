@@ -188,12 +188,10 @@ def part2(bots):
     return min(solution_manhattans)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     bots = parse(input_string)
     p1 = part1(bots)
     p2 = part2(bots)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=23, verbose=True)

@@ -21,6 +21,7 @@ def tilt(platform, direction):
     return load
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = p2 = None
     platform = graph.text_to_dict(input_string, exclude=SPACE)
@@ -40,6 +41,3 @@ def main(input_string, verbose=False):
         repeat[hkey] = cycle
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=14, verbose=True)

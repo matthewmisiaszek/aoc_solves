@@ -5,6 +5,7 @@ N_COMP = 50
 NAT = 255
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     software = [int(i) for i in input_string.split(',')]
     packet_queues = {i: [i] for i in range(N_COMP)}
@@ -34,6 +35,3 @@ def main(input_string, verbose=False):
     p2 = y
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=23, verbose=True)

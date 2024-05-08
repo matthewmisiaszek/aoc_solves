@@ -33,6 +33,7 @@ def re_path(input_string):
     return door_graph
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     doors = re_path(input_string)
     paths = doors.dijkstra(sp.Point(0, 0), doors.graph.keys(), all_paths=True)
@@ -41,6 +42,3 @@ def main(input_string, verbose=False):
     p2 = sum([value >= target_length for value in paths.values()])
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=20, verbose=True)

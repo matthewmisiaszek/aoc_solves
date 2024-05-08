@@ -8,6 +8,7 @@ DIGIT = '1234567890'
 GEAR = '*'
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = 0
     width = input_string.find('\n') + 1
@@ -38,6 +39,3 @@ def main(input_string, verbose=False):
             p2 += gear[0] * gear[1]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=3, verbose=True)

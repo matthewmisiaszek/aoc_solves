@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     banks = tuple(int(i) for i in input_string.split())
     nbanks = len(banks)
@@ -22,6 +23,3 @@ def main(input_string, verbose=False):
     p2 = red_count - history[banks]
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=6, verbose=True)

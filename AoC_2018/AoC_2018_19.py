@@ -101,10 +101,8 @@ def predict(input_string, reg0):
             hist.append(hist[-1] + z // i)
     return hist[-1]
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = predict(input_string, 0)
     p2 = predict(input_string, 1)
     return p1, p2
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=19, verbose=True)

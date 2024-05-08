@@ -20,12 +20,10 @@ def part2(instructions):
     return h
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     instructions = tuple(line.split() for line in input_string.split('\n'))
     p1 = next(tablet.program(instructions))
     p2 = part2(instructions)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=23, verbose=True)

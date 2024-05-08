@@ -37,6 +37,7 @@ def validate(modelno, f):
         return False
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     f = input_string.split('\n')
     section_length = 18
@@ -69,6 +70,3 @@ def main(input_string, verbose=False):
         print('Part 2: Min Model Number: ', p2, ' Check Valid: ', validate(minmno, f))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2021, day=24, verbose=True)

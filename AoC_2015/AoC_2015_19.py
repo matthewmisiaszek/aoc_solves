@@ -1,6 +1,7 @@
 import blitzen
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     replacements_string, molecule = input_string.split('\n\n')
     replacements_list = [line.split(' => ') for line in replacements_string.split('\n')]
@@ -27,6 +28,3 @@ def main(input_string, verbose=False):
     p2 = sum(c.isupper() for c in molecule) - 1 - 2 * Rnc - 2 * Yc
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2015, day=19, verbose=True)

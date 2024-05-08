@@ -55,11 +55,9 @@ def evaluate(input_string, ooops):
     return sum((int(answers[problem]) for problem in expressions))
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = evaluate(input_string, [{'+', '*'}])
     p2 = evaluate(input_string, [{'+'}, {'*'}])
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=18, verbose=True)

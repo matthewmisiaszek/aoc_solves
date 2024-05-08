@@ -30,6 +30,7 @@ def balance(structure, weights, bottom):
             child_weights[current] = weights[current]
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     for a, b in (('(', ''), (')', ''), ('->', ''), (', ', ' ')):
         input_string = input_string.replace(a, b)
@@ -48,6 +49,3 @@ def main(input_string, verbose=False):
     p2 = balance(structure, weights, p1)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=7, verbose=True)

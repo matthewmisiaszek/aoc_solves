@@ -69,6 +69,7 @@ def cramer(a, b, i):
     return det(ai) // det(a)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     stones = [HailStone(line) for line in input_string.split('\n')]
     n = 2e14
@@ -83,6 +84,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=24, verbose=True)

@@ -25,6 +25,7 @@ def dig(dists, heads):
     return area
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     heads, dists, c = zip(*(line.split() for line in input_string.split('\n')))
     head_dict = {'R': 0, 'D': 1, 'L': 2, 'U': 3}
@@ -35,6 +36,3 @@ def main(input_string, verbose=False):
     p2 = dig(dists, heads)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=18, verbose=True)

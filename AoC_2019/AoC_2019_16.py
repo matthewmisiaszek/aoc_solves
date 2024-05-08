@@ -31,12 +31,10 @@ def part2(signal):
     return ''.join(str(i) for i in signal[:8])
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     signal = tuple(int(i) for i in input_string)
     p1 = part1(signal)
     p2 = part2(signal)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=16, verbose=True)

@@ -10,6 +10,7 @@ def union(a, b):
         return False
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     blocks = set(tuple(int(i) for i in line.split('-')) for line in input_string.split('\n'))
     consolidated_blocks = set()
@@ -30,6 +31,3 @@ def main(input_string, verbose=False):
     p2 = 2 ** 32 - sum(b - a + 1 for a, b in consolidated_blocks)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2016, day=20, verbose=True)

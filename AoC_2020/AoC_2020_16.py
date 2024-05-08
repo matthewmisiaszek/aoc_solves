@@ -54,12 +54,10 @@ def part2(your_ticket, nearby_tickets, rules, key_filter):
     return ret
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     rules, your_ticket, nearby_tickets = parse(input_string)
     p1 = part1(nearby_tickets, rules)
     p2 = part2(your_ticket, nearby_tickets, rules, 'departure')
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=16, verbose=True)

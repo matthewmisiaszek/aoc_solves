@@ -32,6 +32,7 @@ def render(output, display, verbose):
     return ball, paddle, score, blocks_remaining
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     game = [int(i) for i in input_string.split(',')]
     arcade = Intcode(game)
@@ -53,6 +54,3 @@ def main(input_string, verbose=False):
     p2 = score
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2019, day=13, verbose=True)

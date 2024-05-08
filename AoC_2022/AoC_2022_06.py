@@ -7,11 +7,9 @@ def find_sequence(datastream, characters):
             return i + characters
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = find_sequence(input_string, 4)
     p2 = find_sequence(input_string, 14)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=6, verbose=True)

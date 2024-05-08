@@ -28,6 +28,7 @@ def navigate(instructions, network, start, finish):
     return i
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     instructions, network = parse(input_string)
     p1 = navigate(instructions, network, AAA, {ZZZ})
@@ -37,6 +38,3 @@ def main(input_string, verbose=False):
     p2 = math.lcm(*frequencies)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=8, verbose=True)

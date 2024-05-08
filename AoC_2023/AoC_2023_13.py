@@ -2,6 +2,7 @@ import blitzen
 from donner import graph, spatial
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = p2 = 0
     for pattern in input_string.split('\n\n'):
@@ -22,6 +23,3 @@ def main(input_string, verbose=False):
                     p2 += mirror * fact
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=13, verbose=True)

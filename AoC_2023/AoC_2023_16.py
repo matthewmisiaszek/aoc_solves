@@ -47,6 +47,7 @@ def energize(grid, start, startdir):
     return len(energized)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     grid = graph.text_to_dict(input_string, include=GLASS.keys())
     p1 = energize(grid, sp.Point(-1, 0), sp.EAST)
@@ -60,6 +61,3 @@ def main(input_string, verbose=False):
         p2 = max(p2, energize(grid, sp.Point(bx.x, y), sp.WEST))
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=16, verbose=True)

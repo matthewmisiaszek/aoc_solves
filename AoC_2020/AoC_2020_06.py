@@ -2,6 +2,7 @@ import blitzen
 from string import ascii_lowercase
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1, p2 = 0, 0
     for group in input_string.split('\n\n'):
@@ -12,6 +13,3 @@ def main(input_string, verbose=False):
             p2 += count == members
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2020, day=6, verbose=True)

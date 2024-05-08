@@ -23,6 +23,7 @@ def transform(key):
             yield key
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1, p2 = 5, 18
     cr = '/'
@@ -56,6 +57,3 @@ def main(input_string, verbose=False):
     #     print('')
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=21, verbose=True)

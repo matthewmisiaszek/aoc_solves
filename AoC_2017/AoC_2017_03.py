@@ -25,12 +25,10 @@ def part2(target):
     return value
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     input_int = int(input_string)
     p1 = part1(input_int)
     p2 = part2(input_int)
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2017, day=3, verbose=True)

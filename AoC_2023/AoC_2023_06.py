@@ -12,6 +12,7 @@ def ways_to_win(t, d):
     return x - n + 1
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     time = [int(i) for i in input_string.split('\n')[0].split()[1:]]
     distance = [int(i) for i in input_string.split('\n')[1].split()[1:]]
@@ -22,6 +23,3 @@ def main(input_string, verbose=False):
 
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2023, day=6, verbose=True)

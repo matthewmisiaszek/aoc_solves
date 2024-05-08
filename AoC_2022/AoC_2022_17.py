@@ -35,6 +35,7 @@ def move(rock_location, rock_shape, direction, settled):
     return rock_location, False
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     jets = tuple(JET_DIRECTIONS[i] for i in input_string)
     rocks = get_rocks()
@@ -79,6 +80,3 @@ def main(input_string, verbose=False):
         extra = n % rdelta
         yield -1 * (tdelta * repeat + history_list[rn0 + extra])
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2022, day=17, verbose=True)

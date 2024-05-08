@@ -11,11 +11,9 @@ def reduce(f):
     return len(f)
 
 
+@blitzen.run
 def main(input_string, verbose=False):
     p1 = reduce(input_string)
     p2 = min([reduce(input_string.replace(a, '').replace(a.upper(), '')) for a in string.ascii_lowercase])
     return p1, p2
 
-
-if __name__ == "__main__":
-    blitzen.run(main, year=2018, day=5, verbose=True)
