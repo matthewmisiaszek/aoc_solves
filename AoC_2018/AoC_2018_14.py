@@ -1,11 +1,35 @@
 import blitzen
-from donner.misc import digits
 from numba import njit
 
 
 def main(input_string, verbose=False):
     n_recipes = int(input_string)
     return solve(n_recipes)
+
+
+@njit
+def roughlog(x, b):
+    ret = 0
+    while x >= b:
+        ret += 1
+        x /= b
+    return ret
+
+
+@njit
+def digits(n, base=10, power=None):
+    if isinstance(n, list) or isinstance(n, tuple):
+        return sum([n[i] * base ** (len(n) - i - 1) for i in range(len(n))])
+    else:
+        if power is None:
+            power = roughlog(n, base)
+        else:
+            power -= 1
+        ret = []
+        for i in range(power+1):
+            ret.append(n // base ** (power - i))
+            n %= base ** (power - i)
+        return ret
 
 
 @njit
