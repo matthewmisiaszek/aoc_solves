@@ -1,10 +1,12 @@
 import blitzen
+from numba import njit
 
 
 DKEY = 811589153
 GROVE = (1000, 2000, 3000)
 
 
+@njit
 def mix(file, n):
     flen = len(file)
     zind = file.index(0)
