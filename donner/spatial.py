@@ -74,13 +74,22 @@ class Point(dataobject, readonly=True, hashable=True):
                 )
 
     def __lt__(self, other):
-        if self.y == other.y:
-            if self.x == other.x:
-                return self.z < other.z
-            else:
+        if self.z == other.z:
+            if self.y == other.y:
                 return self.x < other.x
+            else:
+                return self.y < other.y
         else:
-            return self.y < other.y
+            return self.z < other.z
+
+    def __gt__(self, other):
+        if self.z == other.z:
+            if self.y == other.y:
+                return self.x > other.x
+            else:
+                return self.y > other.y
+        else:
+            return self.z > other.z
 
     def astuple(self):
         return astuple(self)
