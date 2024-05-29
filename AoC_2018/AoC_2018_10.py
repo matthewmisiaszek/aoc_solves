@@ -12,5 +12,5 @@ def main(input_string, verbose=False):
     p2, v2 = max((p, v) for p, v in points if v.y == min(y_velocities))
     t = int(round((p1.y - p2.y) / (v2.y - v1.y)))
     points2 = {p + v * t for p, v in points}
-    message = printer.strset(points2)
+    message = printer.ocr(printer.strset(points2))
     return message, t

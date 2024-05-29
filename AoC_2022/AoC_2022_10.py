@@ -21,6 +21,6 @@ def main(input_string, verbose=False):
     p1 = sum(cycle * xregs[cycle-1] for cycle in INTERESTING)
     pixels = [spatial.Point(col, row) for row in range(SCREEN_WIDTH) for col in range(SCREEN_WIDTH)]
     screen = {point for point, x in zip(pixels, xregs) if abs(point.x - x) <= 1}
-    p2 = printer.strset(screen)
+    p2 = printer.ocr(printer.strset(screen))
     return p1, p2
 

@@ -37,5 +37,6 @@ def main(input_string, verbose=False):
     brain = Intcode(program)
     p1, _ = emergency_hull_painting_robot(brain, False)
     _, p2 = emergency_hull_painting_robot(brain, True)
+    p2 = printer.ocr(p2)
     return p1, p2
 

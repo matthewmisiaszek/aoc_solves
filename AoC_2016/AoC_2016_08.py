@@ -1,5 +1,6 @@
 import blitzen
 import re
+from donner import printer
 
 
 @blitzen.run
@@ -29,6 +30,6 @@ def main(input_string, verbose=False):
             print(code)
     code = '\n'.join([''.join(row) for row in screen])
     p1 = code.count(on)
-    p2 = code
+    p2 = printer.ocr(code)
     return p1, p2
 

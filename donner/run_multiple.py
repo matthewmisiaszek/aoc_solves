@@ -5,6 +5,8 @@ import time
 from configparser import ConfigParser
 import os
 import argparse
+import re
+import multiprocessing
 
 
 def getranges(s):
@@ -27,6 +29,7 @@ def get_args():
     parser.add_argument('ranges', nargs='*', default='2015-2023:1-25')
     parser.add_argument('-s', action='store_true')  # save results
     parser.add_argument('-m', action='store_true')  # man
+    parser.add_argument('-t', action='store_true')  # times_only
     return parser.parse_args()
 
 
@@ -37,14 +40,14 @@ def man():
             Use -s flag to save results for future comparison.""")
 
 
-def make_header(config):
+def make_header(config, widths):
     table_format = config['table']['format']
-    header_format = config['table']['header_format']
     column_header = table_format.format(**{
         'day': 'Day', 'p1': 'Part 1', 'p2': 'Part 2', 'time': 'Time', 'check': 'Check'
     })
-    line = '-' * len(column_header)
-    return '\n'.join((line, header_format, line, column_header, line))
+    header_format = f'{{year:^{len(column_header)}}}'
+    line = table_format.format(**{k: '-' * v for k, v in widths.items()})
+    return '\n'.join((header_format, line, column_header, line))
 
 
 def get_outputs(output_path):
@@ -68,11 +71,14 @@ def parse_group(group):
         years = list(range(2015, 2024))
     if not days:
         days = list(range(1, 26))
+    days = [0] + days
     return years, days
 
 
 def run_day(year, day, config):
     data = {'year': year, 'day': day}
+    if day == 0:
+        return data
     file = os.path.join(blitzen.root_path, blitzen.config['files']['solution_format'].format(**data))
     start = time.time()
     py = config['python']['call']
@@ -83,7 +89,7 @@ def run_day(year, day, config):
     stdout = stdout.replace('\r', '')
     elapsed_time = config['table']['time_format'].format(time=time.time() - start)
     extract = blitzen.extract(config['dayprint']['format'], stdout)
-    extract['time'] = elapsed_time
+    # extract['time'] = elapsed_time
     return extract
 
 
@@ -105,10 +111,11 @@ def check_day(extract, outputs, save):
         outputs.set(yearst, dayst, outval)
 
 
-def print_day(extract, config):
+def print_day(extract, config, widths):
     extra = []
-    for key, val in extract.items():
-        if '\n' in val or len(val) > int(config['table']['max_len']):
+    for key in widths:
+        val = extract[key]
+        if '\n' in val or len(val) > widths[key]:
             extract[key] = '---'
             extra.append(val)
     print(config['table']['format'].format(**extract))
@@ -123,22 +130,34 @@ def main():
         return
 
     config = blitzen.config
-    full_header = make_header(config)
+    n_cores = multiprocessing.cpu_count()
+    if args.t:
+        config['table']['format'] = re.sub(r' *\{(p1|p2|check)(:<\d*)?} *', '', config['table']['format'])
+        config['table']['format'] = re.sub(r'\|+', '|', config['table']['format'])
+        n_cores = 1
+    pool = multiprocessing.Pool(n_cores)
+    widths = {a: int(b) for a, b in re.findall(r'{(\w+):[<>^](\d+)', config['table']['format'])}
+    full_header = make_header(config, widths)
     output_path = os.path.join(blitzen.configpath, 'outputs.ini')
     outputs = get_outputs(output_path)
-
     groups = args.ranges if isinstance(args.ranges, list) else [args.ranges]
     for group in groups:
         print(group)
+        queue = []
         years, days = parse_group(group)
         start_time_all = time.time()
         for year in years:
-            print(full_header.format(**{'year':year}))
             for day in days:
-                extract = run_day(year, day, config)
-                check_day(extract, outputs, args.s)
-                print_day(extract, config)
-            print()
+                queue.append(pool.apply_async(run_day, (year, day, config)))
+        for result in queue:
+            result.wait()
+            extract = result.get()
+            if extract['day'] == 0:
+                print(full_header.format(**extract))
+                continue
+            check_day(extract, outputs, args.s)
+            print_day(extract, config, widths)
+        print()
         print('Total Time: ', time.time() - start_time_all)
         if args.s:
             with open(output_path, 'w') as outputfile:

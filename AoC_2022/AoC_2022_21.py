@@ -1,49 +1,50 @@
 import blitzen
-import re
-from collections import defaultdict
-from sympy import symbols, solve
+
+
+class Monkey:
+    def __init__(self, mdict, line):
+        self.mdict = mdict
+        self.line = line
+        self.i_wait_for = []
+        self.value = None
+        self.op = None
+        line = line.split()
+        self.name = line[0][:-1]
+        self.mdict[self.name] = self
+        if len(line) == 2:
+            self.value = int(line[1])
+        else:
+            self.i_wait_for.extend([line[1], line[3]])
+            self.op = line[2]
+
+    def eval(self):
+        if self.value is not None:
+            return self.value
+        a, b = (self.mdict[monkey].eval() for monkey in self.i_wait_for)
+        match self.op:
+            case '+':
+                return a + b
+            case '*':
+                return a * b
+            case '-':
+                return a - b
+            case '/':
+                return a / b
 
 
 ROOT = 'root'
 HUMN = 'humn'
 
 
-def parse(input_string):
-    math_monkeys = {}
-    waiting = defaultdict(set)
-    for name, a, op, b in re.findall(r'(\S+): (\S+) (\+|-|\*|/) (\S+)', input_string):
-        math_monkeys[name] = (a, op, b)
-        waiting[a].add(name)
-        waiting[b].add(name)
-    val_monkeys = {}
-    monkey_queue = set()
-    for name, val in re.findall(r'(\S+): (\d+)', input_string):
-        val_monkeys[name] = val
-        monkey_queue.update(waiting[name])
-    return math_monkeys, val_monkeys, monkey_queue, waiting
-
-
-def solve_monkeys(math_monkeys, val_monkeys, monkey_queue, waiting):
-    while monkey_queue:
-        curr = monkey_queue.pop()
-        a, op, b = math_monkeys[curr]
-        if a in val_monkeys and b in val_monkeys:
-            a = val_monkeys[a]
-            b = val_monkeys[b]
-            val_monkeys[curr] = '(' + a + op + b + ')'
-            if curr in waiting:
-                monkey_queue.update(waiting[curr])
-    return val_monkeys[ROOT]
-
-
 @blitzen.run
 def main(input_string, verbose=False):
-    math_monkeys, val_monkeys, monkey_queue, waiting = parse(input_string)
-    p1 = int(eval(solve_monkeys(math_monkeys, val_monkeys.copy(), monkey_queue.copy(), waiting)))
-    val_monkeys[HUMN]=HUMN
-    a, op, b = math_monkeys[ROOT]
-    math_monkeys[ROOT] = (a, '-', b)
-    humn = symbols(HUMN)
-    p2 = int(solve(eval(solve_monkeys(math_monkeys, val_monkeys, monkey_queue, waiting)))[0])
+    mdict = {}
+    for line in input_string.split('\n'):
+        Monkey(mdict, line)
+    p1 = int(mdict[ROOT].eval())
+    mdict[HUMN].value = -1j
+    mdict[ROOT].op = '-'
+    p2 = mdict[ROOT].eval()
+    p2 = int(p2.real / p2.imag)
     return p1, p2
 

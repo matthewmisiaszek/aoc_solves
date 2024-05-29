@@ -54,7 +54,7 @@ def main(input_string, verbose=False):
     p1 = len(grid)
     for foldi in folds:
         fold(foldi, grid)
-    p2 = printer.strset(grid)#printgrid(grid)
+    p2 = printer.ocr(printer.strset(grid))
 
     return p1, p2
 

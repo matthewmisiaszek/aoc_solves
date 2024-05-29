@@ -19,6 +19,6 @@ def main(input_string, verbose=False):
     points = [spatial.Point(x, y) for y in range(h_px) for x in range(w_px)]
     img = {point for point, pixel in zip(points, pixels) if pixel.index(white) < pixel.index(black)}
     img_str = printer.strset(img)
-    p2 = img_str
+    p2 = printer.ocr(img_str)
     return p1, p2
 

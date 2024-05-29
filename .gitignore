@@ -4,3 +4,5 @@ __init__.py
 .idea/
 *.xml
 .DS_Store
+/donner/get_inputs.py
+/donner/run_multiple_stats.py
