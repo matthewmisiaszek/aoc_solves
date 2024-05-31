@@ -1,5 +1,3 @@
-mpmath
 numpy
 recordclass
-sympy
 numba
