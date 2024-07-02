@@ -1,79 +1,43 @@
 import blitzen
+from donner import graph, spatial as sp
 
 
 @blitzen.run
 def main(input_string, verbose=False):
-    f = input_string.split('\n')
-    field = {}
-    for y, line in enumerate(f):
-        for x, c in enumerate(line):
-            field[(x, y)] = c
-
-    xn, yn = min(field.keys())
-    xx, yx = max(field.keys())
-    s = ''
-    for y in range(yn, yx + 1):
-        for x in range(xn, xx + 1):
-            s += field[(x, y)]
-        s += '\n'
-    if verbose:
-        print(s)
-    history = []
-    for minute in range(700):
-
-        newfield = {}
-        for x in range(xn, xx + 1):
-            for y in range(yn, yx + 1):
-                counter = 0
-                current = field[(x, y)]
-                if current == '|':
-                    for xi in range(x - 1, x + 2):
-                        for yi in range(y - 1, y + 2):
-                            if (xi, yi) != (x, y):
-                                if (xi, yi) in field and field[(xi, yi)] == '#':
-                                    counter += 1
-                    if counter >= 3:
-                        newfield[(x, y)] = '#'
-                    else:
-                        newfield[(x, y)] = '|'
-                elif current == '.':
-                    for xi in range(x - 1, x + 2):
-                        for yi in range(y - 1, y + 2):
-                            if (xi, yi) != (x, y):
-                                if (xi, yi) in field and field[(xi, yi)] == '|':
-                                    counter += 1
-                    if counter >= 3:
-                        newfield[(x, y)] = '|'
-                    else:
-                        newfield[(x, y)] = '.'
-                elif current == '#':
-                    counter2 = 0
-                    for xi in range(x - 1, x + 2):
-                        for yi in range(y - 1, y + 2):
-                            if (xi, yi) != (x, y):
-                                if (xi, yi) in field and field[(xi, yi)] == '|':
-                                    counter += 1
-                                elif (xi, yi) in field and field[(xi, yi)] == '#':
-                                    counter2 += 1
-
-                    if counter >= 1 and counter2 >= 1:
-                        newfield[(x, y)] = '#'
-                    else:
-                        newfield[(x, y)] = '.'
-        field = newfield
-
-        trees = {k: v for k, v in field.items() if v == '|'}
-        yards = {k: v for k, v in field.items() if v == '#'}
+    field = graph.text_to_dict(input_string)
+    trees = {k for k, v in field.items() if v == '|'}
+    yards = {k for k, v in field.items() if v == '#'}
+    field = set(field.keys())
+    neighbors = {k: {k + d for d in sp.ENWS8} & field for k in field}
+    history_list = []
+    history_dict = {}
+    while True:
+        new_trees = set()
+        new_yards = set()
+        for k, n in neighbors.items():
+            if k in trees:  # An acre filled with trees
+                if len(n & yards) >= 3:  # if three or more adjacent acres were lumberyards.
+                    new_yards.add(k)  # will become a lumberyard
+                else:
+                    new_trees.add(k)  # Otherwise, nothing happens.
+            elif k in yards:  # An acre containing a lumberyard
+                # if it was adjacent to at least one other lumberyard and at least one acre containing trees
+                if len(n & trees) >= 1 and len(n & yards) >= 1:
+                    new_yards.add(k)  # will remain a lumberyard
+                # Otherwise, it becomes open
+            else:  # An open acre
+                if len(n & trees) >= 3:  # if three or more adjacent acres contained trees
+                    new_trees.add(k)  # will become filled with trees
+                # Otherwise, nothing happens.
+        trees = new_trees
+        yards = new_yards
         score = len(trees) * len(yards)
-        history.append(score)
-
-    # print(history)
-    # print(score)
-    history = history[:-1]
-    x = list(reversed(history)).index(score) + 1
-
-    # print(x)
-    p2 = history[-x + (1000000000 - 1 - len(history)) % x]
-    p1 = history[9]
+        history_key = (trees, yards)
+        if score in history_dict and history_dict[score] == history_key:
+            break
+        history_dict[score] = history_key
+        history_list.append(score)
+    x = list(reversed(history_list)).index(score) + 1
+    p2 = history_list[-x + (1000000000 - 1 - len(history_list)) % x]
+    p1 = history_list[9]
     return p1, p2
-
