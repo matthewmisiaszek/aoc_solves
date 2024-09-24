@@ -1,6 +1,7 @@
 import blitzen
 from donner import graph, spatial, printer
 
+
 NEIGHBORS = {
     'S': set(spatial.ENWS),
     'F': {spatial.EAST, spatial.SOUTH},
@@ -10,24 +11,8 @@ NEIGHBORS = {
     '|': {spatial.SOUTH, spatial.NORTH},
     '-': {spatial.WEST, spatial.EAST},
 }
+HAS_NORTH = {key for key, val in NEIGHBORS.items() if spatial.NORTH in val}
 START = 'S'
-
-
-def region_size(region, tiles, bounds):
-    region &= tiles
-    queue = region.copy()
-    while queue:
-        current = queue.pop()
-        for n in spatial.ENWS:
-            neighbor = current + n
-            if neighbor in region: continue
-            if neighbor in tiles:
-                queue.add(neighbor)
-                region.add(neighbor)
-            if not spatial.inbounds(neighbor, bounds):
-                region.clear()
-                return 0
-    return len(region)
 
 
 @blitzen.run
@@ -36,32 +21,39 @@ def main(input_string, verbose=False):
     for start, char in sketch.items():
         if char == START:
             break
-    animal = spatial.Turtle(position=start)
-    rset, lset, new = set(), set(), True
-    while new:
-        for new_heading in NEIGHBORS[sketch[animal.position]]:
-            if animal.position != start and new_heading == animal.heading * -1: continue
-            ahead = animal.position + new_heading
-            if ahead not in sketch: continue
-            ahead_type = sketch[ahead]
-            if ahead_type not in NEIGHBORS: continue
-            if new_heading * -1 not in NEIGHBORS[ahead_type]: continue
+    pipe = set()
+    position = start
+    while True:
+        pipe.add(position)
+        for heading in NEIGHBORS[sketch[position]]:
+            ph = position + heading
+            if ph not in pipe and (
+                    position != start or
+                    (ph in sketch and sketch[ph] in NEIGHBORS and heading * -1 in NEIGHBORS[sketch[ph]])
+            ):
+                position = ph
+                break
+        else:
             break
-        animal.goto(heading=new_heading)
-        lset.add(animal.position + animal.heading.left())
-        rset.add(animal.position + animal.heading.right())
-        _, _, new = animal.drive()
-        lset.add(animal.position + animal.heading.left())
-        rset.add(animal.position + animal.heading.right())
-    tiles = set(sketch.keys()) - animal.visited
-    bounds = spatial.bounds(sketch.keys())
-    p2 = sum(region_size(region, tiles, bounds) for region in (lset, rset))
-    p1 = len(animal.visited) // 2
+    p1 = len(pipe) // 2
+    nb, xb = spatial.bounds(sketch)
+    within = set()
+    for y in range(nb.y, xb.y+1):
+        inside = False
+        for x in range(nb.x, xb.x+1):
+            point = spatial.Point(x, y)
+            if point in pipe:
+                if sketch[point] in HAS_NORTH:
+                    inside = not inside
+            else:
+                if inside:
+                    within.add(point)
+    p2 = len(within)
     if verbose:
-        charmap = {a:b for a, b in zip('-|F7LJS', '═║╔╗╚╝╬')}
+        charmap = {a: b for a, b in zip('-|F7LJS', '═║╔╗╚╝╬')}
         toprint = {p: 'O' for p in sketch.keys()}
-        toprint.update({p: charmap[sketch[p]] for p in animal.visited})
-        toprint.update({p: 'I' for p in lset | rset})
+        toprint.update({p: charmap[sketch[p]] for p in pipe})
+        toprint.update({p: 'I' for p in within})
         printer.printdict(toprint)
     return p1, p2
 

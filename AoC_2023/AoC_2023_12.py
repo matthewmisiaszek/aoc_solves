@@ -3,9 +3,38 @@ import re
 
 
 class Record:
-    def __init__(self, condition, groups):
-        self.condition = condition
-        self.groups = groups
+    cache = {}
+
+    def __init__(self, condition: str, groups: tuple, fold=1):
+        self.condition = '?'.join((condition,) * fold)
+        self.groups = groups * fold
+        self.combos = self.check()
+
+    def check(self):
+        if self in Record.cache:
+            return Record.cache[self]
+        if self.groups:
+            combos = self.check_group()
+        elif '#' in self.condition:
+            combos = 0
+        else:
+            combos = 1
+        Record.cache[self] = combos
+        return combos
+
+    def check_group(self):
+        combos = 0
+        pattern = r'(?:^|[\?\.])([\?#]{' + self.groups[0] + r'})(?:[\?\.]|$)'
+        limit = self.condition.find('#') if '#' in self.condition else len(self.condition)
+        i = 0
+        while True:
+            match = re.search(pattern, self.condition[i:])
+            if match and i + match.start(1) <= limit:
+                combos += Record(self.condition[i + match.end():], self.groups[1:]).combos
+                i = i + match.start(1) + 1
+            else:
+                break
+        return combos
 
     def __hash__(self):
         return hash((self.condition, self.groups))
@@ -13,68 +42,10 @@ class Record:
     def __eq__(self, other):
         return self.condition == other.condition and self.groups == other.groups
 
-    def __str__(self):
-        return str(self.condition) + '|' + str(self.groups)
-
-    def __repr__(self):
-        return self.__str__()
-
-    def impossible(self):
-        return '#' in self.condition and not self.groups
-
-    def complete(self):
-        return '#' not in self.condition and not self.groups
-
-    def limit(self):
-        return self.condition.find('#') if '#' in self.condition else len(self.condition)
-
-    def pattern(self):
-        return r'[\?\.]([\?#]{' + self.groups[0] + r'})[\?\.]'
-
-
-def parse_line(line):
-    condition, groups = line.split()
-    groups = tuple(groups.split(','))
-    return Record(condition, groups)
-
-
-def combos(record, fold=1, cache={}):
-    record = Record('.' + '?'.join((record.condition,) * fold) + '.', record.groups * fold)
-    queue = [record]
-    while queue:
-        current = queue.pop()
-        if current in cache:
-            continue
-        if current.impossible():
-            cache[current] = 0
-            continue
-        if current.complete():
-            cache[current] = 1
-            continue
-        i = 0
-        pattern = current.pattern()
-        limit = current.limit()
-        to_check = []
-        while True:
-            match = re.search(pattern, current.condition[i:])
-            if match and i + match.start(1) <= limit:
-                new_record = Record(current.condition[i + match.end(1):], current.groups[1:])
-                to_check.append(new_record)
-                i = i + match.start(1)
-            else:
-                break
-        if all(check_record in cache for check_record in to_check):
-            cache[current] = sum(cache[check_record] for check_record in to_check)
-        else:
-            queue.append(current)
-            queue += to_check
-    return cache[record]
-
 
 @blitzen.run
 def main(input_string, verbose=False):
-    records = tuple(parse_line(line) for line in input_string.split('\n'))
-    p1 = sum(combos(record) for record in records)
-    p2 = sum(combos(record, fold=5) for record in records)
+    records = tuple(line.split() for line in input_string.split('\n'))
+    p1 = sum(Record(condition, tuple(groups.split(','))).combos for condition, groups in records)
+    p2 = sum(Record(condition, tuple(groups.split(',')), fold=5).combos for condition, groups in records)
     return p1, p2
-

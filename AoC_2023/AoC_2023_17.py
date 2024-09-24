@@ -1,37 +1,22 @@
 import blitzen
 from donner import graph, spatial as sp, bfsqueue
+from recordclass import dataobject
+from typing import ClassVar
 
 
-class Crucible:
-    minturn = 1
-    maxturn = 3
-
-    def __init__(self, loc, heading, count):
-        self.loc = loc
-        self.heading = heading
-        self.count = count
+class Crucible(dataobject, readonly=True, hashable=True):
+    minturn: ClassVar[int] = 1
+    maxturn: ClassVar[int] = 3
+    loc: sp.Point
+    heading: sp.Point
+    count: int = 0
 
     def neighbors(self):
         if self.count >= Crucible.minturn:
-            heading = self.heading.left()
-            loc = self.loc + heading
-            count = 1
-            yield Crucible(loc, heading, count)
-            heading = self.heading.right()
-            loc = self.loc + heading
-            count = 1
-            yield Crucible(loc, heading, count)
+            for heading in (self.heading.right(), self.heading.left()):
+                yield Crucible(self.loc + heading, heading, 1)
         if self.count < Crucible.maxturn:
             yield Crucible(self.loc + self.heading, self.heading, self.count + 1)
-
-    def __hash__(self):
-        return hash((self.loc, self.heading, self.count))
-
-    def __eq__(self, other):
-        return self.loc == other.loc and self.heading == other.heading and self.count == other.count
-
-    def __repr__(self):
-        return f'{self.loc}; {self.heading}; {self.count}'
 
 
 def least_losses(losses):
