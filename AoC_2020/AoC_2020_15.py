@@ -1,6 +1,8 @@
 import blitzen
+import numba
 
 
+@numba.njit
 def game(starting_numbers, turns):
     memory = {number: turn for turn, number in enumerate(starting_numbers[:-1])}
     last = starting_numbers[-1]
