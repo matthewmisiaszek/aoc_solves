@@ -21,6 +21,9 @@ def parse(input_string):
 
 
 def combinations(part, wdict, workflow, index):
+    for n, x in part.values():
+        if n > x:
+            return 0
     if workflow == 'A':
         return prod((b-a+1 if b >= a else 0 for a, b in part.values()))
     elif workflow == 'R':
