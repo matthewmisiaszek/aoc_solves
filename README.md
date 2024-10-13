@@ -1,7 +1,7 @@
 # Advent of Code solutions by Matt Misiaszek
 My solves for Advent of Code https://adventofcode.com/
 
-Solves in Python 3
+Solves in Python 3 (solves utilizing numba do not yet support python 3.13 https://github.com/numba/numba/issues/9413)
 
 ## Running
 Run a single day by running its file `py AoC_20XX/AoC_20XX_XX.py`.  
