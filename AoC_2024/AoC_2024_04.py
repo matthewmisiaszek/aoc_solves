@@ -19,18 +19,18 @@ def wordsearch(grid, word):
 def main(input_string, verbose=False):
     grid = graph.text_to_dict(input_string)
 
-    I = tuple((spatial.Point(i, 0), letter) for i, letter in enumerate('XMAS'))
-    Z = tuple((point + point.left(), letter) for point, letter in I)
-    p1 = wordsearch(grid, I)
-    p1 += wordsearch(grid, Z)
+    straight = tuple((spatial.Point(i, 0), letter) for i, letter in enumerate('XMAS'))
+    diagonal = tuple((point + point.left(), letter) for point, letter in straight)
+    p1 = wordsearch(grid, straight)
+    p1 += wordsearch(grid, diagonal)
 
-    X = (
+    MAS_X = (
         (spatial.Point(), 'A'),
         (spatial.NORTHWEST, 'M'),
         (spatial.SOUTHWEST, 'M'),
         (spatial.SOUTHEAST, 'S'),
         (spatial.NORTHEAST, 'S')
     )
-    p2 = wordsearch(grid, X)
+    p2 = wordsearch(grid, MAS_X)
 
     return p1, p2
