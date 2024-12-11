@@ -74,16 +74,17 @@ def run(solve, year=None, day=None, verbose=False, strip=True):
         parser.add_argument('-v', action='store_true')  # force verbose
         parser.add_argument('-q', action='store_true')  # force quiet
         args = parser.parse_args()
+
+        if year is None or day is None:  # if year and day not specified in function call, extract from filepath
+            filepath = str(sys.modules['__main__'].__file__)
+            vals = extract(config['files']['solution_format'], filepath)
+            if year is None:
+                year = vals['year']
+            if day is None:
+                day = vals['day']
         if args.path:  # path to input file has been provided
             input_path = args.path
         else:
-            if year is None or day is None:  # if year and day not specified in function call, extract from filepath
-                filepath = str(sys.modules['__main__'].__file__)
-                vals = extract(config['files']['solution_format'], filepath)
-                if year is None:
-                    year = vals['year']
-                if day is None:
-                    day = vals['day']
             input_path = aoc_input_path(year, day)
         input_string = open(input_path).read()
         if strip:
