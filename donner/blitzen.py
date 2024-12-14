@@ -1,39 +1,74 @@
 """Boilerplate Library for Inputs, Timing, and Zealous Execution Normalization (BLITZEN)"""
 
-import sys
-import os
-import configparser
 import argparse
-import time
-import shutil
+import configparser
+import datetime
+import os
 import re
+import shutil
+import sys
+import time
+import zoneinfo
+import requests
+import json
 
 
-# add root of this repository to system path so that modules may be imported
-root_path = os.path.dirname(os.path.dirname(__file__))
-if root_path not in sys.path:
-    sys.path.append(root_path)
+def append_root():
+    # add root of this repository to system path so that modules may be imported
+    root_path = os.path.dirname(os.path.dirname(__file__))
+    if root_path not in sys.path:
+        sys.path.append(root_path)
+    return root_path
 
 
-# find appropriate configuration directory
-# if no custom config exists, copy default
-module_path = os.path.dirname(__file__)
-defaultconfig = os.path.join(module_path, 'config.ini')
-if 'APPDATA' in os.environ:
-    confighome = os.environ['APPDATA']
-elif 'XDG_CONFIG_HOME' in os.environ:
-    confighome = os.environ['XDG_CONFIG_HOME']
-else:
-    confighome = os.path.join(os.environ['HOME'], '.config')
-configpath = os.path.join(confighome, 'aoc_blitzen')
-if not os.path.exists(configpath):
-    os.makedirs(configpath)
-customconfig = os.path.join(configpath, 'config.ini')
-if not os.path.exists(customconfig):
-    shutil.copy(defaultconfig, customconfig)
-    
-config = configparser.ConfigParser()
-config.read(customconfig)
+root_path = append_root()
+
+
+class Config(configparser.ConfigParser):
+    def __init__(self):
+        # find appropriate configuration directory
+        # if no custom config exists, copy default
+        module_path = os.path.dirname(__file__)
+        defaultconfig = os.path.join(module_path, 'config.ini')
+        if 'APPDATA' in os.environ:
+            confighome = os.environ['APPDATA']
+        elif 'XDG_CONFIG_HOME' in os.environ:
+            confighome = os.environ['XDG_CONFIG_HOME']
+        else:
+            confighome = os.path.join(os.environ['HOME'], '.config')
+        configpath = os.path.join(confighome, 'aoc_blitzen')
+        if not os.path.exists(configpath):
+            os.makedirs(configpath)
+        customconfig = os.path.join(configpath, 'config.ini')
+        self.path = customconfig
+        if not os.path.exists(customconfig):
+            shutil.copy(defaultconfig, customconfig)
+
+        super().__init__()
+        self.read(customconfig)
+        config_defaults = configparser.ConfigParser()
+        config_defaults.read(defaultconfig)
+        changes = False
+        for section in config_defaults.sections():
+            if section not in self:
+                self.add_section(section)
+                changes = True
+            for item in config_defaults[section]:
+                if item not in self[section]:
+                    self[section][item] = config_defaults[section][item]
+                    changes = True
+        if changes:
+            self.save()
+
+    def save(self):
+        with open(self.path, 'w') as f:
+            self.write(f)
+
+
+config = Config()
+
+
+# tests = json.load(open(os.path.join(root_path, 'donner', 'tests.json')))
 
 
 def extract(pattern, string):
@@ -66,13 +101,46 @@ def extract(pattern, string):
         return {key: val.strip('\n') for key, val in match.groupdict().items()}
 
 
-def run(*args, year=None, day=None, verbose=False, strip=True):
-    start_time = time.time()
+def fetch(year, day):
+    input_path = aoc_input_path(year, day)
+    if os.path.exists(input_path):
+        return
+    input_dir = os.path.join(*input_path.split(os.sep)[:-1])
+    if not os.path.isdir(input_dir):
+        os.makedirs(input_dir)
+    print('Input file was not found in input directory.  Attempting to fetch...')
+    # test token
+    cookies = {'session': config['user']['token']}
+    url = 'https://adventofcode.com/2024/leaderboard/self'
+    while requests.get(url, cookies=cookies).url != url:
+        print('Session cookie is missing or incorrect.  Please enter your AoC session cookie:')
+        cookies['session'] = input('session:')
+    # save token if applicable
+    if cookies['session'] != config['user']['token']:
+        config['user']['token'] = cookies['session']
+        config.save()
+    # check if / when this input will be available.  wait if it'll be less than 10 minutes.
+    drop = datetime.datetime(int(year), 12, int(day), 0, 0, tzinfo=zoneinfo.ZoneInfo('EST'))
+    if drop - datetime.datetime.now(zoneinfo.ZoneInfo('EST')) > datetime.timedelta(minutes=10):
+        raise Exception("This input won't be available for a while.  Please try again within 10 minutes of midnight.")
+    while (remaining := drop - datetime.datetime.now(zoneinfo.ZoneInfo('EST'))) > datetime.timedelta():
+        print(f'\rPuzzle releases in: {remaining.seconds//60:02}:{remaining.seconds%60:02}.{remaining.microseconds//10000:02} ...', end='')
+        time.sleep(.3)  # .3 looked good on my machine...
+    print('\r', end='')
+    url = f'https://adventofcode.com/{year}/day/{day}/input'
+    resp = requests.get(url, cookies=cookies)
+    with open(input_path, 'w') as input_file:
+        input_file.write(resp.text.strip('\n'))
+    print('Input file downloaded!')
+
+
+def run(*args, year=None, day=None, verbose=True, strip=True, tests=True, table=False):
     parser = argparse.ArgumentParser(description='AoC Solver Argument Parser')
     parser.add_argument('path', nargs='?', default='')
     parser.add_argument('-v', action='store_true')  # force verbose
     parser.add_argument('-q', action='store_true')  # force quiet
     sysargs = parser.parse_args()
+    verbose = (sysargs.v or verbose) and (not sysargs.q)
     if year is None or day is None:  # if year and day not specified in function call, extract from filepath
         filepath = str(sys.modules['__main__'].__file__)
         vals = extract(config['files']['solution_format'], filepath)
@@ -84,13 +152,16 @@ def run(*args, year=None, day=None, verbose=False, strip=True):
         input_path = sysargs.path
     else:
         input_path = aoc_input_path(year, day)
+    if not os.path.exists(input_path):
+        fetch(year, day)
+    start_time = time.time()
     input_string = open(input_path).read()
     if strip:
         input_string = input_string.rstrip()
 
     def wrap(solve):
         if solve.__module__ == '__main__':
-            p1, p2 = solve(input_string=input_string, verbose=(sysargs.v or verbose) and (not sysargs.q))
+            p1, p2 = solve(input_string=input_string, verbose=verbose)
             if isinstance(p1, str) and '\n' in p1:
                 p1 = '\n' + p1
             if isinstance(p2, str) and '\n' in p2:
