@@ -19,13 +19,16 @@ def main(input_string, verbose=False):
     for antennas in nodes.values():
         for a, b in combinations(antennas, 2):
             d = max(1, gcd((a-b).x, (a-b).y))  # this didn't come up in my input but what if it did?
-            for i in range(-size * d, size * d):
-                point = a + (a-b) // d * i
-                if not spatial.inbounds(point, bounds):
-                    continue
-                if abs(i) == d:
-                    p1.add(point)
-                p2.add(point)
+            diff = (a - b) // d
+            for p1lim, diff in ((1, diff), (2, diff * -1)):
+                point = a
+                for i in range(size):
+                    if not spatial.inbounds(point, bounds):
+                        break
+                    if i == p1lim:
+                        p1.add(point)
+                    p2.add(point)
+                    point += diff
     p1 = len(p1)
     p2 = len(p2)
     return p1, p2
