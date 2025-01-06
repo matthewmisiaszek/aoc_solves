@@ -1,5 +1,5 @@
 import blitzen
-import hashlib
+import _md5
 
 
 def combinations(items, length, duplicates=False):
@@ -58,7 +58,7 @@ def permutations(plist):
 
 def md5hash(seed):
     # md5 hash as commonly implemented in AoC
-    return hashlib.md5(seed.encode('utf-8')).hexdigest()
+    return _md5.md5(seed.encode('utf-8')).hexdigest()
 
 
 def CRT(n, b):
