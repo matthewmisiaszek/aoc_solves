@@ -8,7 +8,6 @@ import re
 import shutil
 import sys
 import time
-import zoneinfo
 import requests
 import json
 
@@ -36,11 +35,12 @@ class Config(configparser.ConfigParser):
             confighome = os.environ['XDG_CONFIG_HOME']
         else:
             confighome = os.path.join(os.environ['HOME'], '.config')
-        configpath = os.path.join(confighome, 'aoc_blitzen')
-        if not os.path.exists(configpath):
-            os.makedirs(configpath)
-        customconfig = os.path.join(configpath, 'config.ini')
+        configdir = os.path.join(confighome, 'aoc_blitzen')
+        if not os.path.exists(configdir):
+            os.makedirs(configdir)
+        customconfig = os.path.join(configdir, 'config.ini')
         self.path = customconfig
+        self.dir = configdir
         if not os.path.exists(customconfig):
             shutil.copy(defaultconfig, customconfig)
 
@@ -66,9 +66,14 @@ class Config(configparser.ConfigParser):
 
 
 config = Config()
+holiday_greeting = config['customization']['holiday_greeting']
 
 
-# tests = json.load(open(os.path.join(root_path, 'donner', 'tests.json')))
+def aocstr(a):
+    if isinstance(a, (list, tuple)):
+        return ','.join((str(i) for i in a))
+    else:
+        return str(a)
 
 
 def extract(pattern, string):
@@ -102,74 +107,113 @@ def extract(pattern, string):
 
 
 def fetch(year, day):
-    input_path = aoc_input_path(year, day)
-    if os.path.exists(input_path):
+    """Attempt to fetch user input and outputs for year, day"""
+    if config['user']['token'] == 'N':
         return
-    input_dir = os.path.join(*input_path.split(os.sep)[:-1])
-    if not os.path.isdir(input_dir):
-        os.makedirs(input_dir)
-    print('Input file was not found in input directory.  Attempting to fetch...')
+    input_path, output_path = aoc_input_path(year, day)
+    if os.path.exists(input_path) and os.path.exists(output_path):
+        return
+    if not os.path.exists(input_path):
+        print(f'Input file not found at {input_path}.')
+    if not os.path.exists(output_path):
+        print(f'Output file not found at {output_path}.')
+    print('Fetching...')
     # test token
     cookies = {'session': config['user']['token']}
     url = 'https://adventofcode.com/2024/leaderboard/self'
-    while requests.get(url, cookies=cookies).url != url:
-        print('Session cookie is missing or incorrect.  Please enter your AoC session cookie:')
+    while requests.get(url, cookies=cookies).url != url and cookies['session'] != 'N':
+        print('Session cookie is missing or incorrect.  Please enter your AoC session cookie.  \nEnter "N" if you do not want to automatically download data.')
         cookies['session'] = input('session:')
     # save token if applicable
     if cookies['session'] != config['user']['token']:
         config['user']['token'] = cookies['session']
         config.save()
+    if config['user']['token'] == 'N':
+        return
     # check if / when this input will be available.  wait if it'll be less than 10 minutes.
-    drop = datetime.datetime(int(year), 12, int(day), 0, 0, tzinfo=zoneinfo.ZoneInfo('EST'))
-    if drop - datetime.datetime.now(zoneinfo.ZoneInfo('EST')) > datetime.timedelta(minutes=10):
+    drop = datetime.datetime(year, 12, day) - datetime.timedelta(seconds=time.timezone - 18000)
+    if drop - datetime.datetime.now() > datetime.timedelta(minutes=10):
         raise Exception("This input won't be available for a while.  Please try again within 10 minutes of midnight.")
-    while (remaining := drop - datetime.datetime.now(zoneinfo.ZoneInfo('EST'))) > datetime.timedelta():
+    while (remaining := drop - datetime.datetime.now()) > datetime.timedelta():
         print(f'\rPuzzle releases in: {remaining.seconds//60:02}:{remaining.seconds%60:02}.{remaining.microseconds//10000:02} ...', end='')
         time.sleep(.3)  # .3 looked good on my machine...
     print('\r', end='')
-    url = f'https://adventofcode.com/{year}/day/{day}/input'
-    resp = requests.get(url, cookies=cookies)
-    with open(input_path, 'w') as input_file:
-        input_file.write(resp.text.strip('\n'))
-    print('Input file downloaded!')
+    # create the appropriate directories if needed
+    for f in (input_path, output_path):
+        f_dir = os.sep.join(f.split(os.sep)[:-1])
+        if not os.path.isdir(f_dir):
+            os.makedirs(f_dir)
+    if not os.path.exists(input_path):
+        url = f'https://adventofcode.com/{year}/day/{day}/input'
+        resp = requests.get(url, cookies=cookies)
+        with open(input_path, 'w') as input_file:
+            input_file.write(resp.text.strip('\n'))
+        print('Input file downloaded!')
+    if not os.path.exists(output_path):
+        url = f'https://adventofcode.com/{year}/day/{day}'
+        resp = requests.get(url, cookies=cookies)
+        answers = re.findall(r'Your puzzle answer was <code>([\S]+)</code>\.', resp.text)
+        if day == 25:
+            answers.append(config['customization']['holiday_greeting'])
+        if len(answers) == 2:
+            with open(output_path, 'w') as output_file:
+                output_file.write('\n'.join(answers))
+            print('Output file downloaded!')
 
 
-def run(*args, year=None, day=None, verbose=True, strip=True, tests=True, table=False):
+
+def run(*args, year=None, day=None, verbose=False, json_output=False):
     parser = argparse.ArgumentParser(description='AoC Solver Argument Parser')
     parser.add_argument('path', nargs='?', default='')
     parser.add_argument('-v', action='store_true')  # force verbose
     parser.add_argument('-q', action='store_true')  # force quiet
+    parser.add_argument('-json', action='store_true')  # print json formatted output
     sysargs = parser.parse_args()
     verbose = (sysargs.v or verbose) and (not sysargs.q)
+    json_output = json_output or sysargs.json
     if year is None or day is None:  # if year and day not specified in function call, extract from filepath
         filepath = str(sys.modules['__main__'].__file__)
         vals = extract(config['files']['solution_format'], filepath)
         if year is None:
-            year = vals['year']
+            year = int(vals['year'])
         if day is None:
-            day = vals['day']
+            day = int(vals['day'])
     if sysargs.path:  # path to input file has been provided
         input_path = sysargs.path
+        output_path = None
     else:
-        input_path = aoc_input_path(year, day)
-    if not os.path.exists(input_path):
-        fetch(year, day)
+        input_path, output_path = aoc_input_path(year, day)
+        if (not os.path.exists(input_path)) or (not os.path.exists(output_path)):
+            fetch(year, day)
     start_time = time.time()
     input_string = open(input_path).read()
-    if strip:
-        input_string = input_string.rstrip()
+    p1ans = p2ans = 'Unknown'
+    if output_path is not None and os.path.exists(output_path):
+        p1ans, p2ans = open(output_path).read().split('\n')
+    input_string = input_string.rstrip()
 
     def wrap(solve):
         if solve.__module__ == '__main__':
             p1, p2 = solve(input_string=input_string, verbose=verbose)
-            if isinstance(p1, str) and '\n' in p1:
+            p1, p2 = aocstr(p1), aocstr(p2)
+            if '\n' in p1:
                 p1 = '\n' + p1
-            if isinstance(p2, str) and '\n' in p2:
+            if '\n' in p2:
                 p2 = '\n' + p2
             elapsed_time = time.time() - start_time
-            print_dict = {'year': int(year), 'day': int(day), 'p1': p1, 'p2': p2, 'time': float(elapsed_time)}
-            printformat = config['dayprint']['format']
-            print(printformat.format(**print_dict))
+            p1chk = 'True' if p1 == p1ans else 'False'
+            p2chk = 'True' if p2 == p2ans else 'False'
+            print_dict = {
+                'year': int(year), 'day': int(day),
+                'p1': p1, 'p1ans': p1ans, 'p1chk': p1chk,
+                'p2': p2, 'p2ans': p2ans, 'p2chk': p2chk,
+                'time': float(elapsed_time)
+            }
+            if json_output:
+                print(json.dumps(print_dict))
+            else:
+                printformat = config['dayprint']['format']
+                print(printformat.format(**print_dict))
         return solve
 
     if args:  # decorator invoked with no arguments
@@ -179,21 +223,9 @@ def run(*args, year=None, day=None, verbose=True, strip=True, tests=True, table=
 
 
 def aoc_input_path(year, day):
-    input_path = config['files']['input_directory']
-    file_format = config['files']['input_format']
-    year_day = {'year': int(year), 'day': int(day)}
-    input_path = os.path.expandvars(input_path)
-    input_path = os.path.expanduser(input_path)
-    full_path = input_path + file_format.format(**year_day)
-    return full_path
-
-
-def aoc_input(year, day, strip=True):
-    full_path = aoc_input_path(year, day)
-    input_string = open(full_path).read()
-    if strip is True:
-        input_string = input_string.rstrip()
-    return input_string
-
-
-holiday_greeting = config['customization']['holiday_greeting']
+    """return the fully qualified path to the input and output files for year, day"""
+    year_day = {'year': year, 'day': day, 'config': config.dir}
+    for f in ('input_format', 'output_format'):
+        file_format = config['files'][f]
+        file_path = os.path.normpath(os.path.expandvars(os.path.expanduser(file_format.format(**year_day))))
+        yield file_path
